@@ -23,6 +23,8 @@ export default [
         process: 'readonly',
         global: 'readonly',
         URL: 'readonly',
+        URLSearchParams: 'readonly',
+        setTimeout: 'readonly',
         HTMLButtonElement: 'readonly',
         HTMLDivElement: 'readonly',
         HTMLParagraphElement: 'readonly',

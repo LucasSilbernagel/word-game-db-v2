@@ -1,19 +1,16 @@
+'use client'
+
 import EndpointDemo from '@/components/endpoint-demo'
 import { Button } from '@/components/ui/button'
-import {
-  Card,
-  CardContent,
-  CardDescription,
-  CardHeader,
-  CardTitle,
-} from '@/components/ui/card'
+import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
 import Link from 'next/link'
+import { useEffect, useState } from 'react'
 
 const allApiEndpoints = [
   {
     method: 'GET',
     path: '/api/v1/words',
-    description: 'Retrieve all words with direct query filtering',
+    description: 'Retrieve all words with optional query filtering',
     example: 'GET /api/v1/words?category=animals&numLetters=5',
   },
   {
@@ -32,7 +29,7 @@ const allApiEndpoints = [
     method: 'GET',
     path: '/api/v1/words/[id]',
     description: 'Get a specific word by ID',
-    example: 'GET /api/v1/words/507f1f77bcf86cd799439011',
+    example: 'GET /api/v1/words/5ffa1774c0831cbe1460e29c',
   },
   {
     method: 'POST',
@@ -57,18 +54,21 @@ const allApiEndpoints = [
     example: 'DELETE /api/v1/words/507f1f77bcf86cd799439011',
     isDestructive: true,
   },
-  {
-    method: 'GET',
-    path: '/api/v1/words/search',
-    description: 'Search for words by various criteria',
-    example: 'GET /api/v1/words/search?q=puzzle&type=crossword',
-  },
 ]
 
 export default function Home() {
-  // Filter endpoints based on environment variable
-  const isDestructiveEnabled =
-    process.env.ENABLE_DESTRUCTIVE_ENDPOINTS === 'true'
+  const [isClient, setIsClient] = useState(false)
+
+  // Ensure hydration consistency
+  useEffect(() => {
+    setIsClient(true)
+  }, [])
+
+  // Filter endpoints based on environment variable - only on client
+  const isDestructiveEnabled = isClient
+    ? process.env.ENABLE_DESTRUCTIVE_ENDPOINTS === 'true'
+    : false
+
   const apiEndpoints = allApiEndpoints.filter(
     (endpoint) => !endpoint.isDestructive || isDestructiveEnabled
   )
@@ -171,43 +171,6 @@ export default function Home() {
               </Card>
             ))}
           </div>
-        </div>
-
-        <div className="gap-6 grid md:grid-cols-2">
-          <Card>
-            <CardHeader>
-              <CardTitle>Features</CardTitle>
-              <CardDescription>
-                What makes this database special
-              </CardDescription>
-            </CardHeader>
-            <CardContent>
-              <ul className="space-y-2 text-sm">
-                <li>• Comprehensive word database</li>
-                <li>• Advanced search capabilities</li>
-                <li>• RESTful API design</li>
-                <li>• TypeScript support</li>
-                <li>• MongoDB integration</li>
-                <li>• Real-time updates</li>
-              </ul>
-            </CardContent>
-          </Card>
-
-          <Card>
-            <CardHeader>
-              <CardTitle>Getting Started</CardTitle>
-              <CardDescription>Quick start guide</CardDescription>
-            </CardHeader>
-            <CardContent>
-              <ol className="space-y-2 text-sm">
-                <li>1. Set up your MongoDB connection</li>
-                <li>2. Configure environment variables</li>
-                <li>3. Start making API requests</li>
-                <li>4. Explore the available endpoints</li>
-                <li>5. Build your word game application</li>
-              </ol>
-            </CardContent>
-          </Card>
         </div>
       </div>
     </div>

@@ -240,7 +240,7 @@ Check out this example implementation using the API:
 
 ### Public Endpoints (Available in Production)
 
-- `GET /api/v1/words` - Retrieve all words with direct query filtering
+- `GET /api/v1/words` - Retrieve all words with optional query filtering
 - `GET /api/v1/words/random` - Get a random word from the database
 - `GET /api/v1/categories` - Get all distinct categories
 - `GET /api/v1/words/[id]` - Get a specific word by ID
