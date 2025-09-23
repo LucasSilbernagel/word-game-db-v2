@@ -75,6 +75,7 @@ MONGODB_URI=mongodb://localhost:27017/word-game-db
 # Alternative: DB=mongodb://localhost:27017/word-game-db
 
 # Enable destructive endpoints for local development (optional)
+# This controls both API endpoint availability and demo display
 ENABLE_DESTRUCTIVE_ENDPOINTS=true
 ```
 
@@ -178,7 +179,9 @@ curl -X DELETE http://localhost:3000/api/v1/words/WORD_ID
 
 ### Production Deployment
 
-When deploying to production (Vercel, Netlify, etc.), the destructive endpoints (POST, PUT, DELETE) are automatically disabled for security. Only read-only endpoints are available:
+When deploying to production (Vercel, Netlify, etc.), destructive endpoints (POST, PUT, DELETE) are disabled by default for security. Only read-only endpoints are available unless explicitly enabled:
+
+**Default Production Behavior (ENABLE_DESTRUCTIVE_ENDPOINTS not set or false):**
 
 - ✅ `GET /api/v1/words` - Retrieve words
 - ✅ `GET /api/v1/words/random` - Get random word
@@ -189,6 +192,12 @@ When deploying to production (Vercel, Netlify, etc.), the destructive endpoints 
 - ❌ `PUT /api/v1/words/[id]` - Update word (disabled)
 - ❌ `DELETE /api/v1/words/[id]` - Delete word (disabled)
 
+**With ENABLE_DESTRUCTIVE_ENDPOINTS=true:**
+
+- ✅ All endpoints available (including POST, PUT, DELETE)
+- ✅ Destructive endpoint demos visible on homepage
+- ⚠️ **Warning**: Only enable this if you specifically need database modification capabilities
+
 ### Environment Variables for Production
 
 For production deployment, you only need:
@@ -198,6 +207,26 @@ MONGODB_URI=your_production_mongodb_connection_string
 ```
 
 **Do NOT set** `ENABLE_DESTRUCTIVE_ENDPOINTS=true` in production unless you specifically need to allow database modifications.
+
+### Environment Variable Behavior
+
+The `ENABLE_DESTRUCTIVE_ENDPOINTS` environment variable controls:
+
+1. **API Endpoint Availability**: Whether POST, PUT, and DELETE endpoints are accessible
+2. **Demo Display**: Whether destructive endpoint demos are shown on the homepage
+3. **Demo Functionality**: Whether the demo buttons for destructive endpoints actually make requests
+
+When `ENABLE_DESTRUCTIVE_ENDPOINTS=true`:
+
+- ✅ Destructive API endpoints are enabled
+- ✅ Destructive endpoint demos are displayed on the homepage
+- ✅ Demo buttons make actual API requests
+
+When `ENABLE_DESTRUCTIVE_ENDPOINTS=false` or not set:
+
+- ❌ Destructive API endpoints return 403 Forbidden
+- ❌ Destructive endpoint demos are hidden from the homepage
+- ❌ Only read-only endpoints (GET) are available and displayed
 
 ### Example Implementation
 
@@ -217,13 +246,13 @@ Check out this example implementation using the API:
 - `GET /api/v1/words/[id]` - Get a specific word by ID
 - `GET /api/v1/words/search` - Search for words by various criteria
 
-### Development Endpoints (Local Only)
+### Development Endpoints (Conditional)
 
 - `POST /api/v1/words` - Create a new word entry
 - `PUT /api/v1/words/[id]` - Update an existing word
 - `DELETE /api/v1/words/[id]` - Delete a word from the database
 
-> **Note**: Destructive endpoints (POST, PUT, DELETE) are automatically disabled in production to protect the database. They are only available when running locally with `NODE_ENV=development` or when explicitly enabled with `ENABLE_DESTRUCTIVE_ENDPOINTS=true`.
+> **Note**: Destructive endpoints (POST, PUT, DELETE) are only available when `ENABLE_DESTRUCTIVE_ENDPOINTS=true` is set in your environment variables. This applies to both development and production environments. When not enabled, these endpoints return 403 Forbidden and are hidden from the demo interface.
 
 ### Query Parameters
 

@@ -9,9 +9,14 @@ type EndpointDemoProps = {
   path: string
   description?: string
   example?: string
+  isDestructiveEnabled?: boolean
 }
 
-export default function EndpointDemo({ method, path }: EndpointDemoProps) {
+export default function EndpointDemo({
+  method,
+  path,
+  isDestructiveEnabled = false,
+}: EndpointDemoProps) {
   const [isLoading, setIsLoading] = useState(false)
   const [response, setResponse] = useState<string | null>(null)
   const [error, setError] = useState<string | null>(null)
@@ -60,10 +65,10 @@ export default function EndpointDemo({ method, path }: EndpointDemoProps) {
           }
           // No default
         }
-      } else if (isDestructiveEndpoint) {
-        // For destructive endpoints, show a message instead of making the request
+      } else if (isDestructiveEndpoint && !isDestructiveEnabled) {
+        // For destructive endpoints when not enabled, show a message instead of making the request
         setResponse(
-          'This endpoint is disabled in production. To test it locally, set ENABLE_DESTRUCTIVE_ENDPOINTS=true in your .env.local file.'
+          'This endpoint is disabled. To test it, set ENABLE_DESTRUCTIVE_ENDPOINTS=true in your environment variables.'
         )
         setIsLoading(false)
         return
@@ -88,8 +93,8 @@ export default function EndpointDemo({ method, path }: EndpointDemoProps) {
     <Card className="mt-4">
       <CardContent className="pt-4">
         <div className="space-y-4">
-          <div className="flex justify-between items-center">
-            <h4 className="font-semibold text-sm">Live Demo</h4>
+          <div className="flex items-center justify-between">
+            <h4 className="text-sm font-semibold">Live Demo</h4>
             <Button
               onClick={handleDemo}
               disabled={isLoading}
@@ -100,25 +105,25 @@ export default function EndpointDemo({ method, path }: EndpointDemoProps) {
             </Button>
           </div>
 
-          {isDestructiveEndpoint && (
-            <div className="bg-yellow-50 dark:bg-yellow-900/20 p-3 border border-yellow-200 dark:border-yellow-800 rounded-md">
-              <p className="text-yellow-800 dark:text-yellow-200 text-sm">
-                <strong>Note:</strong> This endpoint is disabled in production
-                for security. To test it locally, set{' '}
-                <code className="bg-yellow-100 dark:bg-yellow-900 px-1 rounded text-xs">
+          {isDestructiveEndpoint && !isDestructiveEnabled && (
+            <div className="rounded-md border border-yellow-200 bg-yellow-50 p-3 dark:border-yellow-800 dark:bg-yellow-900/20">
+              <p className="text-sm text-yellow-800 dark:text-yellow-200">
+                <strong>Note:</strong> This endpoint is disabled. To test it,
+                set{' '}
+                <code className="rounded bg-yellow-100 px-1 text-xs dark:bg-yellow-900">
                   ENABLE_DESTRUCTIVE_ENDPOINTS=true
                 </code>{' '}
-                in your .env.local file.
+                in your environment variables.
               </p>
             </div>
           )}
 
           {response && (
             <div className="space-y-2">
-              <h5 className="font-medium text-green-600 dark:text-green-400 text-sm">
+              <h5 className="text-sm font-medium text-green-600 dark:text-green-400">
                 Response:
               </h5>
-              <pre className="bg-muted p-3 rounded overflow-x-auto text-xs">
+              <pre className="bg-muted overflow-x-auto rounded p-3 text-xs">
                 {response}
               </pre>
             </div>
@@ -126,10 +131,10 @@ export default function EndpointDemo({ method, path }: EndpointDemoProps) {
 
           {error && (
             <div className="space-y-2">
-              <h5 className="font-medium text-red-600 dark:text-red-400 text-sm">
+              <h5 className="text-sm font-medium text-red-600 dark:text-red-400">
                 Error:
               </h5>
-              <pre className="bg-red-50 dark:bg-red-900/20 p-3 rounded text-red-800 dark:text-red-200 text-xs">
+              <pre className="rounded bg-red-50 p-3 text-xs text-red-800 dark:bg-red-900/20 dark:text-red-200">
                 {error}
               </pre>
             </div>

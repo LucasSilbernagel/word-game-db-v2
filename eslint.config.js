@@ -55,7 +55,7 @@ export default [
       'unicorn/prefer-module': 'off',
       semi: 'off',
       '@typescript-eslint/semi': 'off',
-      'prettier/prettier': ['error', { semi: false }],
+      'prettier/prettier': 'off',
     },
   },
   {

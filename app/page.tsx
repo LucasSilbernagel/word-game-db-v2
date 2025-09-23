@@ -9,7 +9,7 @@ import {
 } from '@/components/ui/card'
 import Link from 'next/link'
 
-const apiEndpoints = [
+const allApiEndpoints = [
   {
     method: 'GET',
     path: '/api/v1/words',
@@ -40,6 +40,7 @@ const apiEndpoints = [
     description: 'Create a new word entry',
     example:
       'POST /api/v1/words { "word": "example", "category": "animals", "numLetters": 7, "numSyllables": 2, "hint": "A furry pet" }',
+    isDestructive: true,
   },
   {
     method: 'PUT',
@@ -47,12 +48,14 @@ const apiEndpoints = [
     description: 'Update an existing word',
     example:
       'PUT /api/v1/words/507f1f77bcf86cd799439011 { "hint": "Updated hint" }',
+    isDestructive: true,
   },
   {
     method: 'DELETE',
     path: '/api/v1/words/[id]',
     description: 'Delete a word from the database',
     example: 'DELETE /api/v1/words/507f1f77bcf86cd799439011',
+    isDestructive: true,
   },
   {
     method: 'GET',
@@ -63,6 +66,22 @@ const apiEndpoints = [
 ]
 
 export default function Home() {
+  // Filter endpoints based on environment variable
+  const isDestructiveEnabled =
+    process.env.ENABLE_DESTRUCTIVE_ENDPOINTS === 'true'
+  const apiEndpoints = allApiEndpoints.filter(
+    (endpoint) => !endpoint.isDestructive || isDestructiveEnabled
+  )
+
+  // Debug information (remove in production)
+  if (process.env.NODE_ENV === 'development') {
+    console.log('Environment check:', {
+      ENABLE_DESTRUCTIVE_ENDPOINTS: process.env.ENABLE_DESTRUCTIVE_ENDPOINTS,
+      isDestructiveEnabled,
+      totalEndpoints: allApiEndpoints.length,
+      filteredEndpoints: apiEndpoints.length,
+    })
+  }
   return (
     <div className="mx-auto px-4 py-8 container">
       <div className="mx-auto max-w-4xl">
@@ -146,6 +165,7 @@ export default function Home() {
                     path={endpoint.path}
                     description={endpoint.description}
                     example={endpoint.example}
+                    isDestructiveEnabled={isDestructiveEnabled}
                   />
                 </CardContent>
               </Card>

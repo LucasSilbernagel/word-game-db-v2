@@ -14,15 +14,15 @@ export default function Error({
   }, [error])
 
   return (
-    <div className="flex flex-col justify-center items-center min-h-screen">
+    <div className="flex min-h-screen flex-col items-center justify-center">
       <div className="text-center">
-        <h2 className="mb-4 font-bold text-2xl">Something went wrong!</h2>
-        <p className="mb-6 text-muted-foreground">
+        <h2 className="mb-4 text-2xl font-bold">Something went wrong!</h2>
+        <p className="text-muted-foreground mb-6">
           An unexpected error occurred. Please try again.
         </p>
         <button
           onClick={reset}
-          className="bg-primary hover:bg-primary/90 px-4 py-2 rounded-md text-primary-foreground"
+          className="bg-primary hover:bg-primary/90 text-primary-foreground rounded-md px-4 py-2"
         >
           Try again
         </button>
