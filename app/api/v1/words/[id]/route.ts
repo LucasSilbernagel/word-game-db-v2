@@ -11,7 +11,7 @@ import { NextRequest, NextResponse } from 'next/server'
 
 export async function GET(
   request: NextRequest,
-  { params }: { params: { id: string } }
+  { params }: { params: Promise<{ id: string }> }
 ) {
   // Handle CORS preflight
   const corsResponse = handleCors(request)
@@ -20,7 +20,8 @@ export async function GET(
   try {
     await connectDB()
 
-    const word = await Word.findById(params.id)
+    const { id } = await params
+    const word = await Word.findById(id)
     if (!word) {
       return NextResponse.json({ error: 'Word not found' }, { status: 404 })
     }
@@ -34,7 +35,7 @@ export async function GET(
 
 export async function PUT(
   request: NextRequest,
-  { params }: { params: { id: string } }
+  { params }: { params: Promise<{ id: string }> }
 ) {
   // Handle CORS preflight
   const corsResponse = handleCors(request)
@@ -48,6 +49,7 @@ export async function PUT(
   try {
     await connectDB()
 
+    const { id } = await params
     const body = await request.json()
     const { word, category, numLetters, numSyllables, hint } = body
 
@@ -60,7 +62,7 @@ export async function PUT(
       updateData.numSyllables = Number.parseInt(numSyllables.toString())
     if (hint) updateData.hint = hint
 
-    const updatedWord = await Word.findByIdAndUpdate(params.id, updateData, {
+    const updatedWord = await Word.findByIdAndUpdate(id, updateData, {
       new: true,
       runValidators: true,
     })
@@ -78,7 +80,7 @@ export async function PUT(
 
 export async function DELETE(
   request: NextRequest,
-  { params }: { params: { id: string } }
+  { params }: { params: Promise<{ id: string }> }
 ) {
   // Handle CORS preflight
   const corsResponse = handleCors(request)
@@ -92,7 +94,8 @@ export async function DELETE(
   try {
     await connectDB()
 
-    const deletedWord = await Word.findByIdAndDelete(params.id)
+    const { id } = await params
+    const deletedWord = await Word.findByIdAndDelete(id)
     if (!deletedWord) {
       return NextResponse.json({ error: 'Word not found' }, { status: 404 })
     }

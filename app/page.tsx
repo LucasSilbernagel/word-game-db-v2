@@ -10,8 +10,9 @@ const allApiEndpoints = [
   {
     method: 'GET',
     path: '/api/v1/words',
-    description: 'Retrieve all words with optional query filtering',
-    example: 'GET /api/v1/words?category=animals&numLetters=5',
+    description:
+      'Retrieve all words with optional query filtering and pagination',
+    example: 'GET /api/v1/words?category=animals&limit=20&offset=0',
   },
   {
     method: 'GET',
@@ -148,7 +149,7 @@ export default function Home() {
                       {endpoint.method}
                     </span>
                     <code className="bg-muted px-2 py-1 rounded font-mono text-sm">
-                      {endpoint.path}
+                      https://wordgamedb.com{endpoint.path}
                     </code>
                   </div>
                   <CardTitle className="text-lg">

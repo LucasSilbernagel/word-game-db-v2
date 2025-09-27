@@ -19,6 +19,9 @@ type FilterState = {
   maxLetters: string
   minSyllables: string
   maxSyllables: string
+  // Pagination
+  limit: string
+  offset: string
 }
 
 export default function EndpointDemo({
@@ -37,6 +40,8 @@ export default function EndpointDemo({
     maxLetters: '',
     minSyllables: '',
     maxSyllables: '',
+    limit: '10',
+    offset: '0',
   })
 
   const isDestructiveEndpoint = ['POST', 'PUT', 'DELETE'].includes(method)
@@ -52,6 +57,10 @@ export default function EndpointDemo({
     if (filters.minSyllables) params.set('minSyllables', filters.minSyllables)
     if (filters.maxSyllables) params.set('maxSyllables', filters.maxSyllables)
 
+    // Add pagination parameters
+    if (filters.limit) params.set('limit', filters.limit)
+    if (filters.offset) params.set('offset', filters.offset)
+
     return params.toString()
   }, [
     filters.category,
@@ -59,6 +68,8 @@ export default function EndpointDemo({
     filters.maxLetters,
     filters.minSyllables,
     filters.maxSyllables,
+    filters.limit,
+    filters.offset,
   ])
 
   // Fetch categories on component mount
@@ -88,6 +99,8 @@ export default function EndpointDemo({
       maxLetters: '',
       minSyllables: '',
       maxSyllables: '',
+      limit: '10',
+      offset: '0',
     })
     // Also clear response and error data
     setResponse(null)
@@ -288,6 +301,62 @@ export default function EndpointDemo({
                     min="1"
                     className="dark:bg-gray-800 mt-1 px-3 py-2 border border-gray-300 dark:border-gray-600 rounded w-full text-sm"
                   />
+                </div>
+              </div>
+
+              {/* Pagination Controls */}
+              <div className="pt-4 border-t">
+                <h5 className="mb-3 font-medium text-gray-700 dark:text-gray-300 text-sm">
+                  Pagination
+                </h5>
+                <div className="gap-4 grid grid-cols-1 md:grid-cols-2">
+                  <div>
+                    <label
+                      htmlFor="limit"
+                      className="font-medium text-gray-600 dark:text-gray-400 text-xs"
+                    >
+                      Limit (items per page):
+                    </label>
+                    <input
+                      id="limit"
+                      type="number"
+                      value={filters.limit}
+                      onChange={(e) => updateFilter('limit', e.target.value)}
+                      placeholder="e.g., 10"
+                      min="1"
+                      max="100"
+                      className="dark:bg-gray-800 mt-1 px-3 py-2 border border-gray-300 dark:border-gray-600 rounded w-full text-sm"
+                    />
+                  </div>
+
+                  <div>
+                    <label
+                      htmlFor="offset"
+                      className="font-medium text-gray-600 dark:text-gray-400 text-xs"
+                    >
+                      Offset (skip items):
+                    </label>
+                    <input
+                      id="offset"
+                      type="number"
+                      value={filters.offset}
+                      onChange={(e) => updateFilter('offset', e.target.value)}
+                      placeholder="e.g., 0"
+                      min="0"
+                      className="dark:bg-gray-800 mt-1 px-3 py-2 border border-gray-300 dark:border-gray-600 rounded w-full text-sm"
+                    />
+                  </div>
+                </div>
+                <p className="mt-2 text-gray-500 dark:text-gray-400 text-xs">
+                  Use limit and offset to paginate through results. Default:
+                  limit=10, offset=0
+                </p>
+                <div className="bg-blue-50 dark:bg-blue-900/20 mt-3 p-3 border border-blue-200 dark:border-blue-800 rounded-md">
+                  <p className="text-blue-800 dark:text-blue-200 text-xs">
+                    The API returns a pagination object with total count,
+                    current limit/offset, and hasMore flag to help you implement
+                    pagination in your app.
+                  </p>
                 </div>
               </div>
             </div>
