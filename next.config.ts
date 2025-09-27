@@ -1,13 +1,10 @@
 import type { NextConfig } from 'next'
 
 const nextConfig: NextConfig = {
-  // Enable experimental features for better domain handling
-  experimental: {
-    // This helps with domain-based routing
-    serverComponentsExternalPackages: ['mongoose'],
-  },
+  // External packages that should be handled by the server
+  serverExternalPackages: ['mongoose'],
 
-  // Configure headers for better domain handling
+  // Configure security headers
   async headers() {
     return [
       {
@@ -27,24 +24,6 @@ const nextConfig: NextConfig = {
             value: 'origin-when-cross-origin',
           },
         ],
-      },
-    ]
-  },
-
-  // Configure redirects for www to non-www (backup to middleware)
-  // This will work for any domain dynamically
-  async redirects() {
-    return [
-      {
-        source: '/:path*',
-        has: [
-          {
-            type: 'host',
-            value: 'www.(?<domain>.*)',
-          },
-        ],
-        destination: 'https://:domain/:path*',
-        permanent: true,
       },
     ]
   },
