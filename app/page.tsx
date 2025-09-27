@@ -9,10 +9,9 @@ import { useEffect, useState } from 'react'
 const allApiEndpoints = [
   {
     method: 'GET',
-    path: '/api/v1/words',
-    description:
-      'Retrieve all words with optional query filtering and pagination',
-    example: 'GET /api/v1/words?category=animals&limit=20&offset=0',
+    path: '/api/v1/categories',
+    description: 'Get all distinct categories',
+    example: 'GET /api/v1/categories',
   },
   {
     method: 'GET',
@@ -22,15 +21,16 @@ const allApiEndpoints = [
   },
   {
     method: 'GET',
-    path: '/api/v1/categories',
-    description: 'Get all distinct categories',
-    example: 'GET /api/v1/categories',
-  },
-  {
-    method: 'GET',
     path: '/api/v1/words/[id]',
     description: 'Get a specific word by ID',
     example: 'GET /api/v1/words/5ffa1774c0831cbe1460e29c',
+  },
+  {
+    method: 'GET',
+    path: '/api/v1/words',
+    description:
+      'Retrieve all words with optional query filtering and pagination',
+    example: 'GET /api/v1/words?category=animals&limit=20&offset=0',
   },
   {
     method: 'POST',
@@ -59,16 +59,34 @@ const allApiEndpoints = [
 
 export default function Home() {
   const [isClient, setIsClient] = useState(false)
+  const [isDestructiveEnabled, setIsDestructiveEnabled] = useState(false)
+  const [isLoadingConfig, setIsLoadingConfig] = useState(true)
 
   // Ensure hydration consistency
   useEffect(() => {
     setIsClient(true)
   }, [])
 
-  // Filter endpoints based on environment variable - only on client
-  const isDestructiveEnabled = isClient
-    ? process.env.ENABLE_DESTRUCTIVE_ENDPOINTS === 'true'
-    : false
+  // Fetch destructive endpoints status from API
+  useEffect(() => {
+    const fetchConfig = async () => {
+      try {
+        const res = await fetch('/api/v1/config')
+        if (res.ok) {
+          const data = await res.json()
+          setIsDestructiveEnabled(data.destructiveEndpointsEnabled)
+        }
+      } catch (error) {
+        console.error('Failed to fetch config:', error)
+      } finally {
+        setIsLoadingConfig(false)
+      }
+    }
+
+    if (isClient) {
+      fetchConfig()
+    }
+  }, [isClient])
 
   const apiEndpoints = allApiEndpoints.filter(
     (endpoint) => !endpoint.isDestructive || isDestructiveEnabled
@@ -77,10 +95,10 @@ export default function Home() {
   // Debug information (remove in production)
   if (process.env.NODE_ENV === 'development') {
     console.log('Environment check:', {
-      ENABLE_DESTRUCTIVE_ENDPOINTS: process.env.ENABLE_DESTRUCTIVE_ENDPOINTS,
       isDestructiveEnabled,
       totalEndpoints: allApiEndpoints.length,
       filteredEndpoints: apiEndpoints.length,
+      isLoadingConfig,
     })
   }
   return (
@@ -171,6 +189,18 @@ export default function Home() {
                 </CardContent>
               </Card>
             ))}
+            {isLoadingConfig && (
+              <Card>
+                <CardContent className="pt-6">
+                  <div className="flex justify-center items-center py-4">
+                    <div className="border-2 border-primary border-t-transparent rounded-full w-6 h-6 animate-spin" />
+                    <span className="ml-2 text-muted-foreground text-sm">
+                      Loading additional endpoints...
+                    </span>
+                  </div>
+                </CardContent>
+              </Card>
+            )}
           </div>
         </div>
       </div>
