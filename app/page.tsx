@@ -30,29 +30,23 @@ const allApiEndpoints = [
     path: '/api/v1/words',
     description:
       'Retrieve all words with optional query filtering and pagination',
-    example: 'GET /api/v1/words?category=animals&limit=20&offset=0',
   },
   {
     method: 'POST',
     path: '/api/v1/words',
     description: 'Create a new word entry',
-    example:
-      'POST /api/v1/words { "word": "example", "category": "animals", "numLetters": 7, "numSyllables": 2, "hint": "A furry pet" }',
     isDestructive: true,
   },
   {
     method: 'PUT',
     path: '/api/v1/words/[id]',
     description: 'Update an existing word',
-    example:
-      'PUT /api/v1/words/507f1f77bcf86cd799439011 { "hint": "Updated hint" }',
     isDestructive: true,
   },
   {
     method: 'DELETE',
     path: '/api/v1/words/[id]',
     description: 'Delete a word from the database',
-    example: 'DELETE /api/v1/words/507f1f77bcf86cd799439011',
     isDestructive: true,
   },
 ]
@@ -175,10 +169,16 @@ export default function Home() {
                   </CardTitle>
                 </CardHeader>
                 <CardContent>
-                  <p className="mb-2 text-muted-foreground text-sm">Example:</p>
-                  <code className="block bg-muted p-2 rounded text-sm">
-                    {endpoint.example}
-                  </code>
+                  {endpoint.example && (
+                    <>
+                      <p className="mb-2 text-muted-foreground text-sm">
+                        Example:
+                      </p>
+                      <code className="block bg-muted p-2 rounded text-sm">
+                        {endpoint.example}
+                      </code>
+                    </>
+                  )}
                   <EndpointDemo
                     method={endpoint.method}
                     path={endpoint.path}
