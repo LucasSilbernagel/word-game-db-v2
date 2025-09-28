@@ -137,7 +137,7 @@ export default function About() {
                 <div className="bg-muted p-3 rounded">
                   <h4 className="font-semibold text-sm">Development</h4>
                   <p className="text-muted-foreground text-xs">
-                    Cursor AI, ESLint, Prettier, Zustand
+                    Cursor AI, ESLint, Prettier
                   </p>
                 </div>
               </div>

@@ -12,7 +12,6 @@ A modern, full-stack word game database built with Next.js 15, MongoDB, and Type
 - **MongoDB Integration**: Robust database with Mongoose ODM
 - **TypeScript Support**: Full type safety throughout the application
 - **Modern UI**: Beautiful interface built with Tailwind CSS and Radix UI
-- **State Management**: Zustand for efficient client-side state management
 - **RESTful API**: Comprehensive API endpoints for word management
 - **Search & Filtering**: Advanced search capabilities with multiple filters
 - **CORS Support**: Full CORS headers for cross-origin requests
@@ -34,7 +33,6 @@ A modern, full-stack word game database built with Next.js 15, MongoDB, and Type
 - React 19 with Server Components
 - Tailwind CSS 4
 - Radix UI components
-- Zustand for state management
 - Lucide React icons
 
 ### Development Tools
@@ -326,7 +324,6 @@ type Word = {
 │   ├── mongodb.ts        # Database connection
 │   └── utils.ts          # Common utilities
 ├── models/               # Mongoose models
-├── store/                # Zustand stores
 └── types/                # TypeScript type definitions
 ```
 
