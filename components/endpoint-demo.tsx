@@ -353,9 +353,9 @@ export default function EndpointDemo({
     <Card className="mt-4">
       <CardContent className="pt-4">
         <div className="space-y-6">
-          <div className="flex justify-between items-center">
+          <div className="flex sm:flex-row flex-col justify-between items-center gap-2 sm:gap-0">
             <h4 className="font-semibold text-sm">Live Demo</h4>
-            <div className="flex gap-2">
+            <div className="flex flex-wrap sm:flex-nowrap gap-2">
               {(isWordsEndpoint ||
                 (isWordsWithIdEndpoint &&
                   (method === 'PUT' || method === 'DELETE'))) && (
@@ -377,7 +377,7 @@ export default function EndpointDemo({
                 disabled={isLoading}
                 size="sm"
                 variant={isDestructiveEndpoint ? 'outline' : 'default'}
-                className="min-w-[120px]"
+                className="min-w-[100px] sm:min-w-[120px]"
               >
                 {isLoading ? (
                   <div className="flex items-center gap-2">

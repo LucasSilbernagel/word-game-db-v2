@@ -106,7 +106,7 @@ export default function Home() {
             A read-only REST API for educational word game development
           </p>
           <nav aria-label="Main navigation">
-            <div className="flex justify-center gap-4">
+            <div className="flex flex-wrap justify-center gap-2 sm:gap-4">
               <Button asChild>
                 <Link href="/about">Learn More</Link>
               </Button>
@@ -149,7 +149,11 @@ export default function Home() {
           >
             API Endpoints
           </h2>
-          <div className="gap-4 grid" role="list" aria-label="API endpoints">
+          <div
+            className="gap-4 grid grid-cols-1"
+            role="list"
+            aria-label="API endpoints"
+          >
             {apiEndpoints.map((endpoint, index) => (
               <article key={index} role="listitem">
                 <Card>
@@ -172,7 +176,7 @@ export default function Home() {
                       >
                         {endpoint.method}
                       </span>
-                      <code className="bg-muted px-2 py-1 rounded font-mono text-sm">
+                      <code className="bg-muted px-2 py-1 rounded overflow-hidden font-mono text-sm break-all">
                         https://wordgamedb.com{endpoint.path}
                       </code>
                     </div>
@@ -186,7 +190,7 @@ export default function Home() {
                         <p className="mb-2 text-muted-foreground text-sm">
                           Example:
                         </p>
-                        <code className="block bg-muted p-2 rounded text-sm">
+                        <code className="block bg-muted p-2 rounded text-sm break-all">
                           {endpoint.example}
                         </code>
                       </>
