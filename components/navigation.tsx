@@ -28,9 +28,9 @@ export function Navigation() {
             >
               Word Game DB
             </Link>
-            <ul className="hidden md:flex space-x-6" role="list">
+            <ul className="hidden md:flex space-x-6">
               {navigation.map((item) => (
-                <li key={item.name} role="listitem">
+                <li key={item.name}>
                   <Link
                     href={item.href}
                     className={cn(
