@@ -98,24 +98,29 @@ export default function Home() {
   return (
     <div className="mx-auto px-4 py-8 container">
       <div className="mx-auto max-w-4xl">
-        <div className="mb-12 text-center">
+        <header className="mb-12 text-center">
           <h1 className="mb-4 font-bold text-4xl tracking-tight">
             Word Game DB
           </h1>
           <p className="mb-8 text-muted-foreground text-xl">
             A read-only REST API for educational word game development
           </p>
-          <div className="flex justify-center gap-4">
-            <Button asChild>
-              <Link href="/about">Learn More</Link>
-            </Button>
-            <Button variant="outline" asChild>
-              <Link href="/contact">Get in Touch</Link>
-            </Button>
-          </div>
-        </div>
+          <nav aria-label="Main navigation">
+            <div className="flex justify-center gap-4">
+              <Button asChild>
+                <Link href="/about">Learn More</Link>
+              </Button>
+              <Button variant="outline" asChild>
+                <Link href="/contact">Get in Touch</Link>
+              </Button>
+            </div>
+          </nav>
+        </header>
 
-        <div className="mb-12">
+        <section className="mb-12" aria-labelledby="about-heading">
+          <h2 id="about-heading" className="sr-only">
+            About Word Game DB
+          </h2>
           <Card>
             <CardContent className="pt-6">
               <div className="dark:prose-invert max-w-none text-center prose prose-gray">
@@ -135,74 +140,87 @@ export default function Home() {
               </div>
             </CardContent>
           </Card>
-        </div>
+        </section>
 
-        <div className="mb-12">
-          <h2 className="mb-6 font-semibold text-2xl">API Endpoints</h2>
-          <div className="gap-4 grid">
+        <section className="mb-12" aria-labelledby="api-endpoints-heading">
+          <h2
+            id="api-endpoints-heading"
+            className="mb-6 font-semibold text-2xl"
+          >
+            API Endpoints
+          </h2>
+          <div className="gap-4 grid" role="list" aria-label="API endpoints">
             {apiEndpoints.map((endpoint, index) => (
-              <Card key={index}>
-                <CardHeader>
-                  <div className="flex items-center gap-3">
-                    <span
-                      className={`rounded px-2 py-1 font-mono text-xs ${(() => {
-                        if (endpoint.method === 'GET') {
-                          return 'bg-green-100 text-green-800 dark:bg-green-900 dark:text-green-200'
-                        }
-                        if (endpoint.method === 'POST') {
-                          return 'bg-blue-100 text-blue-800 dark:bg-blue-900 dark:text-blue-200'
-                        }
-                        if (endpoint.method === 'PUT') {
-                          return 'bg-yellow-100 text-yellow-800 dark:bg-yellow-900 dark:text-yellow-200'
-                        }
-                        return 'bg-red-100 text-red-800 dark:bg-red-900 dark:text-red-200'
-                      })()}`}
-                    >
-                      {endpoint.method}
-                    </span>
-                    <code className="bg-muted px-2 py-1 rounded font-mono text-sm">
-                      https://wordgamedb.com{endpoint.path}
-                    </code>
-                  </div>
-                  <CardTitle className="text-lg">
-                    {endpoint.description}
-                  </CardTitle>
-                </CardHeader>
-                <CardContent>
-                  {endpoint.example && (
-                    <>
-                      <p className="mb-2 text-muted-foreground text-sm">
-                        Example:
-                      </p>
-                      <code className="block bg-muted p-2 rounded text-sm">
-                        {endpoint.example}
+              <article key={index} role="listitem">
+                <Card>
+                  <CardHeader>
+                    <div className="flex items-center gap-3">
+                      <span
+                        className={`rounded px-2 py-1 font-mono text-xs ${(() => {
+                          if (endpoint.method === 'GET') {
+                            return 'bg-green-100 text-green-800 dark:bg-green-900 dark:text-green-200'
+                          }
+                          if (endpoint.method === 'POST') {
+                            return 'bg-blue-100 text-blue-800 dark:bg-blue-900 dark:text-blue-200'
+                          }
+                          if (endpoint.method === 'PUT') {
+                            return 'bg-yellow-100 text-yellow-800 dark:bg-yellow-900 dark:text-yellow-200'
+                          }
+                          return 'bg-red-100 text-red-800 dark:bg-red-900 dark:text-red-200'
+                        })()}`}
+                        aria-label={`HTTP method: ${endpoint.method}`}
+                      >
+                        {endpoint.method}
+                      </span>
+                      <code className="bg-muted px-2 py-1 rounded font-mono text-sm">
+                        https://wordgamedb.com{endpoint.path}
                       </code>
-                    </>
-                  )}
-                  <EndpointDemo
-                    method={endpoint.method}
-                    path={endpoint.path}
-                    description={endpoint.description}
-                    example={endpoint.example}
-                    isDestructiveEnabled={isDestructiveEnabled}
-                  />
-                </CardContent>
-              </Card>
+                    </div>
+                    <CardTitle className="text-lg">
+                      {endpoint.description}
+                    </CardTitle>
+                  </CardHeader>
+                  <CardContent>
+                    {endpoint.example && (
+                      <>
+                        <p className="mb-2 text-muted-foreground text-sm">
+                          Example:
+                        </p>
+                        <code className="block bg-muted p-2 rounded text-sm">
+                          {endpoint.example}
+                        </code>
+                      </>
+                    )}
+                    <EndpointDemo
+                      method={endpoint.method}
+                      path={endpoint.path}
+                      description={endpoint.description}
+                      example={endpoint.example}
+                      isDestructiveEnabled={isDestructiveEnabled}
+                    />
+                  </CardContent>
+                </Card>
+              </article>
             ))}
             {isLoadingConfig && (
-              <Card>
-                <CardContent className="pt-6">
-                  <div className="flex justify-center items-center py-4">
-                    <div className="border-2 border-primary border-t-transparent rounded-full w-6 h-6 animate-spin" />
-                    <span className="ml-2 text-muted-foreground text-sm">
-                      Loading additional endpoints...
-                    </span>
-                  </div>
-                </CardContent>
-              </Card>
+              <article role="listitem">
+                <Card>
+                  <CardContent className="pt-6">
+                    <div className="flex justify-center items-center py-4">
+                      <div
+                        className="border-2 border-primary border-t-transparent rounded-full w-6 h-6 animate-spin"
+                        aria-hidden="true"
+                      />
+                      <span className="ml-2 text-muted-foreground text-sm">
+                        Loading additional endpoints...
+                      </span>
+                    </div>
+                  </CardContent>
+                </Card>
+              </article>
             )}
           </div>
-        </div>
+        </section>
       </div>
     </div>
   )

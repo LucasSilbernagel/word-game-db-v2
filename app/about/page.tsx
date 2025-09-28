@@ -17,14 +17,17 @@ export default function About() {
   return (
     <div className="mx-auto px-4 py-8 container">
       <div className="mx-auto max-w-4xl">
-        <div className="mb-12 text-center">
+        <header className="mb-12 text-center">
           <h1 className="mb-4 font-bold text-4xl tracking-tight">About</h1>
           <p className="text-muted-foreground text-xl">
             Learn more about the Word Game DB project
           </p>
-        </div>
+        </header>
 
-        <div className="mb-12">
+        <section className="mb-12" aria-labelledby="project-description">
+          <h2 id="project-description" className="sr-only">
+            Project Description
+          </h2>
           <Card>
             <CardContent className="pt-6">
               <div className="flex flex-col gap-4 dark:prose-invert max-w-none prose prose-gray">
@@ -109,134 +112,151 @@ export default function About() {
               </div>
             </CardContent>
           </Card>
-        </div>
+        </section>
 
-        <div className="gap-8 grid md:grid-cols-2">
-          <Card>
-            <CardHeader>
-              <CardTitle>Tech Stack (2025 Rebuild)</CardTitle>
-              <CardDescription>
-                Modern full-stack technologies with AI-powered development
-              </CardDescription>
-            </CardHeader>
-            <CardContent>
-              <div className="gap-2 grid grid-cols-2">
-                <div className="bg-muted p-3 rounded">
-                  <h4 className="font-semibold text-sm">Frontend</h4>
-                  <p className="text-muted-foreground text-xs">
-                    Next.js 15, React 19, TypeScript, Tailwind CSS
-                  </p>
+        <section
+          className="gap-8 grid md:grid-cols-2"
+          aria-labelledby="project-details"
+        >
+          <h2 id="project-details" className="sr-only">
+            Project Details
+          </h2>
+          <article>
+            <Card>
+              <CardHeader>
+                <CardTitle>Tech Stack (2025 Rebuild)</CardTitle>
+                <CardDescription>
+                  Modern full-stack technologies with AI-powered development
+                </CardDescription>
+              </CardHeader>
+              <CardContent>
+                <div className="gap-2 grid grid-cols-2">
+                  <div className="bg-muted p-3 rounded">
+                    <h3 className="font-semibold text-sm">Frontend</h3>
+                    <p className="text-muted-foreground text-xs">
+                      Next.js 15, React 19, TypeScript, Tailwind CSS
+                    </p>
+                  </div>
+                  <div className="bg-muted p-3 rounded">
+                    <h3 className="font-semibold text-sm">Backend</h3>
+                    <p className="text-muted-foreground text-xs">
+                      Next.js API Routes, MongoDB, Mongoose
+                    </p>
+                  </div>
+                  <div className="bg-muted p-3 rounded">
+                    <h3 className="font-semibold text-sm">UI Components</h3>
+                    <p className="text-muted-foreground text-xs">
+                      Radix UI, ShadCN, Lucide Icons
+                    </p>
+                  </div>
+                  <div className="bg-muted p-3 rounded">
+                    <h3 className="font-semibold text-sm">Development</h3>
+                    <p className="text-muted-foreground text-xs">
+                      Cursor AI, ESLint, Prettier
+                    </p>
+                  </div>
                 </div>
-                <div className="bg-muted p-3 rounded">
-                  <h4 className="font-semibold text-sm">Backend</h4>
-                  <p className="text-muted-foreground text-xs">
-                    Next.js API Routes, MongoDB, Mongoose
-                  </p>
-                </div>
-                <div className="bg-muted p-3 rounded">
-                  <h4 className="font-semibold text-sm">UI Components</h4>
-                  <p className="text-muted-foreground text-xs">
-                    Radix UI, ShadCN, Lucide Icons
-                  </p>
-                </div>
-                <div className="bg-muted p-3 rounded">
-                  <h4 className="font-semibold text-sm">Development</h4>
-                  <p className="text-muted-foreground text-xs">
-                    Cursor AI, ESLint, Prettier
-                  </p>
-                </div>
-              </div>
-            </CardContent>
-          </Card>
+              </CardContent>
+            </Card>
+          </article>
 
-          <Card>
-            <CardHeader>
-              <CardTitle>Use Cases</CardTitle>
-              <CardDescription>
-                Perfect for various educational projects
-              </CardDescription>
-            </CardHeader>
-            <CardContent>
-              <div className="gap-3 grid">
-                <div>
-                  <h4 className="font-semibold text-sm">Word Games</h4>
-                  <p className="text-muted-foreground text-xs">
-                    Hangman, Wordle, crossword puzzles, and more
-                  </p>
+          <article>
+            <Card>
+              <CardHeader>
+                <CardTitle>Use Cases</CardTitle>
+                <CardDescription>
+                  Perfect for various educational projects
+                </CardDescription>
+              </CardHeader>
+              <CardContent>
+                <div className="gap-3 grid">
+                  <div>
+                    <h3 className="font-semibold text-sm">Word Games</h3>
+                    <p className="text-muted-foreground text-xs">
+                      Hangman, Wordle, crossword puzzles, and more
+                    </p>
+                  </div>
+                  <div>
+                    <h3 className="font-semibold text-sm">Educational Apps</h3>
+                    <p className="text-muted-foreground text-xs">
+                      Vocabulary builders, spelling games, language learning
+                    </p>
+                  </div>
+                  <div>
+                    <h3 className="font-semibold text-sm">Creative Projects</h3>
+                    <p className="text-muted-foreground text-xs">
+                      Poetry generators, word art, creative writing tools
+                    </p>
+                  </div>
+                  <div>
+                    <h3 className="font-semibold text-sm">Learning APIs</h3>
+                    <p className="text-muted-foreground text-xs">
+                      Practice building applications that consume REST APIs
+                    </p>
+                  </div>
                 </div>
-                <div>
-                  <h4 className="font-semibold text-sm">Educational Apps</h4>
-                  <p className="text-muted-foreground text-xs">
-                    Vocabulary builders, spelling games, language learning
-                  </p>
-                </div>
-                <div>
-                  <h4 className="font-semibold text-sm">Creative Projects</h4>
-                  <p className="text-muted-foreground text-xs">
-                    Poetry generators, word art, creative writing tools
-                  </p>
-                </div>
-                <div>
-                  <h4 className="font-semibold text-sm">Learning APIs</h4>
-                  <p className="text-muted-foreground text-xs">
-                    Practice building applications that consume REST APIs
-                  </p>
-                </div>
-              </div>
-            </CardContent>
-          </Card>
+              </CardContent>
+            </Card>
+          </article>
 
-          <Card>
-            <CardHeader>
-              <CardTitle>Example Implementation</CardTitle>
-              <CardDescription>See the API in action</CardDescription>
-            </CardHeader>
-            <CardContent>
-              <div className="space-y-3">
-                <div>
-                  <h4 className="font-semibold text-sm">Hangman Game</h4>
-                  <p className="mb-2 text-muted-foreground text-xs">
-                    The original inspiration for this API
-                  </p>
-                  <div className="flex gap-2">
+          <article>
+            <Card>
+              <CardHeader>
+                <CardTitle>Example Implementation</CardTitle>
+                <CardDescription>See the API in action</CardDescription>
+              </CardHeader>
+              <CardContent>
+                <div className="space-y-3">
+                  <div>
+                    <h3 className="font-semibold text-sm">Hangman Game</h3>
+                    <p className="mb-2 text-muted-foreground text-xs">
+                      The original inspiration for this API
+                    </p>
+                    <nav aria-label="Hangman game links">
+                      <div className="flex gap-2">
+                        <a
+                          href="https://lucassilbernagel.github.io/hangman/"
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          className="text-primary text-xs hover:underline"
+                        >
+                          Live Demo
+                        </a>
+                        <a
+                          href="https://github.com/LucasSilbernagel/hangman"
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          className="text-primary text-xs hover:underline"
+                        >
+                          Source Code
+                        </a>
+                      </div>
+                    </nav>
+                  </div>
+                  <div>
+                    <h3 className="font-semibold text-sm">Build Your Own</h3>
+                    <p className="mb-2 text-muted-foreground text-xs">
+                      Clone the repository and start building
+                    </p>
                     <a
-                      href="https://lucassilbernagel.github.io/hangman/"
+                      href="https://github.com/LucasSilbernagel/word-game-db-v2"
                       target="_blank"
                       rel="noopener noreferrer"
                       className="text-primary text-xs hover:underline"
                     >
-                      Live Demo
-                    </a>
-                    <a
-                      href="https://github.com/LucasSilbernagel/hangman"
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      className="text-primary text-xs hover:underline"
-                    >
-                      Source Code
+                      View on GitHub
                     </a>
                   </div>
                 </div>
-                <div>
-                  <h4 className="font-semibold text-sm">Build Your Own</h4>
-                  <p className="mb-2 text-muted-foreground text-xs">
-                    Clone the repository and start building
-                  </p>
-                  <a
-                    href="https://github.com/LucasSilbernagel/word-game-db-v2"
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="text-primary text-xs hover:underline"
-                  >
-                    View on GitHub
-                  </a>
-                </div>
-              </div>
-            </CardContent>
-          </Card>
-        </div>
+              </CardContent>
+            </Card>
+          </article>
+        </section>
 
-        <div className="mt-12 text-center">
+        <section className="mt-12 text-center" aria-labelledby="get-started">
+          <h2 id="get-started" className="sr-only">
+            Get Started
+          </h2>
           <Card>
             <CardContent className="pt-6">
               <h3 className="mb-4 font-semibold text-xl">
@@ -246,17 +266,19 @@ export default function About() {
                 Explore the API endpoints and start building your next word game
                 or educational application.
               </p>
-              <div className="flex justify-center gap-4">
-                <Button asChild>
-                  <Link href="/">View API Endpoints</Link>
-                </Button>
-                <Button asChild variant="outline">
-                  <Link href="/contact">Get in Touch</Link>
-                </Button>
-              </div>
+              <nav aria-label="Action navigation">
+                <div className="flex justify-center gap-4">
+                  <Button asChild>
+                    <Link href="/">View API Endpoints</Link>
+                  </Button>
+                  <Button asChild variant="outline">
+                    <Link href="/contact">Get in Touch</Link>
+                  </Button>
+                </div>
+              </nav>
             </CardContent>
           </Card>
-        </div>
+        </section>
       </div>
     </div>
   )

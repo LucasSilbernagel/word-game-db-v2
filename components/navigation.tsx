@@ -14,29 +14,38 @@ export function Navigation() {
   const pathname = usePathname()
 
   return (
-    <nav className="bg-background/95 supports-[backdrop-filter]:bg-background/60 border-b backdrop-blur">
-      <div className="container mx-auto px-4">
-        <div className="flex h-16 items-center justify-between">
+    <nav
+      className="bg-background/95 supports-[backdrop-filter]:bg-background/60 backdrop-blur border-b"
+      aria-label="Main navigation"
+    >
+      <div className="mx-auto px-4 container">
+        <div className="flex justify-between items-center h-16">
           <div className="flex items-center space-x-8">
-            <Link href="/" className="text-xl font-bold">
+            <Link
+              href="/"
+              className="font-bold text-xl"
+              aria-label="Word Game DB - Home"
+            >
               Word Game DB
             </Link>
-            <div className="hidden space-x-6 md:flex">
+            <ul className="hidden md:flex space-x-6" role="list">
               {navigation.map((item) => (
-                <Link
-                  key={item.name}
-                  href={item.href}
-                  className={cn(
-                    'hover:text-primary text-sm font-medium transition-colors',
-                    pathname === item.href
-                      ? 'text-foreground'
-                      : 'text-muted-foreground'
-                  )}
-                >
-                  {item.name}
-                </Link>
+                <li key={item.name} role="listitem">
+                  <Link
+                    href={item.href}
+                    className={cn(
+                      'font-medium hover:text-primary text-sm transition-colors',
+                      pathname === item.href
+                        ? 'text-foreground'
+                        : 'text-muted-foreground'
+                    )}
+                    aria-current={pathname === item.href ? 'page' : undefined}
+                  >
+                    {item.name}
+                  </Link>
+                </li>
               ))}
-            </div>
+            </ul>
           </div>
         </div>
       </div>

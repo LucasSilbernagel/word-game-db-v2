@@ -55,7 +55,9 @@ export default function RootLayout({
         className={`${geistSans.variable} ${geistMono.variable} antialiased`}
         suppressHydrationWarning={true}
       >
-        <Navigation />
+        <header>
+          <Navigation />
+        </header>
         <main className="min-h-screen">{children}</main>
         <Footer />
       </body>
