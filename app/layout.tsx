@@ -16,7 +16,32 @@ const geistMono = Geist_Mono({
 
 export const metadata: Metadata = {
   title: 'Word Game DB',
-  description: 'A comprehensive database for word games and puzzles',
+  description:
+    'A REST API for building word games and puzzles. Word Game DB is designed for educational purposes, helping developers practice their coding skills by building word games that incorporate an API. Each word comes with a category, letter count, syllable count, and helpful hint.',
+  openGraph: {
+    title: 'Word Game DB',
+    description:
+      'A REST API for building word games and puzzles. Word Game DB is designed for educational purposes, helping developers practice their coding skills by building word games that incorporate an API. Each word comes with a category, letter count, syllable count, and helpful hint.',
+    url: 'https://wordgamedb.com',
+    siteName: 'Word Game DB',
+    images: [
+      {
+        url: '/og-image.png',
+        width: 1200,
+        height: 630,
+        alt: 'Word Game DB - A REST API for building word games and puzzles',
+      },
+    ],
+    locale: 'en_US',
+    type: 'website',
+  },
+  twitter: {
+    card: 'summary_large_image',
+    title: 'Word Game DB',
+    description:
+      'A REST API for building word games and puzzles. Word Game DB is designed for educational purposes, helping developers practice their coding skills by building word games that incorporate an API. Each word comes with a category, letter count, syllable count, and helpful hint.',
+    images: ['/og-image.png'],
+  },
 }
 
 export default function RootLayout({

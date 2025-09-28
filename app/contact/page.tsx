@@ -1,19 +1,25 @@
+import type { Metadata } from 'next'
+
+export const metadata: Metadata = {
+  title: 'Contact | Word Game DB',
+}
+
 export default function Contact() {
   return (
-    <div className="container mx-auto px-4 py-8">
+    <div className="mx-auto px-4 py-8 container">
       <div className="mx-auto max-w-4xl">
         <div className="mb-12 text-center">
-          <h1 className="mb-4 text-4xl font-bold tracking-tight">Contact</h1>
+          <h1 className="mb-4 font-bold text-4xl tracking-tight">Contact</h1>
           <p className="text-muted-foreground text-xl">Get in touch with me</p>
         </div>
 
         <div className="mb-8">
-          <p className="text-center text-lg">
+          <p className="text-lg text-center">
             Are you having technical issues with Word Game DB? Do you have
             questions about implementation? Suggestions for new categories or
             words? Other ideas for improvement? Feel free to email me directly
             at{' '}
-            <span className="text-primary font-semibold">
+            <span className="font-semibold text-primary">
               hello@lucassilbernagel.com
             </span>{' '}
             or use the form below!
@@ -36,7 +42,7 @@ export default function Contact() {
                 required
                 type="text"
                 placeholder="Your name"
-                className="border-input focus:ring-ring w-full rounded-md border px-4 py-3 text-base focus:border-transparent focus:ring-2 focus:outline-none"
+                className="px-4 py-3 border border-input focus:border-transparent rounded-md focus:outline-none focus:ring-2 focus:ring-ring w-full text-base"
               />
             </div>
 
@@ -50,7 +56,7 @@ export default function Contact() {
                 required
                 type="email"
                 placeholder="Your email"
-                className="border-input focus:ring-ring w-full rounded-md border px-4 py-3 text-base focus:border-transparent focus:ring-2 focus:outline-none"
+                className="px-4 py-3 border border-input focus:border-transparent rounded-md focus:outline-none focus:ring-2 focus:ring-ring w-full text-base"
               />
             </div>
 
@@ -64,13 +70,13 @@ export default function Contact() {
                 required
                 placeholder="Your message"
                 rows={6}
-                className="border-input focus:ring-ring resize-vertical w-full rounded-md border px-4 py-3 text-base focus:border-transparent focus:ring-2 focus:outline-none"
+                className="px-4 py-3 border border-input focus:border-transparent rounded-md focus:outline-none focus:ring-2 focus:ring-ring w-full text-base resize-vertical"
               />
             </div>
 
             <button
               type="submit"
-              className="bg-primary hover:bg-primary/90 text-primary-foreground w-full rounded-md px-6 py-3 text-base font-medium transition-colors"
+              className="bg-primary hover:bg-primary/90 px-6 py-3 rounded-md w-full font-medium text-primary-foreground text-base transition-colors"
             >
               Send
             </button>
