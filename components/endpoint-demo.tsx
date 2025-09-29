@@ -2,6 +2,7 @@
 
 import { Button } from '@/components/ui/button'
 import { Card, CardContent } from '@/components/ui/card'
+import { TestEndpointButton } from '@/components/ui/test-endpoint-button'
 import { useCallback, useEffect, useState } from 'react'
 
 type EndpointDemoProps = {
@@ -354,7 +355,7 @@ export default function EndpointDemo({
       <CardContent className="pt-4">
         <div className="space-y-6">
           <div className="flex sm:flex-row flex-col justify-between items-center gap-2 sm:gap-0">
-            <h4 className="font-semibold text-sm">Live Demo</h4>
+            <h4 className="hidden sm:block font-semibold text-sm">Live Demo</h4>
             <div className="flex flex-wrap sm:flex-nowrap gap-2">
               {(isWordsEndpoint ||
                 (isWordsWithIdEndpoint &&
@@ -372,22 +373,11 @@ export default function EndpointDemo({
                   Reset
                 </Button>
               )}
-              <Button
+              <TestEndpointButton
                 onClick={handleDemo}
                 disabled={isLoading}
-                size="sm"
-                variant={isDestructiveEndpoint ? 'outline' : 'default'}
-                className="min-w-[100px] sm:min-w-[120px]"
-              >
-                {isLoading ? (
-                  <div className="flex items-center gap-2">
-                    <div className="border-2 border-current border-t-transparent rounded-full w-4 h-4 animate-spin" />
-                    <span>Loading...</span>
-                  </div>
-                ) : (
-                  'Test Endpoint'
-                )}
-              </Button>
+                isLoading={isLoading}
+              />
             </div>
           </div>
 
@@ -554,7 +544,7 @@ export default function EndpointDemo({
                   Category
                 </h6>
                 <div className="space-y-3">
-                  <div className="flex gap-4">
+                  <div className="flex sm:flex-row flex-col gap-4">
                     <label className="flex items-center">
                       <input
                         type="radio"
@@ -757,7 +747,7 @@ export default function EndpointDemo({
                   Category
                 </h6>
                 <div className="space-y-3">
-                  <div className="flex gap-4">
+                  <div className="flex sm:flex-row flex-col gap-4">
                     <label className="flex items-center">
                       <input
                         type="radio"
@@ -1026,7 +1016,7 @@ export default function EndpointDemo({
               <h5 className="font-medium text-red-600 dark:text-red-400 text-sm">
                 Error:
               </h5>
-              <pre className="bg-red-50 dark:bg-red-900/20 p-3 rounded text-red-800 dark:text-red-200 text-xs">
+              <pre className="bg-red-50 dark:bg-red-900/20 p-3 rounded text-red-800 dark:text-red-200 text-xs text-wrap">
                 {error}
               </pre>
             </div>

@@ -158,7 +158,7 @@ export default function Home() {
               <article key={index} role="listitem">
                 <Card>
                   <CardHeader>
-                    <div className="flex items-center gap-3">
+                    <div className="flex sm:flex-row flex-col items-center gap-3">
                       <span
                         className={`rounded px-2 py-1 font-mono text-xs ${(() => {
                           if (endpoint.method === 'GET') {

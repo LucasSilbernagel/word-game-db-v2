@@ -146,7 +146,7 @@ export default function About() {
                   <div className="bg-muted p-3 rounded">
                     <h3 className="font-semibold text-sm">UI Components</h3>
                     <p className="text-muted-foreground text-xs">
-                      Radix UI, ShadCN, Lucide Icons
+                      Radix UI, Lucide Icons
                     </p>
                   </div>
                   <div className="bg-muted p-3 rounded">
@@ -267,7 +267,7 @@ export default function About() {
                 or educational application.
               </p>
               <nav aria-label="Action navigation">
-                <div className="flex justify-center gap-4">
+                <div className="flex sm:flex-row flex-col justify-center gap-4 mx-auto max-w-xs">
                   <Button asChild>
                     <Link href="/">View API Endpoints</Link>
                   </Button>
