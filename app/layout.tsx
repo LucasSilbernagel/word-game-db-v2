@@ -18,6 +18,11 @@ export const metadata: Metadata = {
   title: 'Word Game DB',
   description:
     'A REST API for building word games and puzzles. Word Game DB is designed for educational purposes, helping developers practice their coding skills by building word games that incorporate an API. Each word comes with a category, letter count, syllable count, and helpful hint.',
+  icons: {
+    icon: '/favicon.svg',
+    shortcut: '/favicon.svg',
+    apple: '/favicon.svg',
+  },
   openGraph: {
     title: 'Word Game DB',
     description:
