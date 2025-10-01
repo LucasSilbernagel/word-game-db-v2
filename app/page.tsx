@@ -113,9 +113,7 @@ export default function Home() {
           <nav aria-label="Main navigation">
             <div className="flex flex-wrap justify-center gap-2 sm:gap-4">
               <Button asChild>
-                <Link href="/about" aria-label="Learn More About Word Game DB">
-                  Learn More
-                </Link>
+                <Link href="/about">Learn More About Word Game DB</Link>
               </Button>
               <Button variant="outline" asChild>
                 <Link href="/contact">Get in Touch</Link>
@@ -156,13 +154,12 @@ export default function Home() {
           >
             API Endpoints
           </h2>
-          <div
-            className="gap-4 grid grid-cols-1"
-            role="list"
+          <ul
+            className="gap-4 grid grid-cols-1 list-none"
             aria-label="API endpoints"
           >
             {apiEndpoints.map((endpoint, index) => (
-              <div key={index} role="listitem">
+              <li key={index}>
                 <Card>
                   <CardHeader>
                     <div className="flex sm:flex-row flex-col items-center gap-3">
@@ -225,10 +222,10 @@ export default function Home() {
                     </Suspense>
                   </CardContent>
                 </Card>
-              </div>
+              </li>
             ))}
             {isLoadingConfig && (
-              <div role="listitem">
+              <li>
                 <Card>
                   <CardContent className="pt-6">
                     <div className="flex justify-center items-center py-4">
@@ -242,9 +239,9 @@ export default function Home() {
                     </div>
                   </CardContent>
                 </Card>
-              </div>
+              </li>
             )}
-          </div>
+          </ul>
         </section>
       </div>
     </div>

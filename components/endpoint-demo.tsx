@@ -360,7 +360,7 @@ export default function EndpointDemo({
       <CardContent className="pt-4">
         <div className="space-y-6">
           <div className="flex sm:flex-row flex-col justify-between items-center gap-2 sm:gap-0">
-            <h4 className="hidden sm:block font-semibold text-sm">Live Demo</h4>
+            <h3 className="hidden sm:block font-semibold text-sm">Live Demo</h3>
             <div className="flex flex-wrap sm:flex-nowrap gap-2">
               {(isWordsEndpoint ||
                 (isWordsWithIdEndpoint &&
