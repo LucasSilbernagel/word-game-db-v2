@@ -7,7 +7,7 @@ import * as SheetPrimitive from '@radix-ui/react-dialog'
 import { Menu } from 'lucide-react'
 import Link from 'next/link'
 import { usePathname } from 'next/navigation'
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import { MobileMenuContent } from './mobile-menu-content'
 
 const navigation = [
@@ -19,6 +19,28 @@ const navigation = [
 export const Navigation = () => {
   const pathname = usePathname()
   const [isOpen, setIsOpen] = useState(false)
+
+  // Close mobile menu when screen becomes desktop-sized
+  useEffect(() => {
+    const handleResize = () => {
+      if (
+        globalThis.window !== undefined &&
+        globalThis.window.innerWidth >= 768
+      ) {
+        // md breakpoint
+        setIsOpen(false)
+      }
+    }
+
+    if (globalThis.window !== undefined) {
+      globalThis.window.addEventListener('resize', handleResize)
+
+      // Cleanup event listener on component unmount
+      return () => {
+        globalThis.window.removeEventListener('resize', handleResize)
+      }
+    }
+  }, [])
 
   return (
     <nav
