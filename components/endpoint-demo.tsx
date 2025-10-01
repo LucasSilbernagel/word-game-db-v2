@@ -434,9 +434,9 @@ export default function EndpointDemo({
           {/* Word Update Form */}
           {isWordsWithIdEndpoint && method === 'PUT' && (
             <div className="space-y-4">
-              <h5 className="mb-3 font-medium text-gray-700 dark:text-gray-300 text-sm">
+              <h4 className="mb-3 font-medium text-gray-700 dark:text-gray-300 text-sm">
                 Update Word
-              </h5>
+              </h4>
               <div className="bg-blue-50 dark:bg-blue-900/20 p-3 border border-blue-200 dark:border-blue-800 rounded-md">
                 <p className="text-blue-800 dark:text-blue-200 text-xs">
                   <strong>Note:</strong> Only the fields you want to update need
@@ -630,9 +630,9 @@ export default function EndpointDemo({
           {/* Word Delete Form */}
           {isWordsWithIdEndpoint && method === 'DELETE' && (
             <div className="space-y-4">
-              <h5 className="mb-3 font-medium text-gray-700 dark:text-gray-300 text-sm">
+              <h4 className="mb-3 font-medium text-gray-700 dark:text-gray-300 text-sm">
                 Delete Word
-              </h5>
+              </h4>
               <div className="bg-red-50 dark:bg-red-900/20 p-3 border border-red-200 dark:border-red-800 rounded-md">
                 <p className="text-red-800 dark:text-red-200 text-xs">
                   <strong>Warning:</strong> This action will permanently delete
@@ -667,9 +667,9 @@ export default function EndpointDemo({
           {/* Word Creation Form */}
           {isWordsEndpoint && method === 'POST' && (
             <div className="space-y-4">
-              <h5 className="mb-3 font-medium text-gray-700 dark:text-gray-300 text-sm">
+              <h4 className="mb-3 font-medium text-gray-700 dark:text-gray-300 text-sm">
                 Create New Word
-              </h5>
+              </h4>
               <div className="gap-4 grid grid-cols-1 md:grid-cols-2">
                 <div>
                   <label
@@ -936,9 +936,9 @@ export default function EndpointDemo({
 
               {/* Pagination Controls */}
               <div className="pt-4 border-t">
-                <h5 className="mb-3 font-medium text-gray-700 dark:text-gray-300 text-sm">
+                <h4 className="mb-3 font-medium text-gray-700 dark:text-gray-300 text-sm">
                   Pagination
-                </h5>
+                </h4>
                 <div className="gap-4 grid grid-cols-1 md:grid-cols-2">
                   <div>
                     <label
