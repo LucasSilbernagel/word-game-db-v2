@@ -9,7 +9,7 @@ import connectDB from '@/lib/mongodb'
 import Word from '@/models/word'
 import { NextRequest, NextResponse } from 'next/server'
 
-export async function GET(request: NextRequest) {
+export const GET = async (request: NextRequest) => {
   // Handle CORS preflight
   const corsResponse = handleCors(request)
   if (corsResponse) return corsResponse
@@ -75,7 +75,7 @@ export async function GET(request: NextRequest) {
   }
 }
 
-export async function POST(request: NextRequest) {
+export const POST = async (request: NextRequest) => {
   // Handle CORS preflight
   const corsResponse = handleCors(request)
   if (corsResponse) return corsResponse

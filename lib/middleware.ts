@@ -1,6 +1,6 @@
 import { NextRequest, NextResponse } from 'next/server'
 
-export function corsHeaders() {
+export const corsHeaders = () => {
   return {
     'Access-Control-Allow-Origin': '*',
     'Access-Control-Allow-Headers':
@@ -9,7 +9,10 @@ export function corsHeaders() {
   }
 }
 
-export function handleError(error: unknown, message = 'Internal Server Error') {
+export const handleError = (
+  error: unknown,
+  message = 'Internal Server Error'
+) => {
   console.error('API Error:', error)
   return NextResponse.json(
     { error: message },
@@ -21,7 +24,7 @@ export function handleError(error: unknown, message = 'Internal Server Error') {
 }
 
 // CORS preflight handler
-export function handleCors(request: NextRequest) {
+export const handleCors = (request: NextRequest) => {
   if (request.method === 'OPTIONS') {
     return new NextResponse(null, {
       status: 200,
@@ -32,7 +35,7 @@ export function handleCors(request: NextRequest) {
 }
 
 // Add CORS headers to response
-export function addCorsHeaders(response: NextResponse) {
+export const addCorsHeaders = (response: NextResponse) => {
   const headers = corsHeaders()
   for (const [key, value] of Object.entries(headers)) {
     response.headers.set(key, value)
@@ -44,14 +47,14 @@ export function addCorsHeaders(response: NextResponse) {
  * Check if destructive endpoints (POST, PUT, DELETE) are enabled
  * Based on environment variables for production safety
  */
-export function isDestructiveEndpointEnabled() {
+export const isDestructiveEndpointEnabled = () => {
   return process.env.ENABLE_DESTRUCTIVE_ENDPOINTS === 'true'
 }
 
 /**
  * Handle requests to disabled destructive endpoints
  */
-export function handleDisabledEndpoint(method: string) {
+export const handleDisabledEndpoint = (method: string) => {
   return NextResponse.json(
     {
       error: `${method} endpoint is disabled in production`,

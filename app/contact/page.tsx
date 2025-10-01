@@ -4,7 +4,7 @@ export const metadata: Metadata = {
   title: 'Contact | Word Game DB',
 }
 
-export default function Contact() {
+const Contact = () => {
   return (
     <div className="mx-auto px-4 py-8 container">
       <div className="mx-auto max-w-4xl">
@@ -124,3 +124,5 @@ export default function Contact() {
     </div>
   )
 }
+
+export default Contact

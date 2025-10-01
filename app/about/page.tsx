@@ -13,7 +13,7 @@ export const metadata: Metadata = {
   title: 'About | Word Game DB',
 }
 
-export default function About() {
+const About = () => {
   return (
     <div className="mx-auto px-4 py-8 container">
       <div className="mx-auto max-w-4xl">
@@ -283,3 +283,5 @@ export default function About() {
     </div>
   )
 }
+
+export default About

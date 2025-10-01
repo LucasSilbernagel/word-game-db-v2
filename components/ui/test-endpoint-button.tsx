@@ -4,12 +4,12 @@ interface TestEndpointButtonProps extends Omit<ButtonProps, 'variant'> {
   isLoading?: boolean
 }
 
-export function TestEndpointButton({
+export const TestEndpointButton = ({
   isLoading = false,
   children,
   className = '',
   ...props
-}: TestEndpointButtonProps) {
+}: TestEndpointButtonProps) => {
   return (
     <Button
       {...props}

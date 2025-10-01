@@ -50,11 +50,11 @@ type DeleteFormState = {
   id: string
 }
 
-export default function EndpointDemo({
+const EndpointDemo = ({
   method,
   path,
   isDestructiveEnabled = false,
-}: EndpointDemoProps) {
+}: EndpointDemoProps) => {
   const [isLoading, setIsLoading] = useState(false)
   const [response, setResponse] = useState<string | null>(null)
   const [error, setError] = useState<string | null>(null)
@@ -1031,3 +1031,5 @@ export default function EndpointDemo({
     </Card>
   )
 }
+
+export default EndpointDemo

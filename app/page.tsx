@@ -51,7 +51,7 @@ const allApiEndpoints = [
   },
 ]
 
-export default function Home() {
+const Home = () => {
   const [isClient, setIsClient] = useState(false)
   const [isDestructiveEnabled, setIsDestructiveEnabled] = useState(false)
   const [isLoadingConfig, setIsLoadingConfig] = useState(true)
@@ -247,3 +247,5 @@ export default function Home() {
     </div>
   )
 }
+
+export default Home

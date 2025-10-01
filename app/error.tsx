@@ -2,13 +2,13 @@
 
 import { useEffect } from 'react'
 
-export default function Error({
+const Error = ({
   error,
   reset,
 }: {
   error: Error & { digest?: string }
   reset: () => void
-}) {
+}) => {
   useEffect(() => {
     console.error('Application Error:', error)
   }, [error])
@@ -31,3 +31,5 @@ export default function Error({
     </main>
   )
 }
+
+export default Error

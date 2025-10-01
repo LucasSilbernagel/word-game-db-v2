@@ -15,14 +15,14 @@ const navigation = [
   { name: 'Contact', href: '/contact' },
 ]
 
-function CustomSheetContent({
+const CustomSheetContent = ({
   className,
   children,
   side = 'top',
   ...props
 }: ComponentProps<typeof SheetPrimitive.Content> & {
   side?: 'top' | 'right' | 'bottom' | 'left'
-}) {
+}) => {
   return (
     <SheetPrimitive.Portal>
       <SheetPrimitive.Overlay className="z-50 fixed inset-0 bg-black/50 data-[state=closed]:animate-out data-[state=open]:animate-in data-[state=closed]:fade-out-0 data-[state=open]:fade-in-0" />
@@ -59,7 +59,7 @@ function CustomSheetContent({
   )
 }
 
-export function Navigation() {
+export const Navigation = () => {
   const pathname = usePathname()
   const [isOpen, setIsOpen] = useState(false)
 

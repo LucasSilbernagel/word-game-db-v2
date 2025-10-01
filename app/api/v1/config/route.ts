@@ -1,6 +1,6 @@
 import { NextResponse } from 'next/server'
 
-export async function GET() {
+export const GET = async () => {
   return NextResponse.json({
     destructiveEndpointsEnabled:
       process.env.ENABLE_DESTRUCTIVE_ENDPOINTS === 'true',

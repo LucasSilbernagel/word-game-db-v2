@@ -1,6 +1,6 @@
 import { NextRequest, NextResponse } from 'next/server'
 
-export function middleware(request: NextRequest) {
+export const middleware = (request: NextRequest) => {
   const hostname = request.headers.get('host') || ''
 
   // Skip redirects for localhost and IP addresses (development)

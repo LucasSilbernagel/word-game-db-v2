@@ -9,10 +9,10 @@ import connectDB from '@/lib/mongodb'
 import Word from '@/models/word'
 import { NextRequest, NextResponse } from 'next/server'
 
-export async function GET(
+export const GET = async (
   request: NextRequest,
   { params }: { params: Promise<{ id: string }> }
-) {
+) => {
   // Handle CORS preflight
   const corsResponse = handleCors(request)
   if (corsResponse) return corsResponse
@@ -33,10 +33,10 @@ export async function GET(
   }
 }
 
-export async function PUT(
+export const PUT = async (
   request: NextRequest,
   { params }: { params: Promise<{ id: string }> }
-) {
+) => {
   // Handle CORS preflight
   const corsResponse = handleCors(request)
   if (corsResponse) return corsResponse
@@ -78,10 +78,10 @@ export async function PUT(
   }
 }
 
-export async function DELETE(
+export const DELETE = async (
   request: NextRequest,
   { params }: { params: Promise<{ id: string }> }
-) {
+) => {
   // Handle CORS preflight
   const corsResponse = handleCors(request)
   if (corsResponse) return corsResponse
