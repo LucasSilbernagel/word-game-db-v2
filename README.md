@@ -1,4 +1,4 @@
-# Word Game Database v2
+# Word Game DB v2
 
 A modern, full-stack word game database built with Next.js 15, MongoDB, and TypeScript. This application provides a comprehensive API for word games, puzzles, and vocabulary management.
 
@@ -13,7 +13,6 @@ A modern, full-stack word game database built with Next.js 15, MongoDB, and Type
 - **TypeScript Support**: Full type safety throughout the application
 - **Modern UI**: Beautiful interface built with Tailwind CSS and Radix UI
 - **RESTful API**: Comprehensive API endpoints for word management
-- **Search & Filtering**: Advanced search capabilities with multiple filters
 - **CORS Support**: Full CORS headers for cross-origin requests
 - **Error Handling**: Comprehensive error handling and logging
 - **Responsive Design**: Mobile-first approach with modern design patterns
@@ -54,7 +53,7 @@ A modern, full-stack word game database built with Next.js 15, MongoDB, and Type
 1. Clone the repository:
 
 ```bash
-git clone https://github.com/yourusername/word-game-db-v2.git
+git clone https://github.com/LucasSilbernagel/word-game-db-v2.git
 cd word-game-db-v2
 ```
 
@@ -143,36 +142,6 @@ Now you can:
 - **Delete words** using `DELETE /api/v1/words/[id]`
 - **Test all functionality** locally before deploying
 
-### Example: Adding a New Word
-
-```bash
-curl -X POST http://localhost:3000/api/v1/words \
-  -H "Content-Type: application/json" \
-  -d '{
-    "word": "lion",
-    "category": "animals",
-    "numLetters": 4,
-    "numSyllables": 2,
-    "hint": "King of the jungle"
-  }'
-```
-
-### Example: Updating a Word
-
-```bash
-curl -X PUT http://localhost:3000/api/v1/words/WORD_ID \
-  -H "Content-Type: application/json" \
-  -d '{
-    "hint": "Updated hint text"
-  }'
-```
-
-### Example: Deleting a Word
-
-```bash
-curl -X DELETE http://localhost:3000/api/v1/words/WORD_ID
-```
-
 ## Deployment
 
 ### Production Deployment
@@ -185,7 +154,6 @@ When deploying to production (Vercel, Netlify, etc.), destructive endpoints (POS
 - ✅ `GET /api/v1/words/random` - Get random word
 - ✅ `GET /api/v1/categories` - Get categories
 - ✅ `GET /api/v1/words/[id]` - Get specific word
-- ✅ `GET /api/v1/words/search` - Search words
 - ❌ `POST /api/v1/words` - Create word (disabled)
 - ❌ `PUT /api/v1/words/[id]` - Update word (disabled)
 - ❌ `DELETE /api/v1/words/[id]` - Delete word (disabled)
@@ -242,7 +210,6 @@ Check out this example implementation using the API:
 - `GET /api/v1/words/random` - Get a random word from the database
 - `GET /api/v1/categories` - Get all distinct categories
 - `GET /api/v1/words/[id]` - Get a specific word by ID
-- `GET /api/v1/words/search` - Search for words by various criteria
 
 ### Development Endpoints (Conditional)
 
@@ -266,13 +233,6 @@ Check out this example implementation using the API:
 - `minSyllables` - Minimum number of syllables
 - `maxSyllables` - Maximum number of syllables
 - Any other field from the Word model for direct filtering
-
-#### GET /api/v1/words/search
-
-- `q` - Search query (required)
-- `type` - Game type filter (crossword, scrabble, wordsearch)
-- `limit` - Number of results (default: 10)
-- `offset` - Number of results to skip (default: 0)
 
 ## Data Model
 
