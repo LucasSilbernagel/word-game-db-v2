@@ -77,7 +77,7 @@ export const Navigation = () => {
             </ul>
           </div>
 
-          {/* Mobile menu using Sheet */}
+          {/* Mobile menu */}
           <Sheet open={isOpen} onOpenChange={setIsOpen}>
             <SheetTrigger asChild>
               <Button
