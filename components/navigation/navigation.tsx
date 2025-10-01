@@ -63,7 +63,7 @@ export const Navigation = () => {
                   <Link
                     href={item.href}
                     className={cn(
-                      'hover:text-primary text-sm font-medium transition-colors',
+                      'hover:text-primary focus-visible:text-primary text-sm font-medium transition-colors',
                       pathname === item.href
                         ? 'text-foreground'
                         : 'text-muted-foreground'
@@ -103,7 +103,7 @@ export const Navigation = () => {
                         'hover:scale-105 focus-visible:scale-105 active:scale-95',
                         pathname === item.href
                           ? 'text-foreground'
-                          : 'text-muted-foreground hover:text-foreground'
+                          : 'text-muted-foreground hover:text-foreground focus-visible:text-foreground'
                       )}
                       style={{
                         animationDelay: `${index * 100}ms`,

@@ -6,10 +6,10 @@ export const metadata: Metadata = {
 
 const Contact = () => {
   return (
-    <div className="mx-auto px-4 py-8 container">
+    <div className="container mx-auto px-4 py-8">
       <div className="mx-auto max-w-4xl">
         <header className="mb-12 text-center">
-          <h1 className="mb-4 font-bold text-4xl tracking-tight">Contact</h1>
+          <h1 className="mb-4 text-4xl font-bold tracking-tight">Contact</h1>
           <p className="text-muted-foreground text-xl">Get in touch with me</p>
         </header>
 
@@ -17,14 +17,14 @@ const Contact = () => {
           <h2 id="contact-intro" className="sr-only">
             Contact Information
           </h2>
-          <p className="text-lg text-center">
+          <p className="text-center text-lg">
             Are you having technical issues with Word Game DB? Do you have
             questions about implementation? Suggestions for new categories or
             words? Other ideas for improvement? Feel free to email me directly
             at{' '}
             <a
               href="mailto:hello@lucassilbernagel.com"
-              className="font-semibold text-primary hover:underline"
+              className="text-primary font-semibold hover:underline focus-visible:underline"
             >
               hello@lucassilbernagel.com
             </a>{' '}
@@ -47,7 +47,7 @@ const Contact = () => {
               <div>
                 <label
                   htmlFor="name"
-                  className="block mb-1 font-medium text-gray-700 dark:text-gray-300 text-sm"
+                  className="mb-1 block text-sm font-medium text-gray-700 dark:text-gray-300"
                 >
                   Your name
                 </label>
@@ -57,7 +57,7 @@ const Contact = () => {
                   required
                   type="text"
                   placeholder="Your name"
-                  className="px-4 py-3 border border-input focus:border-transparent rounded-md focus:outline-none focus:ring-2 focus:ring-ring w-full text-base"
+                  className="border-input focus:ring-ring w-full rounded-md border px-4 py-3 text-base focus:border-transparent focus:ring-2 focus:outline-none"
                   aria-describedby="name-help"
                 />
                 <p id="name-help" className="sr-only">
@@ -68,7 +68,7 @@ const Contact = () => {
               <div>
                 <label
                   htmlFor="email"
-                  className="block mb-1 font-medium text-gray-700 dark:text-gray-300 text-sm"
+                  className="mb-1 block text-sm font-medium text-gray-700 dark:text-gray-300"
                 >
                   Your email
                 </label>
@@ -78,7 +78,7 @@ const Contact = () => {
                   required
                   type="email"
                   placeholder="Your email"
-                  className="px-4 py-3 border border-input focus:border-transparent rounded-md focus:outline-none focus:ring-2 focus:ring-ring w-full text-base"
+                  className="border-input focus:ring-ring w-full rounded-md border px-4 py-3 text-base focus:border-transparent focus:ring-2 focus:outline-none"
                   aria-describedby="email-help"
                 />
                 <p id="email-help" className="sr-only">
@@ -89,7 +89,7 @@ const Contact = () => {
               <div>
                 <label
                   htmlFor="message"
-                  className="block mb-1 font-medium text-gray-700 dark:text-gray-300 text-sm"
+                  className="mb-1 block text-sm font-medium text-gray-700 dark:text-gray-300"
                 >
                   Your message
                 </label>
@@ -99,7 +99,7 @@ const Contact = () => {
                   required
                   placeholder="Your message"
                   rows={6}
-                  className="px-4 py-3 border border-input focus:border-transparent rounded-md focus:outline-none focus:ring-2 focus:ring-ring w-full text-base resize-vertical"
+                  className="border-input focus:ring-ring resize-vertical w-full rounded-md border px-4 py-3 text-base focus:border-transparent focus:ring-2 focus:outline-none"
                   aria-describedby="message-help"
                 />
                 <p id="message-help" className="sr-only">
@@ -110,7 +110,7 @@ const Contact = () => {
 
             <button
               type="submit"
-              className="bg-primary hover:bg-primary/90 px-6 py-3 rounded-md w-full font-medium text-primary-foreground text-base transition-colors"
+              className="bg-primary hover:bg-primary/90 focus-visible:bg-primary/90 text-primary-foreground w-full rounded-md px-6 py-3 text-base font-medium transition-colors"
               aria-describedby="submit-help"
             >
               Send Message
