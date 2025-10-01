@@ -15,7 +15,7 @@ export function middleware(request: NextRequest) {
 
   // Check if the hostname starts with 'www.'
   if (hostname.startsWith('www.')) {
-    // Extract the domain without 'www.'
+    // Extract the domain without 'www.'. This is to handle the www.wordgamedb.com redirect.
     const domainWithoutWww = hostname.slice(4) // Remove 'www.'
 
     // Create redirect URL to non-www version

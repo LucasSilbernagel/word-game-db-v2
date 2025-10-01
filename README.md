@@ -11,34 +11,16 @@ A modern, full-stack word game database built with Next.js 15, MongoDB, and Type
 - **Full-Stack Next.js Application**: Built with Next.js 15 using the App Router
 - **MongoDB Integration**: Robust database with Mongoose ODM
 - **TypeScript Support**: Full type safety throughout the application
-- **Modern UI**: Beautiful interface built with Tailwind CSS and Radix UI
+- **Modern UI**: Beautiful interface built with Tailwind CSS 4 and Radix UI
 - **RESTful API**: Comprehensive API endpoints for word management
 - **CORS Support**: Full CORS headers for cross-origin requests
-- **Error Handling**: Comprehensive error handling and logging
-- **Responsive Design**: Mobile-first approach with modern design patterns
 - **Production Safety**: Destructive endpoints (POST, PUT, DELETE) are automatically disabled in production
 
 ## Tech Stack
 
-### Backend
-
-- Next.js 15 with App Router
-- MongoDB with Mongoose ODM
-- TypeScript
-- RESTful API design
-
-### Frontend
-
-- React 19 with Server Components
-- Tailwind CSS 4
-- Radix UI components
-- Lucide React icons
-
-### Development Tools
-
-- ESLint with Unicorn ruleset
-- Prettier for code formatting
-- TypeScript for type safety
+- **Frontend**: React 19, Next.js 15, Tailwind CSS 4, Radix UI, Lucide React
+- **Backend**: Next.js API Routes, MongoDB, Mongoose ODM
+- **Development**: TypeScript, ESLint (Unicorn ruleset), Prettier
 
 ## Getting Started
 
@@ -67,12 +49,10 @@ pnpm install
    Create a `.env.local` file in the root directory:
 
 ```env
-# MongoDB connection string (supports both MONGODB_URI and DB for compatibility)
+# MongoDB connection string
 MONGODB_URI=mongodb://localhost:27017/word-game-db
-# Alternative: DB=mongodb://localhost:27017/word-game-db
 
-# Enable destructive endpoints for local development (optional)
-# This controls both API endpoint availability and demo display
+# Enable destructive endpoints (POST, PUT, DELETE) for development
 ENABLE_DESTRUCTIVE_ENDPOINTS=true
 ```
 
@@ -121,78 +101,31 @@ For a free cloud database, follow these steps:
    ENABLE_DESTRUCTIVE_ENDPOINTS=true
    ```
 
-## Local Development with Full Functionality
-
-To enable all endpoints (including POST, PUT, DELETE) for local development:
-
-1. **Set up your environment** as described above
-2. **Add the environment variable** to your `.env.local`:
-   ```env
-   ENABLE_DESTRUCTIVE_ENDPOINTS=true
-   ```
-3. **Start the development server**:
-   ```bash
-   pnpm dev
-   ```
-
-Now you can:
-
-- **Create new words** using `POST /api/v1/words`
-- **Update existing words** using `PUT /api/v1/words/[id]`
-- **Delete words** using `DELETE /api/v1/words/[id]`
-- **Test all functionality** locally before deploying
-
 ## Deployment
 
-### Production Deployment
+### Environment Variables
 
-When deploying to production (Vercel, Netlify, etc.), destructive endpoints (POST, PUT, DELETE) are disabled by default for security. Only read-only endpoints are available unless explicitly enabled:
+The `ENABLE_DESTRUCTIVE_ENDPOINTS` environment variable controls API endpoint availability:
 
-**Default Production Behavior (ENABLE_DESTRUCTIVE_ENDPOINTS not set or false):**
-
-- ✅ `GET /api/v1/words` - Retrieve words
-- ✅ `GET /api/v1/words/random` - Get random word
-- ✅ `GET /api/v1/categories` - Get categories
-- ✅ `GET /api/v1/words/[id]` - Get specific word
-- ❌ `POST /api/v1/words` - Create word (disabled)
-- ❌ `PUT /api/v1/words/[id]` - Update word (disabled)
-- ❌ `DELETE /api/v1/words/[id]` - Delete word (disabled)
-
-**With ENABLE_DESTRUCTIVE_ENDPOINTS=true:**
-
-- ✅ All endpoints available (including POST, PUT, DELETE)
-- ✅ Destructive endpoint demos visible on homepage
-- ⚠️ **Warning**: Only enable this if you specifically need database modification capabilities
-
-### Environment Variables for Production
-
-For production deployment, you only need:
+**For Production (Recommended):**
 
 ```env
 MONGODB_URI=your_production_mongodb_connection_string
+# Do NOT set ENABLE_DESTRUCTIVE_ENDPOINTS in production
 ```
 
-**Do NOT set** `ENABLE_DESTRUCTIVE_ENDPOINTS=true` in production unless you specifically need to allow database modifications.
+**For Development:**
 
-### Environment Variable Behavior
+```env
+MONGODB_URI=mongodb://localhost:27017/word-game-db
+ENABLE_DESTRUCTIVE_ENDPOINTS=true
+```
 
-The `ENABLE_DESTRUCTIVE_ENDPOINTS` environment variable controls:
+### Production Behavior
 
-1. **API Endpoint Availability**: Whether POST, PUT, and DELETE endpoints are accessible
-2. **Demo Display**: Whether destructive endpoint demos are shown on the homepage
-3. **Demo Functionality**: Whether the demo buttons for destructive endpoints actually make requests
-
-When `ENABLE_DESTRUCTIVE_ENDPOINTS=true`:
-
-- ✅ Destructive API endpoints are enabled
-- ✅ Destructive endpoint demos are displayed on the homepage
-- ✅ Demo buttons make actual API requests
-
-When `ENABLE_DESTRUCTIVE_ENDPOINTS=false` or not set:
-
-- ❌ Destructive API endpoints return 403 Forbidden
-- ❌ Destructive endpoint demos are hidden from the homepage
-- ❌ Only read-only endpoints (GET) are available and displayed
+- **Default (ENABLE_DESTRUCTIVE_ENDPOINTS not set)**: Only read-only endpoints (GET) are available
+- **With ENABLE_DESTRUCTIVE_ENDPOINTS=true**: All endpoints (including POST, PUT, DELETE) are available
+- **Security**: Destructive endpoints are automatically disabled in production for safety
 
 ### Example Implementation
 
@@ -204,20 +137,15 @@ Check out this example implementation using the API:
 
 ## API Endpoints
 
-### Public Endpoints (Available in Production)
+### Available Endpoints
 
 - `GET /api/v1/words` - Retrieve all words with optional query filtering
 - `GET /api/v1/words/random` - Get a random word from the database
 - `GET /api/v1/categories` - Get all distinct categories
 - `GET /api/v1/words/[id]` - Get a specific word by ID
-
-### Development Endpoints (Conditional)
-
-- `POST /api/v1/words` - Create a new word entry
-- `PUT /api/v1/words/[id]` - Update an existing word
-- `DELETE /api/v1/words/[id]` - Delete a word from the database
-
-> **Note**: Destructive endpoints (POST, PUT, DELETE) are only available when `ENABLE_DESTRUCTIVE_ENDPOINTS=true` is set in your environment variables. This applies to both development and production environments. When not enabled, these endpoints return 403 Forbidden and are hidden from the demo interface.
+- `POST /api/v1/words` - Create a new word entry _(requires ENABLE_DESTRUCTIVE_ENDPOINTS=true)_
+- `PUT /api/v1/words/[id]` - Update an existing word _(requires ENABLE_DESTRUCTIVE_ENDPOINTS=true)_
+- `DELETE /api/v1/words/[id]` - Delete a word from the database _(requires ENABLE_DESTRUCTIVE_ENDPOINTS=true)_
 
 ### Query Parameters
 
@@ -261,8 +189,8 @@ type Word = {
 
 ### Available Scripts
 
-- `pnpm dev` - Start development server
-- `pnpm build` - Build for production
+- `pnpm dev` - Start development server with Turbopack
+- `pnpm build` - Build for production with Turbopack
 - `pnpm start` - Start production server
 - `pnpm lint` - Run ESLint
 - `pnpm lint:fix` - Fix ESLint issues
@@ -279,12 +207,12 @@ type Word = {
 │   └── page.tsx           # Homepage
 ├── components/            # React components
 │   ├── ui/               # Reusable UI components
-│   └── navigation.tsx    # Navigation component
+│   └── *.tsx             # Page components
 ├── lib/                  # Utility functions
 │   ├── mongodb.ts        # Database connection
 │   └── utils.ts          # Common utilities
 ├── models/               # Mongoose models
-└── types/                # TypeScript type definitions
+└── middleware.ts         # Next.js middleware
 ```
 
 ## Contributing

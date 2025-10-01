@@ -38,7 +38,6 @@ const WordSchema = new Schema<Word>(
   }
 )
 
-// Index for better search performance
 WordSchema.index({ word: 1 })
 WordSchema.index({ category: 1 })
 WordSchema.index({ numLetters: 1 })

@@ -7,7 +7,7 @@ import * as SheetPrimitive from '@radix-ui/react-dialog'
 import { Menu, X } from 'lucide-react'
 import Link from 'next/link'
 import { usePathname } from 'next/navigation'
-import { useState } from 'react'
+import { ComponentProps, useState } from 'react'
 
 const navigation = [
   { name: 'Home', href: '/' },
@@ -15,13 +15,12 @@ const navigation = [
   { name: 'Contact', href: '/contact' },
 ]
 
-// Custom SheetContent with close button positioned in the same location as the trigger button
 function CustomSheetContent({
   className,
   children,
   side = 'top',
   ...props
-}: React.ComponentProps<typeof SheetPrimitive.Content> & {
+}: ComponentProps<typeof SheetPrimitive.Content> & {
   side?: 'top' | 'right' | 'bottom' | 'left'
 }) {
   return (

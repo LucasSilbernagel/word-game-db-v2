@@ -1,6 +1,5 @@
 import { NextRequest, NextResponse } from 'next/server'
 
-// CORS middleware function
 export function corsHeaders() {
   return {
     'Access-Control-Allow-Origin': '*',
@@ -10,7 +9,6 @@ export function corsHeaders() {
   }
 }
 
-// Error handling middleware
 export function handleError(error: unknown, message = 'Internal Server Error') {
   console.error('API Error:', error)
   return NextResponse.json(
@@ -47,12 +45,6 @@ export function addCorsHeaders(response: NextResponse) {
  * Based on environment variables for production safety
  */
 export function isDestructiveEndpointEnabled() {
-  // Allow destructive endpoints in development
-  if (process.env.NODE_ENV === 'development') {
-    return true
-  }
-
-  // In production, check if explicitly enabled
   return process.env.ENABLE_DESTRUCTIVE_ENDPOINTS === 'true'
 }
 
