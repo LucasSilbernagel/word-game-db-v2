@@ -1,10 +1,10 @@
 'use client'
 
-import EndpointDemo from '@/components/endpoint-demo'
 import { Button } from '@/components/ui/button'
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
 import Link from 'next/link'
-import { useEffect, useState } from 'react'
+import { lazy, Suspense, useEffect, useState } from 'react'
+const EndpointDemo = lazy(() => import('@/components/endpoint-demo'))
 
 const allApiEndpoints = [
   {
@@ -65,7 +65,12 @@ export default function Home() {
   useEffect(() => {
     const fetchConfig = async () => {
       try {
-        const res = await fetch('/api/v1/config')
+        const res = await fetch('/api/v1/config', {
+          // Add cache headers for better performance
+          headers: {
+            'Cache-Control': 'max-age=300', // Cache for 5 minutes
+          },
+        })
         if (res.ok) {
           const data = await res.json()
           setIsDestructiveEnabled(data.destructiveEndpointsEnabled)
@@ -195,13 +200,27 @@ export default function Home() {
                         </code>
                       </>
                     )}
-                    <EndpointDemo
-                      method={endpoint.method}
-                      path={endpoint.path}
-                      description={endpoint.description}
-                      example={endpoint.example}
-                      isDestructiveEnabled={isDestructiveEnabled}
-                    />
+                    <Suspense
+                      fallback={
+                        <div className="flex justify-center items-center py-4">
+                          <div
+                            className="border-2 border-primary border-t-transparent rounded-full w-6 h-6 animate-spin"
+                            aria-hidden="true"
+                          />
+                          <span className="ml-2 text-muted-foreground text-sm">
+                            Loading demo...
+                          </span>
+                        </div>
+                      }
+                    >
+                      <EndpointDemo
+                        method={endpoint.method}
+                        path={endpoint.path}
+                        description={endpoint.description}
+                        example={endpoint.example}
+                        isDestructiveEnabled={isDestructiveEnabled}
+                      />
+                    </Suspense>
                   </CardContent>
                 </Card>
               </article>

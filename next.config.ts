@@ -4,7 +4,11 @@ const nextConfig: NextConfig = {
   // External packages that should be handled by the server
   serverExternalPackages: ['mongoose'],
 
-  // Configure security headers
+  experimental: {
+    optimizeCss: true,
+  },
+
+  // Configure security headers and performance optimizations
   async headers() {
     return [
       {
@@ -22,6 +26,31 @@ const nextConfig: NextConfig = {
           {
             key: 'Referrer-Policy',
             value: 'origin-when-cross-origin',
+          },
+          // Performance headers
+          {
+            key: 'X-DNS-Prefetch-Control',
+            value: 'on',
+          },
+        ],
+      },
+      // Cache static assets
+      {
+        source: '/static/(.*)',
+        headers: [
+          {
+            key: 'Cache-Control',
+            value: 'public, max-age=31536000, immutable',
+          },
+        ],
+      },
+      // Cache images
+      {
+        source: '/:path*.(png|jpg|jpeg|gif|webp|svg|ico)',
+        headers: [
+          {
+            key: 'Cache-Control',
+            value: 'public, max-age=31536000, immutable',
           },
         ],
       },

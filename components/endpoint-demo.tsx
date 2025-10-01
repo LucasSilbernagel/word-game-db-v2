@@ -121,11 +121,16 @@ export default function EndpointDemo({
     filters.offset,
   ])
 
-  // Fetch categories on component mount
+  // Fetch categories on component mount with caching
   useEffect(() => {
     const fetchCategories = async () => {
       try {
-        const res = await fetch('/api/v1/categories')
+        const res = await fetch('/api/v1/categories', {
+          // Add cache headers for better performance
+          headers: {
+            'Cache-Control': 'max-age=3600', // Cache for 1 hour
+          },
+        })
         if (res.ok) {
           const data = await res.json()
           setCategories(data)
