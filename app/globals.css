@@ -79,3 +79,76 @@ body {
     --ring: 224.3 76.3% 94.1%;
   }
 }
+
+/* Animations for mobile menu */
+@keyframes slideInFromTop {
+  from {
+    transform: translateY(-100%) scale(0.95);
+    opacity: 0;
+  }
+  to {
+    transform: translateY(0) scale(1);
+    opacity: 1;
+  }
+}
+
+@keyframes slideOutToTop {
+  from {
+    transform: translateY(0) scale(1);
+    opacity: 1;
+  }
+  to {
+    transform: translateY(-100%) scale(0.95);
+    opacity: 0;
+  }
+}
+
+@keyframes fadeInOverlay {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+@keyframes fadeOutOverlay {
+  from {
+    opacity: 1;
+  }
+  to {
+    opacity: 0;
+  }
+}
+
+@keyframes slideInFromTopStaggered {
+  from {
+    transform: translateY(16px);
+    opacity: 0;
+  }
+  to {
+    transform: translateY(0);
+    opacity: 1;
+  }
+}
+
+/* Apply mobile menu animations */
+.mobile-menu-content {
+  animation: slideInFromTop 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.mobile-menu-content[data-state='closed'] {
+  animation: slideOutToTop 0.3s cubic-bezier(0.4, 0, 1, 1);
+}
+
+.mobile-menu-overlay {
+  animation: fadeInOverlay 0.3s ease-out;
+}
+
+.mobile-menu-overlay[data-state='closed'] {
+  animation: fadeOutOverlay 0.3s ease-in;
+}
+
+.mobile-menu-item {
+  animation: slideInFromTopStaggered 0.4s cubic-bezier(0.16, 1, 0.3, 1) both;
+}

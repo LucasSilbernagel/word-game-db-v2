@@ -22,26 +22,26 @@ export const Navigation = () => {
 
   return (
     <nav
-      className="bg-background/95 supports-[backdrop-filter]:bg-background/60 backdrop-blur border-b"
+      className="bg-background/95 supports-[backdrop-filter]:bg-background/60 border-b backdrop-blur"
       aria-label="Main navigation"
     >
-      <div className="mx-auto px-4 container">
-        <div className="flex justify-between items-center h-16">
+      <div className="container mx-auto px-4">
+        <div className="flex h-16 items-center justify-between">
           <div className="flex items-center space-x-8">
             <Link
               href="/"
-              className="font-bold text-xl"
+              className="text-xl font-bold"
               aria-label="Word Game DB - Home"
             >
               Word Game DB
             </Link>
-            <ul className="hidden md:flex space-x-6">
+            <ul className="hidden space-x-6 md:flex">
               {navigation.map((item) => (
                 <li key={item.name}>
                   <Link
                     href={item.href}
                     className={cn(
-                      'font-medium hover:text-primary text-sm transition-colors',
+                      'hover:text-primary text-sm font-medium transition-colors',
                       pathname === item.href
                         ? 'text-foreground'
                         : 'text-muted-foreground'
@@ -64,7 +64,7 @@ export const Navigation = () => {
                 className="md:hidden"
                 aria-label="Open mobile menu"
               >
-                <Menu className="w-6 h-6" />
+                <Menu className="h-6 w-6" />
               </Button>
             </SheetTrigger>
             <MobileMenuContent>
@@ -72,16 +72,21 @@ export const Navigation = () => {
                 Mobile Navigation Menu
               </SheetPrimitive.Title>
               <nav className="flex flex-col items-center space-y-6 pt-8 pb-6">
-                {navigation.map((item) => (
+                {navigation.map((item, index) => (
                   <SheetClose asChild key={item.name}>
                     <Link
                       href={item.href}
                       className={cn(
-                        'py-2 font-medium text-xl transition-colors',
+                        'mobile-menu-item transform py-2 text-xl font-medium transition-all duration-300 ease-out',
+                        'hover:scale-105 focus-visible:scale-105 active:scale-95',
                         pathname === item.href
                           ? 'text-foreground'
                           : 'text-muted-foreground hover:text-foreground'
                       )}
+                      style={{
+                        animationDelay: `${index * 100}ms`,
+                        animationFillMode: 'both',
+                      }}
                       aria-current={pathname === item.href ? 'page' : undefined}
                     >
                       {item.name}
