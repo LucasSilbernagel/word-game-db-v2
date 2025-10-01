@@ -113,7 +113,9 @@ export default function Home() {
           <nav aria-label="Main navigation">
             <div className="flex flex-wrap justify-center gap-2 sm:gap-4">
               <Button asChild>
-                <Link href="/about">Learn More</Link>
+                <Link href="/about" aria-label="Learn More About Word Game DB">
+                  Learn More
+                </Link>
               </Button>
               <Button variant="outline" asChild>
                 <Link href="/contact">Get in Touch</Link>
@@ -160,7 +162,7 @@ export default function Home() {
             aria-label="API endpoints"
           >
             {apiEndpoints.map((endpoint, index) => (
-              <article key={index} role="listitem">
+              <div key={index} role="listitem">
                 <Card>
                   <CardHeader>
                     <div className="flex sm:flex-row flex-col items-center gap-3">
@@ -223,10 +225,10 @@ export default function Home() {
                     </Suspense>
                   </CardContent>
                 </Card>
-              </article>
+              </div>
             ))}
             {isLoadingConfig && (
-              <article role="listitem">
+              <div role="listitem">
                 <Card>
                   <CardContent className="pt-6">
                     <div className="flex justify-center items-center py-4">
@@ -240,7 +242,7 @@ export default function Home() {
                     </div>
                   </CardContent>
                 </Card>
-              </article>
+              </div>
             )}
           </div>
         </section>

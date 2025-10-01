@@ -545,9 +545,9 @@ export default function EndpointDemo({
 
               {/* Category Selection */}
               <div className="pt-4 border-t">
-                <h6 className="mb-3 font-medium text-gray-700 dark:text-gray-300 text-sm">
+                <h5 className="mb-3 font-medium text-gray-700 dark:text-gray-300 text-sm">
                   Category
-                </h6>
+                </h5>
                 <div className="space-y-3">
                   <div className="flex sm:flex-row flex-col gap-4">
                     <label className="flex items-center">
@@ -748,9 +748,9 @@ export default function EndpointDemo({
 
               {/* Category Selection */}
               <div className="pt-4 border-t">
-                <h6 className="mb-3 font-medium text-gray-700 dark:text-gray-300 text-sm">
+                <h5 className="mb-3 font-medium text-gray-700 dark:text-gray-300 text-sm">
                   Category
-                </h6>
+                </h5>
                 <div className="space-y-3">
                   <div className="flex sm:flex-row flex-col gap-4">
                     <label className="flex items-center">

@@ -65,7 +65,7 @@ export default function About() {
                   associated with a category. For more information, please check
                   out the{' '}
                   <Link href="/" className="text-primary hover:underline">
-                    endpoints
+                    API endpoints
                   </Link>
                   .
                 </p>
@@ -132,25 +132,25 @@ export default function About() {
               <CardContent>
                 <div className="gap-2 grid grid-cols-2">
                   <div className="bg-muted p-3 rounded">
-                    <h3 className="font-semibold text-sm">Frontend</h3>
+                    <h4 className="font-semibold text-sm">Frontend</h4>
                     <p className="text-muted-foreground text-xs">
                       Next.js 15, React 19, TypeScript, Tailwind CSS
                     </p>
                   </div>
                   <div className="bg-muted p-3 rounded">
-                    <h3 className="font-semibold text-sm">Backend</h3>
+                    <h4 className="font-semibold text-sm">Backend</h4>
                     <p className="text-muted-foreground text-xs">
                       Next.js API Routes, MongoDB, Mongoose
                     </p>
                   </div>
                   <div className="bg-muted p-3 rounded">
-                    <h3 className="font-semibold text-sm">UI Components</h3>
+                    <h4 className="font-semibold text-sm">UI Components</h4>
                     <p className="text-muted-foreground text-xs">
                       Radix UI, Lucide Icons
                     </p>
                   </div>
                   <div className="bg-muted p-3 rounded">
-                    <h3 className="font-semibold text-sm">Development</h3>
+                    <h4 className="font-semibold text-sm">Development</h4>
                     <p className="text-muted-foreground text-xs">
                       Cursor AI, ESLint, Prettier
                     </p>
@@ -171,25 +171,25 @@ export default function About() {
               <CardContent>
                 <div className="gap-3 grid">
                   <div>
-                    <h3 className="font-semibold text-sm">Word Games</h3>
+                    <h4 className="font-semibold text-sm">Word Games</h4>
                     <p className="text-muted-foreground text-xs">
                       Hangman, Wordle, crossword puzzles, and more
                     </p>
                   </div>
                   <div>
-                    <h3 className="font-semibold text-sm">Educational Apps</h3>
+                    <h4 className="font-semibold text-sm">Educational Apps</h4>
                     <p className="text-muted-foreground text-xs">
                       Vocabulary builders, spelling games, language learning
                     </p>
                   </div>
                   <div>
-                    <h3 className="font-semibold text-sm">Creative Projects</h3>
+                    <h4 className="font-semibold text-sm">Creative Projects</h4>
                     <p className="text-muted-foreground text-xs">
                       Poetry generators, word art, creative writing tools
                     </p>
                   </div>
                   <div>
-                    <h3 className="font-semibold text-sm">Learning APIs</h3>
+                    <h4 className="font-semibold text-sm">Learning APIs</h4>
                     <p className="text-muted-foreground text-xs">
                       Practice building applications that consume REST APIs
                     </p>
@@ -208,7 +208,7 @@ export default function About() {
               <CardContent>
                 <div className="space-y-3">
                   <div>
-                    <h3 className="font-semibold text-sm">Hangman Game</h3>
+                    <h4 className="font-semibold text-sm">Hangman Game</h4>
                     <p className="mb-2 text-muted-foreground text-xs">
                       The original inspiration for this API
                     </p>
@@ -234,7 +234,7 @@ export default function About() {
                     </nav>
                   </div>
                   <div>
-                    <h3 className="font-semibold text-sm">Build Your Own</h3>
+                    <h4 className="font-semibold text-sm">Build Your Own</h4>
                     <p className="mb-2 text-muted-foreground text-xs">
                       Clone the repository and start building
                     </p>
