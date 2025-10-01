@@ -106,12 +106,15 @@ export function Navigation() {
                 variant="ghost"
                 size="icon"
                 className="md:hidden"
-                aria-label="Toggle mobile menu"
+                aria-label="Open mobile menu"
               >
                 <Menu className="w-6 h-6" />
               </Button>
             </SheetTrigger>
             <CustomSheetContent side="top" className="w-full">
+              <SheetPrimitive.Title className="sr-only">
+                Mobile Navigation Menu
+              </SheetPrimitive.Title>
               <nav className="flex flex-col items-center space-y-6 pt-8 pb-6">
                 {navigation.map((item) => (
                   <SheetClose asChild key={item.name}>
