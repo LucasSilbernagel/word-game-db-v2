@@ -92,11 +92,17 @@ export const POST = async (request: NextRequest) => {
     const { word, category, numLetters, numSyllables, hint } = body
 
     // Validate required fields
-    if (!word || !category || !numLetters || !numSyllables || !hint) {
+    const missingFields = []
+    if (!word) missingFields.push('word')
+    if (!category) missingFields.push('category')
+    if (!numLetters) missingFields.push('numLetters')
+    if (!numSyllables) missingFields.push('numSyllables')
+    if (!hint) missingFields.push('hint')
+
+    if (missingFields.length > 0) {
       return NextResponse.json(
         {
-          error:
-            'Missing required fields: word, category, numLetters, numSyllables, hint',
+          error: `Missing required fields: ${missingFields.join(', ')}`,
         },
         { status: 400 }
       )
