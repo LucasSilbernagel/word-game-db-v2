@@ -34,6 +34,11 @@ const allApiEndpoints = [
       'Retrieve all words with optional query filtering and pagination',
   },
   {
+    method: 'GET',
+    path: '/api/v1/words/search',
+    description: 'Search for words by name with partial matching',
+  },
+  {
     method: 'POST',
     path: '/api/v1/words',
     description: 'Create a new word entry',

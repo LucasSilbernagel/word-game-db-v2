@@ -1,4 +1,5 @@
 import { DeleteFormState } from '../DeleteForm/DeleteForm'
+import { SearchFormState } from '../hooks/useSearchForm'
 import { UpdateFormState } from '../UpdateForm/UpdateForm'
 import { WordFormState } from '../WordForm/WordForm'
 
@@ -9,6 +10,7 @@ export const buildApiRequest = (
   wordForm: WordFormState,
   updateForm: UpdateFormState,
   deleteForm: DeleteFormState,
+  searchForm: SearchFormState,
   isDestructiveEnabled: boolean
 ) => {
   let url = path
@@ -30,6 +32,18 @@ export const buildApiRequest = (
       case '/api/v1/words/[id]': {
         // Use a specific word ID for demo
         url = '/api/v1/words/5ffa1774c0831cbe1460e29c'
+        break
+      }
+      case '/api/v1/words/search': {
+        // Use search form to build query string
+        if (!searchForm.query) {
+          throw new Error('Please enter a search query')
+        }
+        const searchParams = new URLSearchParams()
+        searchParams.set('q', searchForm.query)
+        if (searchForm.limit) searchParams.set('limit', searchForm.limit)
+        if (searchForm.offset) searchParams.set('offset', searchForm.offset)
+        url = `/api/v1/words/search?${searchParams.toString()}`
         break
       }
     }

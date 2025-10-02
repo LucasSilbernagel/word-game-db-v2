@@ -10,8 +10,11 @@ import { useApiState } from './hooks/useApiState'
 import { useCategories } from './hooks/useCategories'
 import { useDeleteForm } from './hooks/useDeleteForm'
 import { useFilters } from './hooks/useFilters'
+import { useSearchForm, type SearchFormState } from './hooks/useSearchForm'
 import { useUpdateForm } from './hooks/useUpdateForm'
 import { useWordForm } from './hooks/useWordForm'
+import { SearchApiRequestExample } from './SearchApiRequestExample/SearchApiRequestExample'
+import { SearchForm } from './SearchForm/SearchForm'
 import { UpdateForm } from './UpdateForm/UpdateForm'
 import { buildApiRequest } from './utils/buildApiRequest'
 import { handleApiResponse } from './utils/handleApiResponse'
@@ -35,6 +38,7 @@ const EndpointDemo = ({
   const { wordForm, updateWordForm, resetWordForm } = useWordForm()
   const { updateForm, updateUpdateForm, resetUpdateForm } = useUpdateForm()
   const { deleteForm, updateDeleteForm, resetDeleteForm } = useDeleteForm()
+  const { searchForm, updateSearchForm, resetSearchForm } = useSearchForm()
   const {
     isLoading,
     setIsLoading,
@@ -49,6 +53,7 @@ const EndpointDemo = ({
   const isDestructiveEndpoint = ['POST', 'PUT', 'DELETE'].includes(method)
   const isWordsEndpoint = path === '/api/v1/words'
   const isWordsWithIdEndpoint = path === '/api/v1/words/[id]'
+  const isWordsSearchEndpoint = path === '/api/v1/words/search'
 
   const handleDemo = async () => {
     // Prevent multiple simultaneous requests
@@ -67,6 +72,7 @@ const EndpointDemo = ({
         wordForm,
         updateForm,
         deleteForm,
+        searchForm,
         isDestructiveEnabled
       )
 
@@ -88,6 +94,7 @@ const EndpointDemo = ({
     if (method === 'POST') return resetWordForm
     if (method === 'PUT') return resetUpdateForm
     if (method === 'DELETE') return resetDeleteForm
+    if (isWordsSearchEndpoint) return resetSearchForm
     return resetFilters
   }
 
@@ -99,6 +106,7 @@ const EndpointDemo = ({
             <h3 className="hidden text-sm font-semibold sm:block">Live Demo</h3>
             <div className="flex flex-wrap gap-2 sm:flex-nowrap">
               {(isWordsEndpoint ||
+                isWordsSearchEndpoint ||
                 (isWordsWithIdEndpoint &&
                   (method === 'PUT' || method === 'DELETE'))) && (
                 <Button onClick={getResetHandler()} variant="outline" size="sm">
@@ -116,6 +124,11 @@ const EndpointDemo = ({
           {/* Dynamic Example URL for PUT endpoint */}
           {isWordsWithIdEndpoint && method === 'PUT' && (
             <ApiRequestExample updateForm={updateForm} />
+          )}
+
+          {/* Dynamic Example URL for Search endpoint */}
+          {isWordsSearchEndpoint && method === 'GET' && (
+            <SearchApiRequestExample searchForm={searchForm} />
           )}
 
           {/* Word Update Form */}
@@ -141,6 +154,16 @@ const EndpointDemo = ({
               wordForm={wordForm}
               updateWordForm={updateWordForm}
               categories={categories}
+            />
+          )}
+
+          {/* Search Form */}
+          {isWordsSearchEndpoint && method === 'GET' && (
+            <SearchForm
+              searchForm={searchForm}
+              updateSearchForm={(key, value) =>
+                updateSearchForm(key as keyof SearchFormState, value)
+              }
             />
           )}
 

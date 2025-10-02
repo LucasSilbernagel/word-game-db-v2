@@ -140,6 +140,7 @@ Check out this example implementation using the API:
 ### Available Endpoints
 
 - `GET /api/v1/words` - Retrieve all words with optional query filtering
+- `GET /api/v1/words/search` - Search for words by name with partial matching
 - `GET /api/v1/words/random` - Get a random word from the database
 - `GET /api/v1/categories` - Get all distinct categories
 - `GET /api/v1/words/[id]` - Get a specific word by ID
@@ -161,6 +162,14 @@ Check out this example implementation using the API:
 - `minSyllables` - Minimum number of syllables
 - `maxSyllables` - Maximum number of syllables
 - Any other field from the Word model for direct filtering
+
+#### GET /api/v1/words/search
+
+- `q` - Search query (required, minimum 2 characters)
+- `limit` - Number of words to return (default: 10)
+- `offset` - Number of words to skip (default: 0)
+
+**Example**: `/api/v1/words/search?q=cat&limit=5`
 
 ## Data Model
 
