@@ -4,9 +4,9 @@ import { useCallback, useState } from 'react'
  * Generic form hook that provides common form state management functionality
  * Eliminates repetitive form handling logic across different form types
  */
-export function useGenericForm<T extends Record<string, unknown>>(
+export const useGenericForm = <T extends Record<string, unknown>>(
   initialState: T
-) {
+) => {
   const [formState, setFormState] = useState<T>(initialState)
 
   const updateField = useCallback((key: keyof T, value: string) => {

@@ -28,10 +28,10 @@ type ApiWrapperOptions = {
  * - Error handling
  * - Response headers
  */
-export function withApiWrapper(
+export const withApiWrapper = (
   handler: ApiHandler,
   options: ApiWrapperOptions = {}
-) {
+) => {
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   return async (request: NextRequest, context?: any) => {
     // Handle CORS preflight
@@ -63,14 +63,14 @@ export function withApiWrapper(
 /**
  * Convenience wrapper for GET requests
  */
-export function withGetWrapper(handler: ApiHandler) {
+export const withGetWrapper = (handler: ApiHandler) => {
   return withApiWrapper(handler, { method: 'GET' })
 }
 
 /**
  * Convenience wrapper for POST requests
  */
-export function withPostWrapper(handler: ApiHandler) {
+export const withPostWrapper = (handler: ApiHandler) => {
   return withApiWrapper(handler, {
     method: 'POST',
     isDestructive: true,
@@ -80,7 +80,7 @@ export function withPostWrapper(handler: ApiHandler) {
 /**
  * Convenience wrapper for PUT requests
  */
-export function withPutWrapper(handler: ApiHandler) {
+export const withPutWrapper = (handler: ApiHandler) => {
   return withApiWrapper(handler, {
     method: 'PUT',
     isDestructive: true,
@@ -90,7 +90,7 @@ export function withPutWrapper(handler: ApiHandler) {
 /**
  * Convenience wrapper for DELETE requests
  */
-export function withDeleteWrapper(handler: ApiHandler) {
+export const withDeleteWrapper = (handler: ApiHandler) => {
   return withApiWrapper(handler, {
     method: 'DELETE',
     isDestructive: true,

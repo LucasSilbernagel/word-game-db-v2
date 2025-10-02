@@ -3,10 +3,10 @@ import { NextResponse } from 'next/server'
 /**
  * Validates required fields and returns an error response if any are missing
  */
-export function validateRequiredFields(
+export const validateRequiredFields = (
   data: Record<string, unknown>,
   requiredFields: string[]
-): NextResponse | null {
+): NextResponse | null => {
   const missingFields = requiredFields.filter((field) => !data[field])
 
   if (missingFields.length > 0) {
@@ -24,7 +24,7 @@ export function validateRequiredFields(
 /**
  * Validates and transforms word data for database operations
  */
-export function validateAndTransformWordData(data: Record<string, unknown>) {
+export const validateAndTransformWordData = (data: Record<string, unknown>) => {
   const { word, category, numLetters, numSyllables, hint } = data
 
   return {
@@ -41,10 +41,10 @@ export function validateAndTransformWordData(data: Record<string, unknown>) {
 /**
  * Creates a filter object for MongoDB queries with range support
  */
-export function createRangeFilter(
+export const createRangeFilter = (
   minValue: string | null,
   maxValue: string | null
-): { $gte?: number; $lte?: number } | undefined {
+): { $gte?: number; $lte?: number } | undefined => {
   if (!minValue && !maxValue) return undefined
 
   const filter: { $gte?: number; $lte?: number } = {}
@@ -63,7 +63,7 @@ export function createRangeFilter(
 /**
  * Builds a MongoDB filter object from query parameters
  */
-export function buildWordFilter(searchParams: URLSearchParams) {
+export const buildWordFilter = (searchParams: URLSearchParams) => {
   const filter: Record<string, unknown> = {}
 
   const category = searchParams.get('category')
@@ -92,7 +92,7 @@ export function buildWordFilter(searchParams: URLSearchParams) {
 /**
  * Extracts pagination parameters from search params with defaults
  */
-export function extractPaginationParams(searchParams: URLSearchParams) {
+export const extractPaginationParams = (searchParams: URLSearchParams) => {
   const limit = Number.parseInt(searchParams.get('limit') || '10')
   const offset = Number.parseInt(searchParams.get('offset') || '0')
 
