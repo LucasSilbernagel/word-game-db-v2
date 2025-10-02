@@ -44,17 +44,11 @@ export default [
       ...typescript.configs.recommended.rules,
       ...unicorn.configs.recommended.rules,
       ...jsxA11y.configs.recommended.rules,
-      'unicorn/filename-case': [
-        'error',
-        {
-          cases: {
-            kebabCase: true,
-          },
-        },
-      ],
       'unicorn/prevent-abbreviations': 'off',
       'unicorn/no-null': 'off',
       'unicorn/prefer-module': 'off',
+      'unicorn/kabob-case': 'off',
+      'unicorn/filename-case': 'off',
       semi: 'off',
       '@typescript-eslint/semi': 'off',
       'prettier/prettier': 'off',

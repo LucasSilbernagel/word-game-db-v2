@@ -1,0 +1,204 @@
+'use client'
+
+import { Button } from '@/components/ui/button'
+import { Card, CardContent } from '@/components/ui/card'
+import { TestEndpointButton } from '@/components/ui/test-endpoint-button'
+import { ApiRequestExample } from './ApiRequestExample/ApiRequestExample'
+import { DeleteForm } from './DeleteForm/DeleteForm'
+import { FilterForm } from './FilterForm/FilterForm'
+import { useApiState } from './hooks/useApiState'
+import { useCategories } from './hooks/useCategories'
+import { useDeleteForm } from './hooks/useDeleteForm'
+import { useFilters } from './hooks/useFilters'
+import { useUpdateForm } from './hooks/useUpdateForm'
+import { useWordForm } from './hooks/useWordForm'
+import { UpdateForm } from './UpdateForm/UpdateForm'
+import { buildApiRequest } from './utils/buildApiRequest'
+import { handleApiResponse } from './utils/handleApiResponse'
+import { WordForm } from './WordForm/WordForm'
+
+type EndpointDemoProps = {
+  method: string
+  path: string
+  description?: string
+  example?: string
+  isDestructiveEnabled?: boolean
+}
+
+const EndpointDemo = ({
+  method,
+  path,
+  isDestructiveEnabled = false,
+}: EndpointDemoProps) => {
+  const categories = useCategories()
+  const { filters, updateFilter, resetFilters, buildQueryString } = useFilters()
+  const { wordForm, updateWordForm, resetWordForm } = useWordForm()
+  const { updateForm, updateUpdateForm, resetUpdateForm } = useUpdateForm()
+  const { deleteForm, updateDeleteForm, resetDeleteForm } = useDeleteForm()
+  const {
+    isLoading,
+    setIsLoading,
+    response,
+    setResponse,
+    error,
+    setError,
+    isDebouncing,
+    setIsDebouncing,
+  } = useApiState()
+
+  const isDestructiveEndpoint = ['POST', 'PUT', 'DELETE'].includes(method)
+  const isWordsEndpoint = path === '/api/v1/words'
+  const isWordsWithIdEndpoint = path === '/api/v1/words/[id]'
+
+  const handleDemo = async () => {
+    // Prevent multiple simultaneous requests
+    if (isLoading || isDebouncing) return
+
+    setIsDebouncing(true)
+    setIsLoading(true)
+    // Only clear errors, keep previous response visible during loading
+    setError(null)
+
+    try {
+      const { url, options } = buildApiRequest(
+        method,
+        path,
+        buildQueryString(),
+        wordForm,
+        updateForm,
+        deleteForm,
+        isDestructiveEnabled
+      )
+
+      const res = await fetch(url, options)
+      const responseData = await handleApiResponse(res)
+      setResponse(responseData)
+    } catch (error_) {
+      setError(error_ instanceof Error ? error_.message : 'An error occurred')
+    } finally {
+      setIsLoading(false)
+      // Add a small delay before allowing another request
+      setTimeout(() => {
+        setIsDebouncing(false)
+      }, 1000)
+    }
+  }
+
+  const getResetHandler = () => {
+    if (method === 'POST') return resetWordForm
+    if (method === 'PUT') return resetUpdateForm
+    if (method === 'DELETE') return resetDeleteForm
+    return resetFilters
+  }
+
+  return (
+    <Card className="mt-4">
+      <CardContent className="pt-4">
+        <div className="space-y-6">
+          <div className="flex flex-col items-center justify-between gap-2 sm:flex-row sm:gap-0">
+            <h3 className="hidden text-sm font-semibold sm:block">Live Demo</h3>
+            <div className="flex flex-wrap gap-2 sm:flex-nowrap">
+              {(isWordsEndpoint ||
+                (isWordsWithIdEndpoint &&
+                  (method === 'PUT' || method === 'DELETE'))) && (
+                <Button onClick={getResetHandler()} variant="outline" size="sm">
+                  Reset
+                </Button>
+              )}
+              <TestEndpointButton
+                onClick={handleDemo}
+                disabled={isLoading}
+                isLoading={isLoading}
+              />
+            </div>
+          </div>
+
+          {/* Dynamic Example URL for PUT endpoint */}
+          {isWordsWithIdEndpoint && method === 'PUT' && (
+            <ApiRequestExample updateForm={updateForm} />
+          )}
+
+          {/* Word Update Form */}
+          {isWordsWithIdEndpoint && method === 'PUT' && (
+            <UpdateForm
+              updateForm={updateForm}
+              updateUpdateForm={updateUpdateForm}
+              categories={categories}
+            />
+          )}
+
+          {/* Word Delete Form */}
+          {isWordsWithIdEndpoint && method === 'DELETE' && (
+            <DeleteForm
+              deleteForm={deleteForm}
+              updateDeleteForm={updateDeleteForm}
+            />
+          )}
+
+          {/* Word Creation Form */}
+          {isWordsEndpoint && method === 'POST' && (
+            <WordForm
+              wordForm={wordForm}
+              updateWordForm={updateWordForm}
+              categories={categories}
+            />
+          )}
+
+          {/* Filter Controls */}
+          {isWordsEndpoint && method === 'GET' && (
+            <FilterForm
+              filters={filters}
+              updateFilter={updateFilter}
+              categories={categories}
+            />
+          )}
+
+          {isDestructiveEndpoint && !isDestructiveEnabled && (
+            <div className="rounded-md border border-yellow-200 bg-yellow-50 p-3 dark:border-yellow-800 dark:bg-yellow-900/20">
+              <p className="text-sm text-yellow-800 dark:text-yellow-200">
+                <strong>Note:</strong> This endpoint is disabled. To test it,
+                set{' '}
+                <code className="rounded bg-yellow-100 px-1 text-xs dark:bg-yellow-900">
+                  ENABLE_DESTRUCTIVE_ENDPOINTS=true
+                </code>{' '}
+                in your environment variables.
+              </p>
+            </div>
+          )}
+
+          {response && (
+            <div className="space-y-2">
+              <div className="flex items-center gap-2">
+                <h5 className="text-sm font-medium text-green-600 dark:text-green-400">
+                  Response:
+                </h5>
+                {isLoading && (
+                  <div className="text-muted-foreground flex items-center gap-1 text-xs">
+                    <div className="border-primary h-3 w-3 animate-spin rounded-full border-2 border-t-transparent" />
+                    <span>Loading new data...</span>
+                  </div>
+                )}
+              </div>
+              <pre className="bg-muted overflow-x-auto rounded p-3 text-xs">
+                {response}
+              </pre>
+            </div>
+          )}
+
+          {error && (
+            <div className="space-y-2">
+              <h5 className="text-sm font-medium text-red-600 dark:text-red-400">
+                Error:
+              </h5>
+              <pre className="rounded bg-red-50 p-3 text-xs text-wrap text-red-800 dark:bg-red-900/20 dark:text-red-200">
+                {error}
+              </pre>
+            </div>
+          )}
+        </div>
+      </CardContent>
+    </Card>
+  )
+}
+
+export default EndpointDemo

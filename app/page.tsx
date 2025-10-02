@@ -4,7 +4,9 @@ import { Button } from '@/components/ui/button'
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
 import Link from 'next/link'
 import { lazy, Suspense, useEffect, useState } from 'react'
-const EndpointDemo = lazy(() => import('@/components/endpoint-demo'))
+const EndpointDemo = lazy(
+  () => import('@/components/endpoint-demo/EndpointDemo')
+)
 
 const allApiEndpoints = [
   {
@@ -101,13 +103,13 @@ const Home = () => {
     })
   }
   return (
-    <div className="mx-auto px-4 py-8 container">
+    <div className="container mx-auto px-4 py-8">
       <div className="mx-auto max-w-4xl">
         <header className="mb-12 text-center">
-          <h1 className="mb-4 font-bold text-4xl tracking-tight">
+          <h1 className="mb-4 text-4xl font-bold tracking-tight">
             Word Game DB
           </h1>
-          <p className="mb-8 text-muted-foreground text-xl">
+          <p className="text-muted-foreground mb-8 text-xl">
             A read-only REST API for educational word game development
           </p>
           <nav aria-label="Main navigation">
@@ -128,9 +130,9 @@ const Home = () => {
           </h2>
           <Card>
             <CardContent className="pt-6">
-              <div className="dark:prose-invert max-w-none text-center prose prose-gray">
+              <div className="dark:prose-invert prose prose-gray max-w-none text-center">
                 <p className="text-lg">
-                  <span className="font-semibold text-primary">
+                  <span className="text-primary font-semibold">
                     Word Game DB
                   </span>{' '}
                   is designed for educational purposes, helping developers
@@ -150,19 +152,19 @@ const Home = () => {
         <section className="mb-12" aria-labelledby="api-endpoints-heading">
           <h2
             id="api-endpoints-heading"
-            className="mb-6 font-semibold text-2xl"
+            className="mb-6 text-2xl font-semibold"
           >
             API Endpoints
           </h2>
           <ul
-            className="gap-4 grid grid-cols-1 list-none"
+            className="grid list-none grid-cols-1 gap-4"
             aria-label="API endpoints"
           >
             {apiEndpoints.map((endpoint, index) => (
               <li key={index}>
                 <Card>
                   <CardHeader>
-                    <div className="flex sm:flex-row flex-col items-center gap-3">
+                    <div className="flex flex-col items-center gap-3 sm:flex-row">
                       <span
                         className={`rounded px-2 py-1 font-mono text-xs ${(() => {
                           if (endpoint.method === 'GET') {
@@ -180,7 +182,7 @@ const Home = () => {
                       >
                         {endpoint.method}
                       </span>
-                      <code className="bg-muted px-2 py-1 rounded overflow-hidden font-mono text-sm break-all">
+                      <code className="bg-muted overflow-hidden rounded px-2 py-1 font-mono text-sm break-all">
                         https://wordgamedb.com{endpoint.path}
                       </code>
                     </div>
@@ -191,22 +193,22 @@ const Home = () => {
                   <CardContent>
                     {endpoint.example && (
                       <>
-                        <p className="mb-2 text-muted-foreground text-sm">
+                        <p className="text-muted-foreground mb-2 text-sm">
                           Example:
                         </p>
-                        <code className="block bg-muted p-2 rounded text-sm break-all">
+                        <code className="bg-muted block rounded p-2 text-sm break-all">
                           {endpoint.example}
                         </code>
                       </>
                     )}
                     <Suspense
                       fallback={
-                        <div className="flex justify-center items-center py-4">
+                        <div className="flex items-center justify-center py-4">
                           <div
-                            className="border-2 border-primary border-t-transparent rounded-full w-6 h-6 animate-spin"
+                            className="border-primary h-6 w-6 animate-spin rounded-full border-2 border-t-transparent"
                             aria-hidden="true"
                           />
-                          <span className="ml-2 text-muted-foreground text-sm">
+                          <span className="text-muted-foreground ml-2 text-sm">
                             Loading demo...
                           </span>
                         </div>
@@ -228,12 +230,12 @@ const Home = () => {
               <li>
                 <Card>
                   <CardContent className="pt-6">
-                    <div className="flex justify-center items-center py-4">
+                    <div className="flex items-center justify-center py-4">
                       <div
-                        className="border-2 border-primary border-t-transparent rounded-full w-6 h-6 animate-spin"
+                        className="border-primary h-6 w-6 animate-spin rounded-full border-2 border-t-transparent"
                         aria-hidden="true"
                       />
-                      <span className="ml-2 text-muted-foreground text-sm">
+                      <span className="text-muted-foreground ml-2 text-sm">
                         Loading additional endpoints...
                       </span>
                     </div>
