@@ -1,5 +1,6 @@
 import { DEFAULT_SEARCH_FORM_STATE } from '@/lib/constants'
-import { useCallback, useState } from 'react'
+import { useGenericForm } from '@/lib/hooks/useGenericForm'
+import { useCallback } from 'react'
 
 export type SearchFormState = {
   query: string
@@ -8,20 +9,11 @@ export type SearchFormState = {
 }
 
 export const useSearchForm = () => {
-  const [searchForm, setSearchForm] = useState<SearchFormState>(
-    DEFAULT_SEARCH_FORM_STATE
-  )
-
-  const updateSearchForm = useCallback(
-    (key: keyof SearchFormState, value: string) => {
-      setSearchForm((prev) => ({ ...prev, [key]: value }))
-    },
-    []
-  )
-
-  const resetSearchForm = () => {
-    setSearchForm(DEFAULT_SEARCH_FORM_STATE)
-  }
+  const {
+    formState: searchForm,
+    updateField: updateSearchForm,
+    resetForm: resetSearchForm,
+  } = useGenericForm<SearchFormState>(DEFAULT_SEARCH_FORM_STATE)
 
   const buildSearchQueryString = useCallback(() => {
     const params = new URLSearchParams()

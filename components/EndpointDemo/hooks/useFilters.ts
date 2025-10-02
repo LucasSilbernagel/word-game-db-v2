@@ -1,5 +1,6 @@
 import { DEFAULT_FILTER_STATE } from '@/lib/constants'
-import { useCallback, useState } from 'react'
+import { useGenericForm } from '@/lib/hooks/useGenericForm'
+import { useCallback } from 'react'
 
 export type FilterState = {
   // General filters
@@ -14,15 +15,11 @@ export type FilterState = {
 }
 
 export const useFilters = () => {
-  const [filters, setFilters] = useState<FilterState>(DEFAULT_FILTER_STATE)
-
-  const updateFilter = (key: keyof FilterState, value: string) => {
-    setFilters((prev) => ({ ...prev, [key]: value }))
-  }
-
-  const resetFilters = () => {
-    setFilters(DEFAULT_FILTER_STATE)
-  }
+  const {
+    formState: filters,
+    updateField: updateFilter,
+    resetForm: resetFilters,
+  } = useGenericForm<FilterState>(DEFAULT_FILTER_STATE)
 
   const buildQueryString = useCallback(() => {
     const params = new URLSearchParams()
