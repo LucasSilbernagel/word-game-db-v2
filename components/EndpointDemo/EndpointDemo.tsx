@@ -1,8 +1,8 @@
 'use client'
 
-import { Button } from '@/components/ui/button'
-import { Card, CardContent } from '@/components/ui/card'
-import { TestEndpointButton } from '@/components/ui/test-endpoint-button'
+import { TestEndpointButton } from '@/components/TestEndpointButton/TestEndpointButton'
+import { Button } from '@/components/ui/Button'
+import { Card, CardContent } from '@/components/ui/Card'
 import { ApiRequestExample } from './ApiRequestExample/ApiRequestExample'
 import { DeleteForm } from './DeleteForm/DeleteForm'
 import { FilterForm } from './FilterForm/FilterForm'

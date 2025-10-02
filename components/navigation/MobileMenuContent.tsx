@@ -1,7 +1,7 @@
 'use client'
 
-import { Button } from '@/components/ui/button'
-import { SheetClose } from '@/components/ui/sheet'
+import { Button } from '@/components/ui/Button'
+import { SheetClose } from '@/components/ui/Sheet'
 import * as SheetPrimitive from '@radix-ui/react-dialog'
 import { X } from 'lucide-react'
 import { ComponentProps, PropsWithChildren } from 'react'

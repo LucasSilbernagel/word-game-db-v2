@@ -1,14 +1,14 @@
 'use client'
 
-import { Button } from '@/components/ui/button'
-import { Sheet, SheetClose, SheetTrigger } from '@/components/ui/sheet'
+import { Button } from '@/components/ui/Button'
+import { Sheet, SheetClose, SheetTrigger } from '@/components/ui/Sheet'
 import { cn } from '@/lib/utils'
 import * as SheetPrimitive from '@radix-ui/react-dialog'
 import { Menu } from 'lucide-react'
 import Link from 'next/link'
 import { usePathname } from 'next/navigation'
 import { useEffect, useState } from 'react'
-import { MobileMenuContent } from './mobile-menu-content'
+import { MobileMenuContent } from './MobileMenuContent'
 
 const navigation = [
   { name: 'Home', href: '/' },

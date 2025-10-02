@@ -1,4 +1,4 @@
-import { Button, ButtonProps } from '@/components/ui/button'
+import { Button, ButtonProps } from '@/components/ui/Button'
 
 interface TestEndpointButtonProps extends Omit<ButtonProps, 'variant'> {
   isLoading?: boolean
@@ -19,7 +19,7 @@ export const TestEndpointButton = ({
     >
       {isLoading ? (
         <div className="flex items-center gap-2">
-          <div className="border-2 border-current border-t-transparent rounded-full w-4 h-4 animate-spin" />
+          <div className="h-4 w-4 animate-spin rounded-full border-2 border-current border-t-transparent" />
           <span>Loading...</span>
         </div>
       ) : (

@@ -1,11 +1,11 @@
 'use client'
 
-import { Button } from '@/components/ui/button'
-import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
+import { Button } from '@/components/ui/Button'
+import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/Card'
 import Link from 'next/link'
 import { lazy, Suspense, useEffect, useState } from 'react'
 const EndpointDemo = lazy(
-  () => import('@/components/endpoint-demo/EndpointDemo')
+  () => import('@/components/EndpointDemo/EndpointDemo')
 )
 
 const allApiEndpoints = [
