@@ -1,3 +1,5 @@
+import { CSS_CLASSES, TEXT_CONTENT } from '@/lib/constants'
+
 export type WordFormState = {
   word: string
   category: string
@@ -22,76 +24,64 @@ export const WordForm = ({
   return (
     <div className="space-y-4">
       <h4 className="mb-3 text-sm font-medium text-gray-700 dark:text-gray-300">
-        Create New Word
+        {TEXT_CONTENT.HEADINGS.CREATE_NEW_WORD}
       </h4>
       <div className="grid grid-cols-1 gap-4 md:grid-cols-2">
         <div>
-          <label
-            htmlFor="word"
-            className="text-xs font-medium text-gray-600 dark:text-gray-400"
-          >
-            Word: *
+          <label htmlFor="word" className={CSS_CLASSES.LABEL_BASE}>
+            {TEXT_CONTENT.LABELS.WORD_REQUIRED}
           </label>
           <input
             id="word"
             type="text"
             value={wordForm.word}
             onChange={(e) => updateWordForm('word', e.target.value)}
-            placeholder="e.g., elephant"
-            className="mt-1 w-full rounded border border-gray-300 px-3 py-2 text-sm dark:border-gray-600 dark:bg-gray-800"
+            placeholder={TEXT_CONTENT.PLACEHOLDERS.WORD}
+            className={CSS_CLASSES.INPUT_BASE}
           />
         </div>
 
         <div>
-          <label
-            htmlFor="hint"
-            className="text-xs font-medium text-gray-600 dark:text-gray-400"
-          >
-            Hint: *
+          <label htmlFor="hint" className={CSS_CLASSES.LABEL_BASE}>
+            {TEXT_CONTENT.LABELS.HINT_REQUIRED}
           </label>
           <input
             id="hint"
             type="text"
             value={wordForm.hint}
             onChange={(e) => updateWordForm('hint', e.target.value)}
-            placeholder="e.g., Large mammal with trunk"
-            className="mt-1 w-full rounded border border-gray-300 px-3 py-2 text-sm dark:border-gray-600 dark:bg-gray-800"
+            placeholder={TEXT_CONTENT.PLACEHOLDERS.HINT}
+            className={CSS_CLASSES.INPUT_BASE}
           />
         </div>
 
         <div>
-          <label
-            htmlFor="num-letters"
-            className="text-xs font-medium text-gray-600 dark:text-gray-400"
-          >
-            Number of Letters: *
+          <label htmlFor="num-letters" className={CSS_CLASSES.LABEL_BASE}>
+            {TEXT_CONTENT.LABELS.NUM_LETTERS_REQUIRED}
           </label>
           <input
             id="num-letters"
             type="number"
             value={wordForm.numLetters}
             onChange={(e) => updateWordForm('numLetters', e.target.value)}
-            placeholder="e.g., 8"
+            placeholder={TEXT_CONTENT.PLACEHOLDERS.NUM_LETTERS}
             min="1"
-            className="mt-1 w-full rounded border border-gray-300 px-3 py-2 text-sm dark:border-gray-600 dark:bg-gray-800"
+            className={CSS_CLASSES.INPUT_BASE}
           />
         </div>
 
         <div>
-          <label
-            htmlFor="num-syllables"
-            className="text-xs font-medium text-gray-600 dark:text-gray-400"
-          >
-            Number of Syllables: *
+          <label htmlFor="num-syllables" className={CSS_CLASSES.LABEL_BASE}>
+            {TEXT_CONTENT.LABELS.NUM_SYLLABLES_REQUIRED}
           </label>
           <input
             id="num-syllables"
             type="number"
             value={wordForm.numSyllables}
             onChange={(e) => updateWordForm('numSyllables', e.target.value)}
-            placeholder="e.g., 3"
+            placeholder={TEXT_CONTENT.PLACEHOLDERS.NUM_SYLLABLES}
             min="1"
-            className="mt-1 w-full rounded border border-gray-300 px-3 py-2 text-sm dark:border-gray-600 dark:bg-gray-800"
+            className={CSS_CLASSES.INPUT_BASE}
           />
         </div>
       </div>
@@ -99,7 +89,7 @@ export const WordForm = ({
       {/* Category Selection */}
       <div className="border-t pt-4">
         <h5 className="mb-3 text-sm font-medium text-gray-700 dark:text-gray-300">
-          Category
+          {TEXT_CONTENT.HEADINGS.CATEGORY}
         </h5>
         <div className="space-y-3">
           <div className="flex flex-col gap-4 sm:flex-row">
@@ -112,7 +102,9 @@ export const WordForm = ({
                 onChange={(e) => updateWordForm('categoryMode', e.target.value)}
                 className="mr-2"
               />
-              <span className="text-sm">Select existing category</span>
+              <span className="text-sm">
+                {TEXT_CONTENT.MESSAGES.SELECT_EXISTING_CATEGORY}
+              </span>
             </label>
             <label className="flex items-center">
               <input
@@ -123,7 +115,9 @@ export const WordForm = ({
                 onChange={(e) => updateWordForm('categoryMode', e.target.value)}
                 className="mr-2"
               />
-              <span className="text-sm">Create new category</span>
+              <span className="text-sm">
+                {TEXT_CONTENT.MESSAGES.CREATE_NEW_CATEGORY}
+              </span>
             </label>
           </div>
 
@@ -131,17 +125,19 @@ export const WordForm = ({
             <div>
               <label
                 htmlFor="category-select"
-                className="text-xs font-medium text-gray-600 dark:text-gray-400"
+                className={CSS_CLASSES.LABEL_BASE}
               >
-                Category: *
+                {TEXT_CONTENT.LABELS.CATEGORY_REQUIRED}
               </label>
               <select
                 id="category-select"
                 value={wordForm.category}
                 onChange={(e) => updateWordForm('category', e.target.value)}
-                className="mt-1 w-full rounded border border-gray-300 px-3 py-2 text-sm dark:border-gray-600 dark:bg-gray-800"
+                className={CSS_CLASSES.INPUT_BASE}
               >
-                <option value="">Select a category</option>
+                <option value="">
+                  {TEXT_CONTENT.MESSAGES.SELECT_A_CATEGORY}
+                </option>
                 {categories.map((cat) => (
                   <option key={cat} value={cat}>
                     {cat}
@@ -151,19 +147,16 @@ export const WordForm = ({
             </div>
           ) : (
             <div>
-              <label
-                htmlFor="new-category"
-                className="text-xs font-medium text-gray-600 dark:text-gray-400"
-              >
-                New Category: *
+              <label htmlFor="new-category" className={CSS_CLASSES.LABEL_BASE}>
+                {TEXT_CONTENT.LABELS.NEW_CATEGORY_REQUIRED}
               </label>
               <input
                 id="new-category"
                 type="text"
                 value={wordForm.newCategory}
                 onChange={(e) => updateWordForm('newCategory', e.target.value)}
-                placeholder="e.g., technology"
-                className="mt-1 w-full rounded border border-gray-300 px-3 py-2 text-sm dark:border-gray-600 dark:bg-gray-800"
+                placeholder={TEXT_CONTENT.PLACEHOLDERS.NEW_CATEGORY}
+                className={CSS_CLASSES.INPUT_BASE}
               />
             </div>
           )}

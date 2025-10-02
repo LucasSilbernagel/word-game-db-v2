@@ -1,3 +1,4 @@
+import { DEFAULT_FILTER_STATE } from '@/lib/constants'
 import { useCallback, useState } from 'react'
 
 export type FilterState = {
@@ -13,30 +14,14 @@ export type FilterState = {
 }
 
 export const useFilters = () => {
-  const [filters, setFilters] = useState<FilterState>({
-    category: '',
-    minLetters: '',
-    maxLetters: '',
-    minSyllables: '',
-    maxSyllables: '',
-    limit: '10',
-    offset: '0',
-  })
+  const [filters, setFilters] = useState<FilterState>(DEFAULT_FILTER_STATE)
 
   const updateFilter = (key: keyof FilterState, value: string) => {
     setFilters((prev) => ({ ...prev, [key]: value }))
   }
 
   const resetFilters = () => {
-    setFilters({
-      category: '',
-      minLetters: '',
-      maxLetters: '',
-      minSyllables: '',
-      maxSyllables: '',
-      limit: '10',
-      offset: '0',
-    })
+    setFilters(DEFAULT_FILTER_STATE)
   }
 
   const buildQueryString = useCallback(() => {

@@ -1,3 +1,4 @@
+import { DEFAULT_SEARCH_FORM_STATE } from '@/lib/constants'
 import { useCallback, useState } from 'react'
 
 export type SearchFormState = {
@@ -7,11 +8,9 @@ export type SearchFormState = {
 }
 
 export const useSearchForm = () => {
-  const [searchForm, setSearchForm] = useState<SearchFormState>({
-    query: '',
-    limit: '10',
-    offset: '0',
-  })
+  const [searchForm, setSearchForm] = useState<SearchFormState>(
+    DEFAULT_SEARCH_FORM_STATE
+  )
 
   const updateSearchForm = useCallback(
     (key: keyof SearchFormState, value: string) => {
@@ -21,11 +20,7 @@ export const useSearchForm = () => {
   )
 
   const resetSearchForm = () => {
-    setSearchForm({
-      query: '',
-      limit: '10',
-      offset: '0',
-    })
+    setSearchForm(DEFAULT_SEARCH_FORM_STATE)
   }
 
   const buildSearchQueryString = useCallback(() => {

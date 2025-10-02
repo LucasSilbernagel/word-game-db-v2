@@ -1,5 +1,6 @@
 import Footer from '@/components/Footer/Footer'
 import { Navigation } from '@/components/Navigation/Navigation'
+import { APP_METADATA } from '@/lib/constants'
 import type { Metadata } from 'next'
 import { Geist, Geist_Mono } from 'next/font/google'
 import './globals.css'
@@ -19,27 +20,25 @@ const geistMono = Geist_Mono({
 })
 
 export const metadata: Metadata = {
-  metadataBase: new URL('https://wordgamedb.com'),
-  title: 'Word Game DB',
-  description:
-    'A REST API for building word games and puzzles. Word Game DB is designed for educational purposes, helping developers practice their coding skills by building word games that incorporate an API. Each word comes with a category, letter count, syllable count, and helpful hint.',
+  metadataBase: new URL(APP_METADATA.BASE_URL),
+  title: APP_METADATA.TITLE,
+  description: APP_METADATA.DESCRIPTION,
   icons: {
     icon: [{ url: '/favicon.ico', sizes: 'any' }],
     shortcut: '/favicon.ico',
     apple: '/favicon.ico',
   },
   openGraph: {
-    title: 'Word Game DB',
-    description:
-      'A REST API for building word games and puzzles. Word Game DB is designed for educational purposes, helping developers practice their coding skills by building word games that incorporate an API. Each word comes with a category, letter count, syllable count, and helpful hint.',
-    url: 'https://wordgamedb.com',
-    siteName: 'Word Game DB',
+    title: APP_METADATA.TITLE,
+    description: APP_METADATA.DESCRIPTION,
+    url: APP_METADATA.BASE_URL,
+    siteName: APP_METADATA.TITLE,
     images: [
       {
-        url: '/og-image.png',
-        width: 1200,
-        height: 630,
-        alt: 'Word Game DB - A REST API for building word games and puzzles',
+        url: APP_METADATA.OG_IMAGE,
+        width: APP_METADATA.OG_IMAGE_WIDTH,
+        height: APP_METADATA.OG_IMAGE_HEIGHT,
+        alt: APP_METADATA.OG_IMAGE_ALT,
       },
     ],
     locale: 'en_US',
@@ -47,10 +46,9 @@ export const metadata: Metadata = {
   },
   twitter: {
     card: 'summary_large_image',
-    title: 'Word Game DB',
-    description:
-      'A REST API for building word games and puzzles. Word Game DB is designed for educational purposes, helping developers practice their coding skills by building word games that incorporate an API. Each word comes with a category, letter count, syllable count, and helpful hint.',
-    images: ['/og-image.png'],
+    title: APP_METADATA.TITLE,
+    description: APP_METADATA.DESCRIPTION,
+    images: [APP_METADATA.OG_IMAGE],
   },
 }
 
@@ -72,7 +70,12 @@ const RootLayout = ({
         <link rel="preconnect" href="https://lucassilbernagel.com" />
 
         {/* Preload critical resources */}
-        <link rel="preload" href="/og-image.png" as="image" type="image/png" />
+        <link
+          rel="preload"
+          href={APP_METADATA.OG_IMAGE}
+          as="image"
+          type="image/png"
+        />
       </head>
       <body
         className={`${geistSans.variable} ${geistMono.variable} antialiased`}

@@ -3,6 +3,7 @@
 import { TestEndpointButton } from '@/components/TestEndpointButton/TestEndpointButton'
 import { Button } from '@/components/ui/Button'
 import { Card, CardContent } from '@/components/ui/Card'
+import { API_ROUTES } from '@/lib/constants'
 import { ApiRequestExample } from './ApiRequestExample/ApiRequestExample'
 import { DeleteForm } from './DeleteForm/DeleteForm'
 import { FilterForm } from './FilterForm/FilterForm'
@@ -51,9 +52,9 @@ const EndpointDemo = ({
   } = useApiState()
 
   const isDestructiveEndpoint = ['POST', 'PUT', 'DELETE'].includes(method)
-  const isWordsEndpoint = path === '/api/v1/words'
-  const isWordsWithIdEndpoint = path === '/api/v1/words/[id]'
-  const isWordsSearchEndpoint = path === '/api/v1/words/search'
+  const isWordsEndpoint = path === API_ROUTES.WORDS
+  const isWordsWithIdEndpoint = path === API_ROUTES.WORDS_WITH_ID
+  const isWordsSearchEndpoint = path === API_ROUTES.WORDS_SEARCH
 
   const handleDemo = async () => {
     // Prevent multiple simultaneous requests

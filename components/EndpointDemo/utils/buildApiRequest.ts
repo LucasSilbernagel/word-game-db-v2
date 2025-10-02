@@ -1,3 +1,4 @@
+import { API_ROUTES, DEMO_DATA, TEXT_CONTENT } from '@/lib/constants'
 import { DeleteFormState } from '../DeleteForm/DeleteForm'
 import { SearchFormState } from '../hooks/useSearchForm'
 import { UpdateFormState } from '../UpdateForm/UpdateForm'
@@ -24,30 +25,30 @@ export const buildApiRequest = (
   // Handle different endpoint types
   if (method === 'GET') {
     switch (path) {
-      case '/api/v1/words': {
+      case API_ROUTES.WORDS: {
         // Use filters to build query string
-        url = `/api/v1/words${queryString ? `?${queryString}` : ''}`
+        url = `${API_ROUTES.WORDS}${queryString ? `?${queryString}` : ''}`
         break
       }
-      case '/api/v1/words/[id]': {
+      case API_ROUTES.WORDS_WITH_ID: {
         // Use a specific word ID for demo
-        url = '/api/v1/words/5ffa1774c0831cbe1460e29c'
+        url = `${API_ROUTES.WORDS}/${DEMO_DATA.WORD_ID}`
         break
       }
-      case '/api/v1/words/search': {
+      case API_ROUTES.WORDS_SEARCH: {
         // Use search form to build query string
         if (!searchForm.query) {
-          throw new Error('Please enter a search query')
+          throw new Error(TEXT_CONTENT.ERRORS.ENTER_SEARCH_QUERY)
         }
         const searchParams = new URLSearchParams()
         searchParams.set('q', searchForm.query)
         if (searchForm.limit) searchParams.set('limit', searchForm.limit)
         if (searchForm.offset) searchParams.set('offset', searchForm.offset)
-        url = `/api/v1/words/search?${searchParams.toString()}`
+        url = `${API_ROUTES.WORDS_SEARCH}?${searchParams.toString()}`
         break
       }
     }
-  } else if (method === 'POST' && path === '/api/v1/words') {
+  } else if (method === 'POST' && path === API_ROUTES.WORDS) {
     // Handle word creation with form data
     const selectedCategory =
       wordForm.categoryMode === 'existing'
@@ -61,7 +62,7 @@ export const buildApiRequest = (
       !wordForm.numSyllables ||
       !wordForm.hint
     ) {
-      throw new Error('Please fill in all required fields')
+      throw new Error(TEXT_CONTENT.ERRORS.FILL_REQUIRED_FIELDS)
     }
 
     options.body = JSON.stringify({
@@ -71,10 +72,10 @@ export const buildApiRequest = (
       numSyllables: Number.parseInt(wordForm.numSyllables),
       hint: wordForm.hint,
     })
-  } else if (method === 'PUT' && path === '/api/v1/words/[id]') {
+  } else if (method === 'PUT' && path === API_ROUTES.WORDS_WITH_ID) {
     // Handle word update with form data
     if (!updateForm.id) {
-      throw new Error('Please enter a word ID to update')
+      throw new Error(TEXT_CONTENT.ERRORS.ENTER_WORD_ID_UPDATE)
     }
 
     const selectedCategory =
@@ -93,26 +94,24 @@ export const buildApiRequest = (
     if (updateForm.hint) updateData.hint = updateForm.hint
 
     if (Object.keys(updateData).length === 0) {
-      throw new Error('Please fill in at least one field to update')
+      throw new Error(TEXT_CONTENT.ERRORS.FILL_ONE_FIELD_UPDATE)
     }
 
-    url = `/api/v1/words/${updateForm.id}`
+    url = `${API_ROUTES.WORDS}/${updateForm.id}`
     options.body = JSON.stringify(updateData)
-  } else if (method === 'DELETE' && path === '/api/v1/words/[id]') {
+  } else if (method === 'DELETE' && path === API_ROUTES.WORDS_WITH_ID) {
     // Handle word deletion with ID
     if (!deleteForm.id) {
-      throw new Error('Please enter a valid word ID to delete')
+      throw new Error(TEXT_CONTENT.ERRORS.ENTER_WORD_ID_DELETE)
     }
 
-    url = `/api/v1/words/${deleteForm.id}`
+    url = `${API_ROUTES.WORDS}/${deleteForm.id}`
   } else if (
     ['POST', 'PUT', 'DELETE'].includes(method) &&
     !isDestructiveEnabled
   ) {
     // For destructive endpoints when not enabled, show a message instead of making the request
-    throw new Error(
-      'This endpoint is disabled. To test it, set ENABLE_DESTRUCTIVE_ENDPOINTS=true in your environment variables.'
-    )
+    throw new Error(TEXT_CONTENT.ERRORS.DESTRUCTIVE_DISABLED)
   }
 
   return { url, options }

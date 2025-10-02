@@ -1,3 +1,4 @@
+import { API_ROUTES } from '@/lib/constants'
 import { useEffect, useState } from 'react'
 
 export const useCategories = () => {
@@ -6,7 +7,7 @@ export const useCategories = () => {
   useEffect(() => {
     const fetchCategories = async () => {
       try {
-        const res = await fetch('/api/v1/categories', {
+        const res = await fetch(API_ROUTES.CATEGORIES, {
           // Add cache headers for better performance
           headers: {
             'Cache-Control': 'max-age=3600', // Cache for 1 hour

@@ -2,6 +2,7 @@
 
 import { Button } from '@/components/ui/Button'
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/Card'
+import { API_ROUTES, DEMO_DATA } from '@/lib/constants'
 import Link from 'next/link'
 import { lazy, Suspense, useEffect, useState } from 'react'
 const EndpointDemo = lazy(
@@ -11,48 +12,48 @@ const EndpointDemo = lazy(
 const allApiEndpoints = [
   {
     method: 'GET',
-    path: '/api/v1/categories',
+    path: API_ROUTES.CATEGORIES,
     description: 'Get all distinct categories',
-    example: 'GET /api/v1/categories',
+    example: `GET ${API_ROUTES.CATEGORIES}`,
   },
   {
     method: 'GET',
-    path: '/api/v1/words/random',
+    path: API_ROUTES.WORDS_RANDOM,
     description: 'Get a random word from the database',
-    example: 'GET /api/v1/words/random',
+    example: `GET ${API_ROUTES.WORDS_RANDOM}`,
   },
   {
     method: 'GET',
-    path: '/api/v1/words/[id]',
+    path: API_ROUTES.WORDS_WITH_ID,
     description: 'Get a specific word by ID',
-    example: 'GET /api/v1/words/5ffa1774c0831cbe1460e29c',
+    example: `GET ${API_ROUTES.WORDS}/${DEMO_DATA.WORD_ID}`,
   },
   {
     method: 'GET',
-    path: '/api/v1/words',
+    path: API_ROUTES.WORDS,
     description:
       'Retrieve all words with optional query filtering and pagination',
   },
   {
     method: 'GET',
-    path: '/api/v1/words/search',
+    path: API_ROUTES.WORDS_SEARCH,
     description: 'Search for words by name with partial matching',
   },
   {
     method: 'POST',
-    path: '/api/v1/words',
+    path: API_ROUTES.WORDS,
     description: 'Create a new word entry',
     isDestructive: true,
   },
   {
     method: 'PUT',
-    path: '/api/v1/words/[id]',
+    path: API_ROUTES.WORDS_WITH_ID,
     description: 'Update an existing word',
     isDestructive: true,
   },
   {
     method: 'DELETE',
-    path: '/api/v1/words/[id]',
+    path: API_ROUTES.WORDS_WITH_ID,
     description: 'Delete a word from the database',
     isDestructive: true,
   },
@@ -72,7 +73,7 @@ const HomePage = () => {
   useEffect(() => {
     const fetchConfig = async () => {
       try {
-        const res = await fetch('/api/v1/config', {
+        const res = await fetch(API_ROUTES.CONFIG, {
           // Add cache headers for better performance
           headers: {
             'Cache-Control': 'max-age=300', // Cache for 5 minutes
