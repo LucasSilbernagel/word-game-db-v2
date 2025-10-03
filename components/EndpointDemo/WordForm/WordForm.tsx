@@ -1,4 +1,11 @@
-import { CSS_CLASSES, TEXT_CONTENT } from '@/lib/constants'
+import { TEXT_CONTENT } from '@/lib/constants'
+
+const CSS_CLASSES = {
+  // Input and form elements
+  INPUT_BASE:
+    'mt-1 w-full rounded border border-gray-300 px-3 py-2 text-sm dark:border-gray-600 dark:bg-gray-800',
+  LABEL_BASE: 'text-xs font-medium text-gray-600 dark:text-gray-400',
+} as const
 
 export type WordFormState = {
   word: string

@@ -9,98 +9,6 @@ export const API_ROUTES = {
   CONFIG: '/api/v1/config',
 } as const
 
-// Default Form States
-export const DEFAULT_WORD_FORM_STATE = {
-  word: '',
-  category: '',
-  newCategory: '',
-  numLetters: '',
-  numSyllables: '',
-  hint: '',
-  categoryMode: 'existing' as const,
-}
-
-export const DEFAULT_UPDATE_FORM_STATE = {
-  id: '',
-  word: '',
-  category: '',
-  newCategory: '',
-  numLetters: '',
-  numSyllables: '',
-  hint: '',
-  categoryMode: 'existing' as const,
-}
-
-export const DEFAULT_DELETE_FORM_STATE = {
-  id: '',
-}
-
-export const DEFAULT_SEARCH_FORM_STATE = {
-  query: '',
-  limit: '10',
-  offset: '0',
-}
-
-export const DEFAULT_FILTER_STATE = {
-  category: '',
-  minLetters: '',
-  maxLetters: '',
-  minSyllables: '',
-  maxSyllables: '',
-  limit: '10',
-  offset: '0',
-}
-
-// Common CSS Classes
-export const CSS_CLASSES = {
-  // Input and form elements
-  INPUT_BASE:
-    'mt-1 w-full rounded border border-gray-300 px-3 py-2 text-sm dark:border-gray-600 dark:bg-gray-800',
-  LABEL_BASE: 'text-xs font-medium text-gray-600 dark:text-gray-400',
-
-  // Layout and containers
-  CONTAINER: 'container mx-auto px-4 py-8',
-  MAX_WIDTH_4XL: 'mx-auto max-w-4xl',
-  SPACE_Y_4: 'space-y-4',
-  GRID_MD_2: 'grid grid-cols-1 gap-4 md:grid-cols-2',
-
-  // Text styles
-  HEADING_4XL: 'mb-4 text-4xl font-bold tracking-tight',
-  HEADING_3XL: 'mb-4 text-3xl font-semibold',
-  HEADING_2XL: 'mb-6 text-2xl font-semibold',
-  HEADING_XL: 'text-xl font-semibold',
-  TEXT_MUTED: 'text-muted-foreground',
-  TEXT_SM_MEDIUM: 'text-sm font-medium',
-  TEXT_XS: 'text-xs',
-
-  // Button and interactive elements
-  BUTTON_PRIMARY: 'bg-primary text-primary-foreground hover:bg-primary/90',
-
-  // Alerts and messages
-  ALERT_YELLOW:
-    'rounded-md border border-yellow-200 bg-yellow-50 p-3 dark:border-yellow-800 dark:bg-yellow-900/20',
-  ALERT_BLUE:
-    'rounded-md border border-blue-200 bg-blue-50 p-3 dark:border-blue-800 dark:bg-blue-900/20',
-  ALERT_RED:
-    'rounded bg-red-50 p-3 text-xs text-wrap text-red-800 dark:bg-red-900/20 dark:text-red-200',
-
-  // Loading spinner
-  SPINNER:
-    'h-4 w-4 animate-spin rounded-full border-2 border-current border-t-transparent',
-  SPINNER_LARGE:
-    'h-6 w-6 animate-spin rounded-full border-2 border-primary border-t-transparent',
-
-  // Code blocks
-  CODE_BLOCK: 'bg-muted overflow-x-auto rounded p-3 text-xs',
-  CODE_INLINE: 'bg-muted rounded px-2 py-1 font-mono text-sm',
-
-  // Navigation
-  NAV_BAR:
-    'bg-background/95 supports-[backdrop-filter]:bg-background/60 border-b backdrop-blur',
-  NAV_CONTAINER: 'container mx-auto px-4',
-  NAV_CONTENT: 'flex h-16 items-center justify-between',
-} as const
-
 // Common Text Content
 export const TEXT_CONTENT = {
   // Form labels and placeholders
@@ -180,14 +88,6 @@ export const APP_METADATA = {
 // Demo Data
 export const DEMO_DATA = {
   WORD_ID: '5ffa1774c0831cbe1460e29c',
-} as const
-
-// HTTP Methods
-export const HTTP_METHODS = {
-  GET: 'GET',
-  POST: 'POST',
-  PUT: 'PUT',
-  DELETE: 'DELETE',
 } as const
 
 // Default values

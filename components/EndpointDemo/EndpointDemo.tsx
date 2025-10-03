@@ -1,6 +1,5 @@
 'use client'
 
-import { TestEndpointButton } from '@/components/TestEndpointButton/TestEndpointButton'
 import { Button } from '@/components/ui/Button'
 import { Card, CardContent } from '@/components/ui/Card'
 import { API_ROUTES } from '@/lib/constants'
@@ -114,11 +113,22 @@ const EndpointDemo = ({
                   Reset
                 </Button>
               )}
-              <TestEndpointButton
+              <Button
                 onClick={handleDemo}
                 disabled={isLoading}
-                isLoading={isLoading}
-              />
+                size="sm"
+                variant="default"
+                className="min-w-[100px] sm:min-w-[120px]"
+              >
+                {isLoading ? (
+                  <div className="flex items-center gap-2">
+                    <div className="h-4 w-4 animate-spin rounded-full border-2 border-current border-t-transparent" />
+                    <span>Loading...</span>
+                  </div>
+                ) : (
+                  'Test Endpoint'
+                )}
+              </Button>
             </div>
           </div>
 

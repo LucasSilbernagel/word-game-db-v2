@@ -1,4 +1,3 @@
-import { DEFAULT_WORD_FORM_STATE } from '@/lib/constants'
 import { useGenericForm } from '@/lib/hooks/useGenericForm'
 import { WordFormState } from '../WordForm/WordForm'
 
@@ -7,7 +6,15 @@ export const useWordForm = () => {
     formState: wordForm,
     updateField: updateWordForm,
     resetForm: resetWordForm,
-  } = useGenericForm<WordFormState>(DEFAULT_WORD_FORM_STATE)
+  } = useGenericForm<WordFormState>({
+    word: '',
+    category: '',
+    newCategory: '',
+    numLetters: '',
+    numSyllables: '',
+    hint: '',
+    categoryMode: 'existing',
+  })
 
   return {
     wordForm,

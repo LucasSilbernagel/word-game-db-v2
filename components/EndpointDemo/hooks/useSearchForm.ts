@@ -1,4 +1,3 @@
-import { DEFAULT_SEARCH_FORM_STATE } from '@/lib/constants'
 import { useGenericForm } from '@/lib/hooks/useGenericForm'
 import { useCallback } from 'react'
 
@@ -13,7 +12,11 @@ export const useSearchForm = () => {
     formState: searchForm,
     updateField: updateSearchForm,
     resetForm: resetSearchForm,
-  } = useGenericForm<SearchFormState>(DEFAULT_SEARCH_FORM_STATE)
+  } = useGenericForm<SearchFormState>({
+    query: '',
+    limit: '10',
+    offset: '0',
+  })
 
   const buildSearchQueryString = useCallback(() => {
     const params = new URLSearchParams()

@@ -1,4 +1,3 @@
-import { DEFAULT_UPDATE_FORM_STATE } from '@/lib/constants'
 import { useGenericForm } from '@/lib/hooks/useGenericForm'
 import { UpdateFormState } from '../UpdateForm/UpdateForm'
 
@@ -7,7 +6,16 @@ export const useUpdateForm = () => {
     formState: updateForm,
     updateField: updateUpdateForm,
     resetForm: resetUpdateForm,
-  } = useGenericForm<UpdateFormState>(DEFAULT_UPDATE_FORM_STATE)
+  } = useGenericForm<UpdateFormState>({
+    id: '',
+    word: '',
+    category: '',
+    newCategory: '',
+    numLetters: '',
+    numSyllables: '',
+    hint: '',
+    categoryMode: 'existing',
+  })
 
   return {
     updateForm,
