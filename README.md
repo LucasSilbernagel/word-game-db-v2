@@ -20,7 +20,7 @@ A modern, full-stack word game database built with Next.js 15, MongoDB, and Type
 
 - **Frontend**: React 19, Next.js 15, Tailwind CSS 4, Radix UI, Lucide React
 - **Backend**: Next.js API Routes, MongoDB, Mongoose ODM
-- **Development**: TypeScript, ESLint (Unicorn ruleset), Prettier
+- **Development**: TypeScript, ESLint, Prettier
 
 ## Getting Started
 
@@ -64,42 +64,9 @@ pnpm dev
 
 5. Open [http://localhost:3000](http://localhost:3000) in your browser.
 
-### Setting up MongoDB Atlas (Recommended)
+### Set up MongoDB Atlas (Recommended)
 
-For a free cloud database, follow these steps:
-
-1. **Create a MongoDB Atlas account**: [https://www.mongodb.com/atlas](https://www.mongodb.com/atlas)
-
-2. **Create a new cluster**:
-   - Choose the free tier (M0)
-   - Select a region close to you
-   - Give your cluster a name
-
-3. **Set up database access**:
-   - Go to "Database Access" in the left sidebar
-   - Click "Add New Database User"
-   - Create a username and password (save these!)
-   - Set privileges to "Read and write to any database"
-
-4. **Configure network access**:
-   - Go to "Network Access" in the left sidebar
-   - Click "Add IP Address"
-   - Click "Allow Access from Anywhere" (for development)
-   - Click "Confirm"
-
-5. **Get your connection string**:
-   - Go to "Database" in the left sidebar
-   - Click "Connect" on your cluster
-   - Choose "Connect your application"
-   - Copy the connection string
-   - Replace `<password>` with your database user password
-   - Replace `<dbname>` with your database name (e.g., `word-game-db`)
-
-6. **Update your `.env.local`**:
-   ```env
-   MONGODB_URI=mongodb+srv://username:password@cluster0.xxxxx.mongodb.net/word-game-db
-   ENABLE_DESTRUCTIVE_ENDPOINTS=true
-   ```
+https://www.mongodb.com/products/platform
 
 ## Deployment
 
@@ -153,8 +120,6 @@ Check out this example implementation using the API:
 #### GET /api/v1/words
 
 - `category` - Filter by category
-- `numLetters` - Filter by exact number of letters
-- `numSyllables` - Filter by exact number of syllables
 - `limit` - Number of words to return (default: 10)
 - `offset` - Number of words to skip (default: 0)
 - `minLetters` - Minimum number of letters
@@ -211,17 +176,53 @@ type Word = {
 ```
 ├── app/                    # Next.js App Router
 │   ├── api/               # API routes
+│   │   └── v1/           # API version 1
+│   │       ├── categories/  # Category endpoints
+│   │       ├── config/     # Configuration endpoints
+│   │       └── words/      # Word management endpoints
+│   │           ├── [id]/   # Individual word operations
+│   │           ├── random/ # Random word endpoint
+│   │           └── search/ # Word search endpoint
 │   ├── about/             # About page
 │   ├── contact/           # Contact page
+│   ├── error.tsx          # Error page
+│   ├── favicon.ico        # Site favicon
+│   ├── globals.css        # Global styles
+│   ├── layout.tsx         # Root layout
+│   ├── not-found.tsx      # 404 page
 │   └── page.tsx           # Homepage
 ├── components/            # React components
-│   ├── ui/               # Reusable UI components
-│   └── *.tsx             # Page components
-├── lib/                  # Utility functions
-│   ├── mongodb.ts        # Database connection
-│   └── utils.ts          # Common utilities
-├── models/               # Mongoose models
-└── middleware.ts         # Next.js middleware
+│   ├── AboutPage/         # About page component
+│   ├── ContactPage/       # Contact page component
+│   ├── EndpointDemo/      # API testing components
+│   │   ├── hooks/         # Custom hooks for API interactions
+│   │   └── utils/         # Utility functions
+│   ├── ErrorPage/         # Error page component
+│   ├── Footer/            # Footer component
+│   ├── HomePage/          # Homepage component
+│   ├── Navigation/        # Navigation components
+│   ├── NotFoundPage/      # 404 page component
+│   ├── TestEndpointButton/ # API testing button
+│   └── ui/                # Reusable UI components (Button, Card, Sheet)
+├── lib/                   # Utility functions and configuration
+│   ├── constants/         # Application constants
+│   ├── hooks/             # Shared custom hooks
+│   ├── types/             # TypeScript type definitions
+│   ├── utils/             # Utility functions
+│   ├── mongodb.ts         # Database connection
+│   ├── middleware.ts      # Middleware utilities
+│   └── utils.ts           # Common utilities
+├── models/                # Mongoose models
+│   └── word.ts            # Word model definition
+├── public/                # Static assets
+│   └── og-image.png       # Open Graph image
+├── eslint.config.js       # ESLint configuration
+├── middleware.ts          # Next.js middleware
+├── next.config.ts         # Next.js configuration
+├── package.json           # Project dependencies and scripts
+├── postcss.config.mjs     # PostCSS configuration
+├── tsconfig.json          # TypeScript configuration
+└── README.md              # Project documentation
 ```
 
 ## Contributing

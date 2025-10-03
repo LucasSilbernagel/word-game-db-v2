@@ -1,4 +1,5 @@
 import js from '@eslint/js'
+import nextPlugin from '@next/eslint-plugin-next'
 import typescript from '@typescript-eslint/eslint-plugin'
 import typescriptParser from '@typescript-eslint/parser'
 import jsxA11y from 'eslint-plugin-jsx-a11y'
@@ -39,19 +40,21 @@ export default [
       unicorn,
       prettier,
       'jsx-a11y': jsxA11y,
+      '@next/next': nextPlugin,
     },
     rules: {
       ...typescript.configs.recommended.rules,
       ...unicorn.configs.recommended.rules,
       ...jsxA11y.configs.recommended.rules,
+      ...nextPlugin.configs.recommended.rules,
+      ...nextPlugin.configs['core-web-vitals'].rules,
       'unicorn/prevent-abbreviations': 'off',
       'unicorn/no-null': 'off',
       'unicorn/prefer-module': 'off',
-      'unicorn/kabob-case': 'off',
       'unicorn/filename-case': 'off',
+      'prettier/prettier': 'error',
       semi: 'off',
       '@typescript-eslint/semi': 'off',
-      'prettier/prettier': 'off',
     },
   },
   {
@@ -65,6 +68,12 @@ export default [
     },
   },
   {
-    ignores: ['node_modules/**', '.next/**', 'dist/**', 'build/**'],
+    ignores: [
+      'node_modules/**',
+      '.next/**',
+      'dist/**',
+      'build/**',
+      'next-env.d.ts',
+    ],
   },
 ]
