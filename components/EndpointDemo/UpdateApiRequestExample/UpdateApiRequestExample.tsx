@@ -1,10 +1,12 @@
 import { UpdateFormState } from '../UpdateForm/UpdateForm'
 
-type ApiRequestExampleProps = {
+type UpdateApiRequestExampleProps = {
   updateForm: UpdateFormState
 }
 
-export const ApiRequestExample = ({ updateForm }: ApiRequestExampleProps) => {
+export const UpdateApiRequestExample = ({
+  updateForm,
+}: UpdateApiRequestExampleProps) => {
   const selectedCategory =
     updateForm.categoryMode === 'existing'
       ? updateForm.category

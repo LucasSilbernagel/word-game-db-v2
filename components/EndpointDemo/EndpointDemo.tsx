@@ -3,7 +3,6 @@
 import { Button } from '@/components/ui/Button'
 import { Card, CardContent } from '@/components/ui/Card'
 import { API_ROUTES } from '@/lib/constants'
-import { ApiRequestExample } from './ApiRequestExample/ApiRequestExample'
 import { DeleteForm } from './DeleteForm/DeleteForm'
 import { FilterForm } from './FilterForm/FilterForm'
 import { useApiState } from './hooks/useApiState'
@@ -15,6 +14,7 @@ import { useUpdateForm } from './hooks/useUpdateForm'
 import { useWordForm } from './hooks/useWordForm'
 import { SearchApiRequestExample } from './SearchApiRequestExample/SearchApiRequestExample'
 import { SearchForm } from './SearchForm/SearchForm'
+import { UpdateApiRequestExample } from './UpdateApiRequestExample/UpdateApiRequestExample'
 import { UpdateForm } from './UpdateForm/UpdateForm'
 import { buildApiRequest } from './utils/buildApiRequest'
 import { handleApiResponse } from './utils/handleApiResponse'
@@ -134,7 +134,7 @@ const EndpointDemo = ({
 
           {/* Dynamic Example URL for PUT endpoint */}
           {isWordsWithIdEndpoint && method === 'PUT' && (
-            <ApiRequestExample updateForm={updateForm} />
+            <UpdateApiRequestExample updateForm={updateForm} />
           )}
 
           {/* Dynamic Example URL for Search endpoint */}
