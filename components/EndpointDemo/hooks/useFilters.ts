@@ -40,7 +40,8 @@ export const useFilters = () => {
 
     // Add pagination parameters
     if (filters.limit) params.set('limit', filters.limit)
-    if (filters.offset) params.set('offset', filters.offset)
+    if (filters.offset && filters.offset !== '0')
+      params.set('offset', filters.offset)
 
     return params.toString()
   }, [
