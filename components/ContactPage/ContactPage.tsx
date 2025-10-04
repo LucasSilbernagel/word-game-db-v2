@@ -1,3 +1,8 @@
+import { Button } from '@/components/ui/Button'
+import { Input } from '@/components/ui/Input'
+import { Label } from '@/components/ui/Label'
+import { Textarea } from '@/components/ui/Textarea'
+
 const ContactPage = () => {
   return (
     <div className="container mx-auto px-4 py-8">
@@ -39,19 +44,19 @@ const ContactPage = () => {
             <fieldset className="space-y-6">
               <legend className="sr-only">Contact details</legend>
               <div>
-                <label
+                <Label
                   htmlFor="name"
                   className="mb-1 block text-sm font-medium text-gray-700 dark:text-gray-300"
                 >
                   Your name
-                </label>
-                <input
+                </Label>
+                <Input
                   id="name"
                   name="name"
                   required
                   type="text"
                   placeholder="Your name"
-                  className="border-input focus:ring-ring w-full rounded-md border px-4 py-3 text-base focus:border-transparent focus:ring-2 focus:outline-none"
+                  className="px-4 py-3 text-base"
                   aria-describedby="name-help"
                 />
                 <p id="name-help" className="sr-only">
@@ -60,19 +65,19 @@ const ContactPage = () => {
               </div>
 
               <div>
-                <label
+                <Label
                   htmlFor="email"
                   className="mb-1 block text-sm font-medium text-gray-700 dark:text-gray-300"
                 >
                   Your email
-                </label>
-                <input
+                </Label>
+                <Input
                   id="email"
                   name="email"
                   required
                   type="email"
                   placeholder="Your email"
-                  className="border-input focus:ring-ring w-full rounded-md border px-4 py-3 text-base focus:border-transparent focus:ring-2 focus:outline-none"
+                  className="px-4 py-3 text-base"
                   aria-describedby="email-help"
                 />
                 <p id="email-help" className="sr-only">
@@ -81,19 +86,19 @@ const ContactPage = () => {
               </div>
 
               <div>
-                <label
+                <Label
                   htmlFor="message"
                   className="mb-1 block text-sm font-medium text-gray-700 dark:text-gray-300"
                 >
                   Your message
-                </label>
-                <textarea
+                </Label>
+                <Textarea
                   name="message"
                   id="message"
                   required
                   placeholder="Your message"
                   rows={6}
-                  className="border-input focus:ring-ring resize-vertical w-full rounded-md border px-4 py-3 text-base focus:border-transparent focus:ring-2 focus:outline-none"
+                  className="resize-vertical px-4 py-3 text-base"
                   aria-describedby="message-help"
                 />
                 <p id="message-help" className="sr-only">
@@ -102,13 +107,13 @@ const ContactPage = () => {
               </div>
             </fieldset>
 
-            <button
+            <Button
               type="submit"
-              className="bg-primary hover:bg-primary/90 focus-visible:bg-primary/90 text-primary-foreground w-full rounded-md px-6 py-3 text-base font-medium transition-colors"
+              className="w-full px-6 py-3 text-base font-medium"
               aria-describedby="submit-help"
             >
               Send Message
-            </button>
+            </Button>
             <p id="submit-help" className="sr-only">
               Submit your contact form
             </p>

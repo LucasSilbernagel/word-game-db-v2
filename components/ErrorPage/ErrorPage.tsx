@@ -2,7 +2,7 @@
 
 import { useEffect } from 'react'
 
-interface ErrorPageProps {
+type ErrorPageProps = {
   error: Error & { digest?: string }
   reset: () => void
 }

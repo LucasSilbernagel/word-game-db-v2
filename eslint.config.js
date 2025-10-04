@@ -30,6 +30,8 @@ export default [
         HTMLDivElement: 'readonly',
         HTMLParagraphElement: 'readonly',
         HTMLHeadingElement: 'readonly',
+        HTMLInputElement: 'readonly',
+        HTMLTextAreaElement: 'readonly',
         React: 'readonly',
         fetch: 'readonly',
         RequestInit: 'readonly',

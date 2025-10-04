@@ -1,11 +1,14 @@
+import { Input } from '@/components/ui/Input'
+import { Label } from '@/components/ui/Label'
+import { RadioGroup, RadioGroupItem } from '@/components/ui/RadioGroup'
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from '@/components/ui/Select'
 import { TEXT_CONTENT } from '@/lib/constants'
-
-const CSS_CLASSES = {
-  // Input and form elements
-  INPUT_BASE:
-    'mt-1 w-full rounded border border-gray-300 px-3 py-2 text-sm dark:border-gray-600 dark:bg-gray-800',
-  LABEL_BASE: 'text-xs font-medium text-gray-600 dark:text-gray-400',
-} as const
 
 export type WordFormState = {
   word: string
@@ -35,60 +38,72 @@ export const WordForm = ({
       </h4>
       <div className="grid grid-cols-1 gap-4 md:grid-cols-2">
         <div>
-          <label htmlFor="word" className={CSS_CLASSES.LABEL_BASE}>
+          <Label
+            htmlFor="word"
+            className="text-xs font-medium text-gray-600 dark:text-gray-400"
+          >
             {TEXT_CONTENT.LABELS.WORD_REQUIRED}
-          </label>
-          <input
+          </Label>
+          <Input
             id="word"
             type="text"
             value={wordForm.word}
             onChange={(e) => updateWordForm('word', e.target.value)}
             placeholder={TEXT_CONTENT.PLACEHOLDERS.WORD}
-            className={CSS_CLASSES.INPUT_BASE}
+            className="mt-1"
           />
         </div>
 
         <div>
-          <label htmlFor="hint" className={CSS_CLASSES.LABEL_BASE}>
+          <Label
+            htmlFor="hint"
+            className="text-xs font-medium text-gray-600 dark:text-gray-400"
+          >
             {TEXT_CONTENT.LABELS.HINT_REQUIRED}
-          </label>
-          <input
+          </Label>
+          <Input
             id="hint"
             type="text"
             value={wordForm.hint}
             onChange={(e) => updateWordForm('hint', e.target.value)}
             placeholder={TEXT_CONTENT.PLACEHOLDERS.HINT}
-            className={CSS_CLASSES.INPUT_BASE}
+            className="mt-1"
           />
         </div>
 
         <div>
-          <label htmlFor="num-letters" className={CSS_CLASSES.LABEL_BASE}>
+          <Label
+            htmlFor="num-letters"
+            className="text-xs font-medium text-gray-600 dark:text-gray-400"
+          >
             {TEXT_CONTENT.LABELS.NUM_LETTERS_REQUIRED}
-          </label>
-          <input
+          </Label>
+          <Input
             id="num-letters"
             type="number"
             value={wordForm.numLetters}
             onChange={(e) => updateWordForm('numLetters', e.target.value)}
             placeholder={TEXT_CONTENT.PLACEHOLDERS.NUM_LETTERS}
             min="1"
-            className={CSS_CLASSES.INPUT_BASE}
+            className="mt-1"
           />
         </div>
 
         <div>
-          <label htmlFor="num-syllables" className={CSS_CLASSES.LABEL_BASE}>
+          <Label
+            htmlFor="num-syllables"
+            className="text-xs font-medium text-gray-600 dark:text-gray-400"
+          >
             {TEXT_CONTENT.LABELS.NUM_SYLLABLES_REQUIRED}
-          </label>
-          <input
+          </Label>
+          <Input
             id="num-syllables"
             type="number"
             value={wordForm.numSyllables}
             onChange={(e) => updateWordForm('numSyllables', e.target.value)}
             placeholder={TEXT_CONTENT.PLACEHOLDERS.NUM_SYLLABLES}
             min="1"
-            className={CSS_CLASSES.INPUT_BASE}
+            className="mt-1"
           />
         </div>
       </div>
@@ -99,71 +114,66 @@ export const WordForm = ({
           {TEXT_CONTENT.HEADINGS.CATEGORY}
         </h5>
         <div className="space-y-3">
-          <div className="flex flex-col gap-4 sm:flex-row">
-            <label className="flex items-center">
-              <input
-                type="radio"
-                name="categoryMode"
-                value="existing"
-                checked={wordForm.categoryMode === 'existing'}
-                onChange={(e) => updateWordForm('categoryMode', e.target.value)}
-                className="mr-2"
-              />
-              <span className="text-sm">
+          <RadioGroup
+            value={wordForm.categoryMode}
+            onValueChange={(value) => updateWordForm('categoryMode', value)}
+            className="flex flex-col gap-4 sm:flex-row"
+          >
+            <div className="flex items-center space-x-2">
+              <RadioGroupItem value="existing" id="existing" />
+              <Label htmlFor="existing" className="text-sm">
                 {TEXT_CONTENT.MESSAGES.SELECT_EXISTING_CATEGORY}
-              </span>
-            </label>
-            <label className="flex items-center">
-              <input
-                type="radio"
-                name="categoryMode"
-                value="new"
-                checked={wordForm.categoryMode === 'new'}
-                onChange={(e) => updateWordForm('categoryMode', e.target.value)}
-                className="mr-2"
-              />
-              <span className="text-sm">
+              </Label>
+            </div>
+            <div className="flex items-center space-x-2">
+              <RadioGroupItem value="new" id="new" />
+              <Label htmlFor="new" className="text-sm">
                 {TEXT_CONTENT.MESSAGES.CREATE_NEW_CATEGORY}
-              </span>
-            </label>
-          </div>
+              </Label>
+            </div>
+          </RadioGroup>
 
           {wordForm.categoryMode === 'existing' ? (
             <div>
-              <label
+              <Label
                 htmlFor="category-select"
-                className={CSS_CLASSES.LABEL_BASE}
+                className="text-xs font-medium text-gray-600 dark:text-gray-400"
               >
                 {TEXT_CONTENT.LABELS.CATEGORY_REQUIRED}
-              </label>
-              <select
-                id="category-select"
+              </Label>
+              <Select
                 value={wordForm.category}
-                onChange={(e) => updateWordForm('category', e.target.value)}
-                className={CSS_CLASSES.INPUT_BASE}
+                onValueChange={(value) => updateWordForm('category', value)}
               >
-                <option value="">
-                  {TEXT_CONTENT.MESSAGES.SELECT_A_CATEGORY}
-                </option>
-                {categories.map((cat) => (
-                  <option key={cat} value={cat}>
-                    {cat}
-                  </option>
-                ))}
-              </select>
+                <SelectTrigger className="mt-1">
+                  <SelectValue
+                    placeholder={TEXT_CONTENT.MESSAGES.SELECT_A_CATEGORY}
+                  />
+                </SelectTrigger>
+                <SelectContent>
+                  {categories.map((cat) => (
+                    <SelectItem key={cat} value={cat}>
+                      {cat}
+                    </SelectItem>
+                  ))}
+                </SelectContent>
+              </Select>
             </div>
           ) : (
             <div>
-              <label htmlFor="new-category" className={CSS_CLASSES.LABEL_BASE}>
+              <Label
+                htmlFor="new-category"
+                className="text-xs font-medium text-gray-600 dark:text-gray-400"
+              >
                 {TEXT_CONTENT.LABELS.NEW_CATEGORY_REQUIRED}
-              </label>
-              <input
+              </Label>
+              <Input
                 id="new-category"
                 type="text"
                 value={wordForm.newCategory}
                 onChange={(e) => updateWordForm('newCategory', e.target.value)}
                 placeholder={TEXT_CONTENT.PLACEHOLDERS.NEW_CATEGORY}
-                className={CSS_CLASSES.INPUT_BASE}
+                className="mt-1"
               />
             </div>
           )}

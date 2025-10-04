@@ -1,3 +1,6 @@
+import { Input } from '@/components/ui/Input'
+import { Label } from '@/components/ui/Label'
+
 export type DeleteFormState = {
   id: string
 }
@@ -25,19 +28,19 @@ export const DeleteForm = ({
 
       {/* Word ID Input */}
       <div>
-        <label
+        <Label
           htmlFor="delete-id"
           className="text-xs font-medium text-gray-600 dark:text-gray-400"
         >
           Word ID: *
-        </label>
-        <input
+        </Label>
+        <Input
           id="delete-id"
           type="text"
           value={deleteForm.id}
           onChange={(e) => updateDeleteForm('id', e.target.value)}
           placeholder="e.g., 5ffa1774c0831cbe1460e29c"
-          className="mt-1 w-full rounded border border-gray-300 px-3 py-2 text-sm dark:border-gray-600 dark:bg-gray-800"
+          className="mt-1"
         />
         <p className="mt-1 text-xs text-gray-500 dark:text-gray-400">
           Enter the ID of the word you want to delete. You can find word IDs by
