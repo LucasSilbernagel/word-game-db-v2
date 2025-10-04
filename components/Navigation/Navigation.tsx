@@ -8,7 +8,7 @@ import { Menu } from 'lucide-react'
 import Link from 'next/link'
 import { usePathname } from 'next/navigation'
 import { useEffect, useState } from 'react'
-import { MobileMenuContent } from './MobileMenuContent'
+import { MobileMenuContent } from './MobileMenuContent/MobileMenuContent'
 
 const navigation = [
   { name: 'Home', href: '/' },
@@ -89,6 +89,7 @@ export const Navigation = () => {
                 <Menu className="h-6 w-6" />
               </Button>
             </SheetTrigger>
+
             <MobileMenuContent>
               <SheetPrimitive.Title className="sr-only">
                 Mobile Navigation Menu
