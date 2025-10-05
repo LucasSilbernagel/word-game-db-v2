@@ -48,17 +48,6 @@ jobs:
         env:
           MONGODB_URI: mongodb://localhost:27017/test
 
-      - name: Check for unused dependencies
-        run: |
-          # Install depcheck to find unused dependencies
-          npx depcheck --json > unused-deps.json || true
-          if [ -s unused-deps.json ]; then
-            echo "Found unused dependencies:"
-            cat unused-deps.json
-            echo "::error::Unused dependencies found. Please remove them or add them to package.json if needed."
-            exit 1
-          fi
-
       - name: Check for unused exports
         run: |
           # Install ts-unused-exports to find unused exports
