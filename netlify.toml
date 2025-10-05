@@ -1,0 +1,22 @@
+[build]
+  command = "pnpm run build"
+  publish = ".next"
+
+[build.environment]
+  NODE_VERSION = "18"
+  NPM_FLAGS = "--version"
+
+[[redirects]]
+  from = "/_next/image"
+  to = "/.netlify/images"
+  query = { url = ":url", w = ":width", q = ":quality" }
+  status = 200
+
+[[redirects]]
+  from = "/_ipx/*"
+  to = "/.netlify/images"
+  query = { url = ":url", w = ":width", q = ":quality" }
+  status = 200
+
+[functions]
+  node_bundler = "esbuild"

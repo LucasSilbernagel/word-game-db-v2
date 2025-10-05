@@ -1,6 +1,6 @@
 import { NextRequest, NextResponse } from 'next/server'
 
-export const middleware = (request: NextRequest) => {
+function middleware(request: NextRequest) {
   const hostname = request.headers.get('host') || ''
 
   // Skip redirects for localhost and IP addresses (development)
@@ -30,6 +30,8 @@ export const middleware = (request: NextRequest) => {
   return NextResponse.next()
 }
 
-export const config = {
+const config = {
   matcher: ['/((?!_next/static|_next/image|favicon.ico).*)'],
 }
+
+export { config, middleware }
