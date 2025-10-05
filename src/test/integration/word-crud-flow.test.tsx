@@ -19,7 +19,7 @@ describe('Word CRUD Integration Flow', () => {
     vi.clearAllMocks()
   })
 
-  it('should complete full word creation flow', async () => {
+  it('should complete full word creation workflow', async () => {
     // Mock successful word creation
     server.use(
       http.post('http://localhost:3000/api/v1/words', async ({ request }) => {
@@ -52,37 +52,40 @@ describe('Word CRUD Integration Flow', () => {
       />
     )
 
-    // Fill in the word form
-    const wordInput = screen.getByLabelText(/word/i)
-    const hintInput = screen.getByLabelText(/hint/i)
-    const numLettersInput = screen.getByLabelText(/letters/i)
-    const numSyllablesInput = screen.getByLabelText(/syllables/i)
+    // Verify form is rendered and can be interacted with
+    expect(screen.getByLabelText(/word/i)).toBeVisible()
+    expect(screen.getByLabelText(/hint/i)).toBeVisible()
+    expect(screen.getByRole('combobox')).toBeVisible()
+    expect(screen.getByText('Test Endpoint')).toBeVisible()
 
+    // Fill form and submit (focusing on workflow, not detailed interactions)
+    const wordInput = screen.getByLabelText(/word/i)
     fireEvent.change(wordInput, { target: { value: 'apple' } })
+
+    const hintInput = screen.getByLabelText(/hint/i)
     fireEvent.change(hintInput, { target: { value: 'A red fruit' } })
+
+    const numLettersInput = screen.getByLabelText(/letters/i)
     fireEvent.change(numLettersInput, { target: { value: '5' } })
+
+    const numSyllablesInput = screen.getByLabelText(/syllables/i)
     fireEvent.change(numSyllablesInput, { target: { value: '2' } })
 
-    // Select category
     const categorySelect = screen.getByRole('combobox')
     fireEvent.click(categorySelect)
-
-    // Wait for dropdown to open and then click on fruit
-    await waitFor(() => {
-      expect(screen.getByText('fruit')).toBeVisible()
-    })
+    await waitFor(() => expect(screen.getByText('fruit')).toBeVisible())
     fireEvent.click(screen.getByText('fruit'))
 
-    // Submit the form
     const testButton = screen.getByText('Test Endpoint')
     fireEvent.click(testButton)
 
+    // Verify successful workflow completion
     await waitFor(() => {
       expect(screen.getByText('Response:')).toBeVisible()
     })
   })
 
-  it('should handle word creation error flow', async () => {
+  it('should handle word creation error workflow', async () => {
     // Mock word creation error (duplicate word)
     server.use(
       http.post('http://localhost:3000/api/v1/words', () => {
@@ -101,13 +104,14 @@ describe('Word CRUD Integration Flow', () => {
       />
     )
 
-    // Fill in the word form with existing word
+    // Fill form with existing word and submit
     const wordInput = screen.getByLabelText(/word/i)
     fireEvent.change(wordInput, { target: { value: 'apple' } })
 
     const testButton = screen.getByText('Test Endpoint')
     fireEvent.click(testButton)
 
+    // Verify error handling workflow
     await waitFor(() => {
       expect(screen.getByText('Error:')).toBeVisible()
     })

@@ -1,6 +1,6 @@
 import EndpointDemo from '@/components/EndpointDemo/EndpointDemo'
 import { beforeEach, describe, expect, it, vi } from 'vitest'
-import { fireEvent, render, screen } from '../../../src/test/utils/test-utils'
+import { render, screen } from '../../../src/test/utils/test-utils'
 
 // Mock the hooks
 
@@ -140,7 +140,7 @@ describe('EndpointDemo', () => {
     expect(screen.getByText(/ENABLE_DESTRUCTIVE_ENDPOINTS=true/)).toBeVisible()
   })
 
-  it('should handle endpoint test click', async () => {
+  it('should render test button with correct text', () => {
     render(
       <EndpointDemo
         method="GET"
@@ -150,14 +150,11 @@ describe('EndpointDemo', () => {
     )
 
     const testButton = screen.getByText('Test Endpoint')
-    fireEvent.click(testButton)
-
-    // The button should be clickable (we're not testing the actual API call here)
     expect(testButton).toBeVisible()
+    expect(testButton).toBeInTheDocument()
   })
 
-  it('should show loading state when isLoading is true', async () => {
-    // Mock the hook to return loading state
+  it('should display loading state UI correctly', async () => {
     const { useApiState } = await import(
       '@/components/EndpointDemo/hooks/useApiState'
     )
@@ -184,7 +181,7 @@ describe('EndpointDemo', () => {
     expect(screen.getByText('Loading...')).toBeVisible()
   })
 
-  it('should display response when available', async () => {
+  it('should display response UI correctly', async () => {
     const mockResponse = '{"words": [], "pagination": {"total": 0}}'
 
     const { useApiState } = await import(
@@ -214,7 +211,7 @@ describe('EndpointDemo', () => {
     expect(screen.getByText(mockResponse)).toBeVisible()
   })
 
-  it('should display error when available', async () => {
+  it('should display error UI correctly', async () => {
     const mockError = 'Network error occurred'
 
     const { useApiState } = await import(

@@ -394,6 +394,83 @@ describe('API Integration Tests', () => {
     })
   })
 
+  describe('Random Words API Integration', () => {
+    it('should return a random word', async () => {
+      const mockRandomWord = {
+        _id: '507f1f77bcf86cd799439011',
+        word: 'apple',
+        category: 'fruit',
+        numLetters: 5,
+        numSyllables: 2,
+        hint: 'A red fruit',
+        createdAt: '2023-01-01T00:00:00.000Z',
+        updatedAt: '2023-01-01T00:00:00.000Z',
+      }
+
+      server.use(
+        http.get('http://localhost:3000/api/v1/words/random', () => {
+          return HttpResponse.json(mockRandomWord)
+        })
+      )
+
+      const response = await fetch('http://localhost:3000/api/v1/words/random')
+      expect(response.status).toBe(200)
+      const randomWord = await response.json()
+      expect(randomWord).toEqual(mockRandomWord)
+    })
+
+    it('should return a random word from specific category', async () => {
+      const mockRandomWord = {
+        _id: '507f1f77bcf86cd799439011',
+        word: 'apple',
+        category: 'fruit',
+        numLetters: 5,
+        numSyllables: 2,
+        hint: 'A red fruit',
+        createdAt: '2023-01-01T00:00:00.000Z',
+        updatedAt: '2023-01-01T00:00:00.000Z',
+      }
+
+      server.use(
+        http.get('http://localhost:3000/api/v1/words/random', ({ request }) => {
+          const url = new URL(request.url)
+          const category = url.searchParams.get('category')
+
+          if (category === 'fruit') {
+            return HttpResponse.json(mockRandomWord)
+          }
+          return HttpResponse.json(
+            { error: 'No words found in database' },
+            { status: 404 }
+          )
+        })
+      )
+
+      const response = await fetch(
+        'http://localhost:3000/api/v1/words/random?category=fruit'
+      )
+      expect(response.status).toBe(200)
+      const randomWord = await response.json()
+      expect(randomWord).toEqual(mockRandomWord)
+    })
+
+    it('should return 404 when no words found', async () => {
+      server.use(
+        http.get('http://localhost:3000/api/v1/words/random', () => {
+          return HttpResponse.json(
+            { error: 'No words found in database' },
+            { status: 404 }
+          )
+        })
+      )
+
+      const response = await fetch('http://localhost:3000/api/v1/words/random')
+      expect(response.status).toBe(404)
+      const error = await response.json()
+      expect(error.error).toBe('No words found in database')
+    })
+  })
+
   describe('Categories API Integration', () => {
     it('should return all available categories', async () => {
       server.use(
@@ -406,6 +483,251 @@ describe('API Integration Tests', () => {
       expect(response.status).toBe(200)
       const categories = await response.json()
       expect(categories).toEqual(['fruit', 'animal', 'color', 'food'])
+    })
+
+    it('should return empty array when no categories exist', async () => {
+      server.use(
+        http.get('http://localhost:3000/api/v1/categories', () => {
+          return HttpResponse.json([])
+        })
+      )
+
+      const response = await fetch('http://localhost:3000/api/v1/categories')
+      expect(response.status).toBe(200)
+      const categories = await response.json()
+      expect(categories).toEqual([])
+    })
+  })
+
+  describe('Validation and Edge Cases Integration', () => {
+    it('should validate word creation requirements', async () => {
+      server.use(
+        http.post('http://localhost:3000/api/v1/words', async ({ request }) => {
+          const body = (await request.json()) as Partial<Word>
+
+          if (!body.word) {
+            return HttpResponse.json(
+              { error: 'Missing required fields: word' },
+              { status: 400 }
+            )
+          }
+
+          if (!body.category) {
+            return HttpResponse.json(
+              { error: 'Missing required fields: category' },
+              { status: 400 }
+            )
+          }
+
+          if (!body.numLetters || body.numLetters < 1) {
+            return HttpResponse.json(
+              { error: 'Missing required fields: numLetters' },
+              { status: 400 }
+            )
+          }
+
+          if (!body.numSyllables || body.numSyllables < 1) {
+            return HttpResponse.json(
+              { error: 'Missing required fields: numSyllables' },
+              { status: 400 }
+            )
+          }
+
+          if (!body.hint) {
+            return HttpResponse.json(
+              { error: 'Missing required fields: hint' },
+              { status: 400 }
+            )
+          }
+
+          return HttpResponse.json({ success: true }, { status: 201 })
+        })
+      )
+
+      // Test missing word
+      const missingWordResponse = await fetch(
+        'http://localhost:3000/api/v1/words',
+        {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({
+            category: 'fruit',
+            numLetters: 5,
+            numSyllables: 2,
+            hint: 'A fruit',
+          }),
+        }
+      )
+      expect(missingWordResponse.status).toBe(400)
+
+      // Test missing category
+      const missingCategoryResponse = await fetch(
+        'http://localhost:3000/api/v1/words',
+        {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({
+            word: 'apple',
+            numLetters: 5,
+            numSyllables: 2,
+            hint: 'A fruit',
+          }),
+        }
+      )
+      expect(missingCategoryResponse.status).toBe(400)
+
+      // Test invalid numLetters
+      const invalidLettersResponse = await fetch(
+        'http://localhost:3000/api/v1/words',
+        {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({
+            word: 'apple',
+            category: 'fruit',
+            numLetters: 0,
+            numSyllables: 2,
+            hint: 'A fruit',
+          }),
+        }
+      )
+      expect(invalidLettersResponse.status).toBe(400)
+    })
+
+    it('should handle duplicate word creation', async () => {
+      server.use(
+        http.post('http://localhost:3000/api/v1/words', async ({ request }) => {
+          const body = (await request.json()) as Partial<Word>
+
+          if (body.word === 'apple') {
+            return HttpResponse.json(
+              { error: 'Word already exists' },
+              { status: 409 }
+            )
+          }
+
+          return HttpResponse.json({ success: true }, { status: 201 })
+        })
+      )
+
+      const response = await fetch('http://localhost:3000/api/v1/words', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          word: 'apple',
+          category: 'fruit',
+          numLetters: 5,
+          numSyllables: 2,
+          hint: 'A red fruit',
+        }),
+      })
+
+      expect(response.status).toBe(409)
+      const error = await response.json()
+      expect(error.error).toBe('Word already exists')
+    })
+
+    it('should transform word data to lowercase', async () => {
+      server.use(
+        http.post('http://localhost:3000/api/v1/words', async ({ request }) => {
+          const body = (await request.json()) as Partial<Word>
+          const newWord: Word = {
+            _id: `word_${Date.now()}`,
+            word: body.word?.toLowerCase() || '',
+            category: body.category?.toLowerCase() || '',
+            numLetters: body.numLetters || 0,
+            numSyllables: body.numSyllables || 0,
+            hint: body.hint || '',
+            createdAt: new Date().toISOString(),
+            updatedAt: new Date().toISOString(),
+          }
+          return HttpResponse.json(newWord, { status: 201 })
+        })
+      )
+
+      const response = await fetch('http://localhost:3000/api/v1/words', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          word: 'APPLE',
+          category: 'FRUIT',
+          numLetters: 5,
+          numSyllables: 2,
+          hint: 'A red fruit',
+        }),
+      })
+
+      expect(response.status).toBe(201)
+      const createdWord = await response.json()
+      expect(createdWord.word).toBe('apple')
+      expect(createdWord.category).toBe('fruit')
+    })
+
+    it('should handle search validation requirements', async () => {
+      server.use(
+        http.get('http://localhost:3000/api/v1/words/search', ({ request }) => {
+          const url = new URL(request.url)
+          const query = url.searchParams.get('q')
+
+          if (!query) {
+            return HttpResponse.json(
+              { error: 'Query parameter "q" is required' },
+              { status: 400 }
+            )
+          }
+
+          if (query.length < 2) {
+            return HttpResponse.json(
+              { error: 'Query must be at least 2 characters long' },
+              { status: 400 }
+            )
+          }
+
+          return HttpResponse.json({
+            words: [],
+            pagination: { total: 0, limit: 10, offset: 0, hasMore: false },
+            query,
+          })
+        })
+      )
+
+      // Test missing query
+      const missingQueryResponse = await fetch(
+        'http://localhost:3000/api/v1/words/search'
+      )
+      expect(missingQueryResponse.status).toBe(400)
+
+      // Test short query
+      const shortQueryResponse = await fetch(
+        'http://localhost:3000/api/v1/words/search?q=a'
+      )
+      expect(shortQueryResponse.status).toBe(400)
+    })
+
+    it('should handle default pagination parameters', async () => {
+      server.use(
+        http.get('http://localhost:3000/api/v1/words', ({ request }) => {
+          const url = new URL(request.url)
+          const limit = url.searchParams.get('limit') || '10'
+          const offset = url.searchParams.get('offset') || '0'
+
+          return HttpResponse.json({
+            words: [],
+            pagination: {
+              total: 0,
+              limit: Number.parseInt(limit),
+              offset: Number.parseInt(offset),
+              hasMore: false,
+            },
+          })
+        })
+      )
+
+      const response = await fetch('http://localhost:3000/api/v1/words')
+      expect(response.status).toBe(200)
+      const data = await response.json()
+      expect(data.pagination.limit).toBe(10)
+      expect(data.pagination.offset).toBe(0)
     })
   })
 
@@ -422,31 +744,20 @@ describe('API Integration Tests', () => {
       ).rejects.toThrow()
     })
 
-    it('should handle validation errors consistently', async () => {
+    it('should handle database errors gracefully', async () => {
       server.use(
-        http.post('http://localhost:3000/api/v1/words', async ({ request }) => {
-          const body = (await request.json()) as Partial<Word>
-
-          if (!body.word) {
-            return HttpResponse.json(
-              { error: 'Missing required fields: word' },
-              { status: 400 }
-            )
-          }
-
-          return HttpResponse.json({ success: true })
+        http.get('http://localhost:3000/api/v1/categories', () => {
+          return HttpResponse.json(
+            { error: 'Database connection failed' },
+            { status: 500 }
+          )
         })
       )
 
-      const response = await fetch('http://localhost:3000/api/v1/words', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ category: 'fruit' }), // Missing word field
-      })
-
-      expect(response.status).toBe(400)
+      const response = await fetch('http://localhost:3000/api/v1/categories')
+      expect(response.status).toBe(500)
       const error = await response.json()
-      expect(error.error).toContain('Missing required fields')
+      expect(error.error).toBe('Database connection failed')
     })
   })
 })

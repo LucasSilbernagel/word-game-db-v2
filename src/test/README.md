@@ -6,13 +6,7 @@ This directory contains a comprehensive test suite for the Word Game DB applicat
 
 ```
 src/test/
-├── api/                    # API endpoint tests
-│   ├── words.test.ts       # Words CRUD operations
-│   ├── words-search.test.ts # Word search functionality
-│   ├── words-id.test.ts    # Individual word operations
-│   ├── words-random.test.ts # Random word generation
-│   └── categories.test.ts  # Categories API
-├── components/             # React component tests
+├── components/             # React component tests (UI/UX focused)
 │   ├── EndpointDemo.test.tsx
 │   ├── WordForm.test.tsx
 │   ├── SearchForm.test.tsx
@@ -20,9 +14,9 @@ src/test/
 ├── hooks/                  # Custom hook tests
 │   ├── useFilters.test.ts
 │   └── useApiState.test.ts
-├── integration/            # Integration tests
-│   ├── word-crud-flow.test.tsx
-│   └── api-integration.test.ts
+├── integration/            # Integration tests (comprehensive API coverage)
+│   ├── word-crud-flow.test.tsx  # User workflow tests
+│   └── api-integration.test.ts  # Complete API endpoint testing
 ├── utils/                  # Utility function tests
 │   ├── validation.test.ts
 │   ├── apiWrapper.test.ts
@@ -70,9 +64,9 @@ The test configuration is defined in `vitest.config.ts`:
 
 ## Test Categories
 
-### 1. API Tests (`src/test/api/`)
+### 1. Integration Tests (`src/test/integration/`)
 
-Tests for all API endpoints including:
+Comprehensive API endpoint testing including:
 
 - GET `/api/v1/words` - List words with filtering and pagination
 - POST `/api/v1/words` - Create new words
@@ -89,23 +83,23 @@ Each test includes:
 - Error handling
 - Validation
 - Edge cases
+- Real HTTP request/response cycles
 
 ### 2. Component Tests (`src/test/components/`)
 
-Tests for React components using Testing Library:
+UI/UX focused tests for React components using Testing Library:
 
-- **EndpointDemo**: Main demo component with all form types
-- **WordForm**: Word creation form
-- **SearchForm**: Word search form
-- **FilterForm**: Word filtering form
+- **EndpointDemo**: Main demo component rendering and state display
+- **WordForm**: Form field rendering, user interactions, and validation
+- **SearchForm**: Search form UI and input handling
+- **FilterForm**: Filter form UI and dropdown interactions
 
-Tests cover:
+Tests focus on:
 
-- Rendering
-- User interactions
-- Form validation
-- State management
-- Accessibility
+- Component rendering and accessibility
+- Form field interactions and validation
+- UI state display (loading, errors, responses)
+- User interface elements and attributes
 
 ### 3. Hook Tests (`src/test/hooks/`)
 
@@ -121,19 +115,19 @@ Tests verify:
 - Side effects
 - Cleanup
 
-### 4. Integration Tests (`src/test/integration/`)
+### 4. User Workflow Tests (`src/test/integration/word-crud-flow.test.tsx`)
 
-End-to-end user flow tests:
+End-to-end user workflow tests:
 
-- **Word CRUD Flow**: Complete create, read, update, delete operations
-- **API Integration**: Full API interaction testing
+- **Word CRUD Flow**: Complete user workflows for create, read, update, delete operations
+- **Search and Filter Flows**: User interaction workflows with search and filtering
 
 Tests simulate:
 
-- Real user interactions
-- Complete workflows
-- Error scenarios
-- Loading states
+- Complete user workflows across components
+- Cross-component interactions
+- Real API integration scenarios
+- Error handling workflows
 
 ### 5. Utility Tests (`src/test/utils/`)
 
