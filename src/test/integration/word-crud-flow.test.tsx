@@ -13,6 +13,8 @@ import { server } from '../mocks/server'
 // Only mock the external dependencies
 
 describe('Word CRUD Integration Flow', () => {
+  const mockCategories = ['fruit', 'animal', 'color']
+
   beforeEach(() => {
     vi.clearAllMocks()
   })
@@ -21,7 +23,13 @@ describe('Word CRUD Integration Flow', () => {
     // Mock successful word creation
     server.use(
       http.post('http://localhost:3000/api/v1/words', async ({ request }) => {
-        const body = (await request.json()) as Record<string, any>
+        const body = (await request.json()) as {
+          word: string
+          category: string
+          hint: string
+          numLetters: number
+          numSyllables: number
+        }
         return HttpResponse.json(
           {
             _id: '507f1f77bcf86cd799439011',
@@ -36,7 +44,13 @@ describe('Word CRUD Integration Flow', () => {
       })
     )
 
-    render(<EndpointDemo method="POST" path="/api/v1/words" />)
+    render(
+      <EndpointDemo
+        method="POST"
+        path="/api/v1/words"
+        categories={mockCategories}
+      />
+    )
 
     // Fill in the word form
     const wordInput = screen.getByLabelText(/word/i)
@@ -79,7 +93,13 @@ describe('Word CRUD Integration Flow', () => {
       })
     )
 
-    render(<EndpointDemo method="POST" path="/api/v1/words" />)
+    render(
+      <EndpointDemo
+        method="POST"
+        path="/api/v1/words"
+        categories={mockCategories}
+      />
+    )
 
     // Fill in the word form with existing word
     const wordInput = screen.getByLabelText(/word/i)
@@ -124,7 +144,13 @@ describe('Word CRUD Integration Flow', () => {
       })
     )
 
-    render(<EndpointDemo method="GET" path="/api/v1/words/search" />)
+    render(
+      <EndpointDemo
+        method="GET"
+        path="/api/v1/words/search"
+        categories={mockCategories}
+      />
+    )
 
     // Fill in search query
     const queryInput = screen.getByLabelText(/search query/i)
@@ -140,7 +166,13 @@ describe('Word CRUD Integration Flow', () => {
   })
 
   it('should handle search validation errors', async () => {
-    render(<EndpointDemo method="GET" path="/api/v1/words/search" />)
+    render(
+      <EndpointDemo
+        method="GET"
+        path="/api/v1/words/search"
+        categories={mockCategories}
+      />
+    )
 
     // Try to search with empty query
     const testButton = screen.getByText('Test Endpoint')
@@ -184,7 +216,13 @@ describe('Word CRUD Integration Flow', () => {
       })
     )
 
-    render(<EndpointDemo method="GET" path="/api/v1/words" />)
+    render(
+      <EndpointDemo
+        method="GET"
+        path="/api/v1/words"
+        categories={mockCategories}
+      />
+    )
 
     // Apply category filter
     const categorySelect = screen.getByRole('combobox')
@@ -222,7 +260,13 @@ describe('Word CRUD Integration Flow', () => {
       })
     )
 
-    render(<EndpointDemo method="GET" path="/api/v1/words" />)
+    render(
+      <EndpointDemo
+        method="GET"
+        path="/api/v1/words"
+        categories={mockCategories}
+      />
+    )
 
     const testButton = screen.getByText('Test Endpoint')
     fireEvent.click(testButton)
@@ -245,7 +289,13 @@ describe('Word CRUD Integration Flow', () => {
     // Mock successful word creation
     server.use(
       http.post('http://localhost:3000/api/v1/words', async ({ request }) => {
-        const body = (await request.json()) as Record<string, any>
+        const body = (await request.json()) as {
+          word: string
+          category: string
+          hint: string
+          numLetters: number
+          numSyllables: number
+        }
         return HttpResponse.json(
           {
             _id: '507f1f77bcf86cd799439011',
@@ -260,7 +310,13 @@ describe('Word CRUD Integration Flow', () => {
       })
     )
 
-    render(<EndpointDemo method="POST" path="/api/v1/words" />)
+    render(
+      <EndpointDemo
+        method="POST"
+        path="/api/v1/words"
+        categories={mockCategories}
+      />
+    )
 
     // Fill in the form
     const wordInput = screen.getByLabelText(/word/i)

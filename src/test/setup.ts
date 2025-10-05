@@ -2,6 +2,7 @@ import '@testing-library/jest-dom'
 import React from 'react'
 import { afterAll, afterEach, beforeAll, vi } from 'vitest'
 import { server } from './mocks/server'
+globalThis.React = React
 
 // Mock Element for test environment
 globalThis.Element = globalThis.Element || class Element {}
@@ -71,3 +72,39 @@ vi.stubEnv('ENABLE_DESTRUCTIVE_ENDPOINTS', 'true')
 ;(
   globalThis.Element as { prototype: { scrollIntoView: unknown } }
 ).prototype.scrollIntoView = vi.fn()
+
+// Mock HTMLFormElement.requestSubmit to prevent warnings
+if (globalThis.HTMLFormElement !== undefined) {
+  globalThis.HTMLFormElement.prototype.requestSubmit = vi.fn()
+}
+
+// Suppress expected warnings in tests
+const originalWarn = console.warn
+const originalError = console.error
+
+console.warn = (...args) => {
+  const message = args[0]
+  if (
+    typeof message === 'string' &&
+    (message.includes('DialogContent requires a DialogTitle') ||
+      message.includes('Missing `Description` or `aria-describedby') ||
+      message.includes('Could not parse CSS stylesheet') ||
+      message.includes(
+        "Not implemented: HTMLFormElement's requestSubmit() method"
+      ))
+  ) {
+    return
+  }
+  originalWarn(...args)
+}
+
+console.error = (...args) => {
+  const message = args[0]
+  if (
+    typeof message === 'string' &&
+    message.includes('API Error: Error: Database error')
+  ) {
+    return
+  }
+  originalError(...args)
+}

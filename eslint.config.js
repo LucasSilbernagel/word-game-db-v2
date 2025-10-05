@@ -3,7 +3,6 @@ import nextPlugin from '@next/eslint-plugin-next'
 import typescript from '@typescript-eslint/eslint-plugin'
 import typescriptParser from '@typescript-eslint/parser'
 import jsxA11y from 'eslint-plugin-jsx-a11y'
-import prettier from 'eslint-plugin-prettier'
 import unicorn from 'eslint-plugin-unicorn'
 
 export default [
@@ -40,7 +39,6 @@ export default [
     plugins: {
       '@typescript-eslint': typescript,
       unicorn,
-      prettier,
       'jsx-a11y': jsxA11y,
       '@next/next': nextPlugin,
     },
@@ -54,7 +52,6 @@ export default [
       'unicorn/no-null': 'off',
       'unicorn/prefer-module': 'off',
       'unicorn/filename-case': 'off',
-      'prettier/prettier': 'error',
       semi: 'off',
       '@typescript-eslint/semi': 'off',
     },

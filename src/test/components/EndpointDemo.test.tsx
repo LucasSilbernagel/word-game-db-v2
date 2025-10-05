@@ -3,9 +3,6 @@ import { beforeEach, describe, expect, it, vi } from 'vitest'
 import { fireEvent, render, screen } from '../../../src/test/utils/test-utils'
 
 // Mock the hooks
-vi.mock('@/components/EndpointDemo/hooks/useCategories', () => ({
-  useCategories: () => ['fruit', 'animal', 'color'],
-}))
 
 vi.mock('@/components/EndpointDemo/hooks/useFilters', () => ({
   useFilters: () => ({
@@ -96,12 +93,20 @@ vi.mock('@/components/EndpointDemo/utils/handleApiResponse', () => ({
 }))
 
 describe('EndpointDemo', () => {
+  const mockCategories = ['fruit', 'animal', 'color']
+
   beforeEach(() => {
     vi.clearAllMocks()
   })
 
   it('should render with GET method for words endpoint', () => {
-    render(<EndpointDemo method="GET" path="/api/v1/words" />)
+    render(
+      <EndpointDemo
+        method="GET"
+        path="/api/v1/words"
+        categories={mockCategories}
+      />
+    )
 
     expect(screen.getByText('Live Demo')).toBeVisible()
     expect(screen.getByText('Test Endpoint')).toBeVisible()
@@ -109,7 +114,13 @@ describe('EndpointDemo', () => {
   })
 
   it('should render with POST method for words endpoint', () => {
-    render(<EndpointDemo method="POST" path="/api/v1/words" />)
+    render(
+      <EndpointDemo
+        method="POST"
+        path="/api/v1/words"
+        categories={mockCategories}
+      />
+    )
 
     expect(screen.getByText('Live Demo')).toBeVisible()
     expect(screen.getByText('Test Endpoint')).toBeVisible()
@@ -121,6 +132,7 @@ describe('EndpointDemo', () => {
         method="POST"
         path="/api/v1/words"
         isDestructiveEnabled={false}
+        categories={mockCategories}
       />
     )
 
@@ -129,7 +141,13 @@ describe('EndpointDemo', () => {
   })
 
   it('should handle endpoint test click', async () => {
-    render(<EndpointDemo method="GET" path="/api/v1/words" />)
+    render(
+      <EndpointDemo
+        method="GET"
+        path="/api/v1/words"
+        categories={mockCategories}
+      />
+    )
 
     const testButton = screen.getByText('Test Endpoint')
     fireEvent.click(testButton)
@@ -155,7 +173,13 @@ describe('EndpointDemo', () => {
       clearResponse: vi.fn(),
     })
 
-    render(<EndpointDemo method="GET" path="/api/v1/words" />)
+    render(
+      <EndpointDemo
+        method="GET"
+        path="/api/v1/words"
+        categories={mockCategories}
+      />
+    )
 
     expect(screen.getByText('Loading...')).toBeVisible()
   })
@@ -178,7 +202,13 @@ describe('EndpointDemo', () => {
       clearResponse: vi.fn(),
     })
 
-    render(<EndpointDemo method="GET" path="/api/v1/words" />)
+    render(
+      <EndpointDemo
+        method="GET"
+        path="/api/v1/words"
+        categories={mockCategories}
+      />
+    )
 
     expect(screen.getByText('Response:')).toBeVisible()
     expect(screen.getByText(mockResponse)).toBeVisible()
@@ -202,28 +232,52 @@ describe('EndpointDemo', () => {
       clearResponse: vi.fn(),
     })
 
-    render(<EndpointDemo method="GET" path="/api/v1/words" />)
+    render(
+      <EndpointDemo
+        method="GET"
+        path="/api/v1/words"
+        categories={mockCategories}
+      />
+    )
 
     expect(screen.getByText('Error:')).toBeVisible()
     expect(screen.getByText(mockError)).toBeVisible()
   })
 
   it('should render search form for search endpoint', () => {
-    render(<EndpointDemo method="GET" path="/api/v1/words/search" />)
+    render(
+      <EndpointDemo
+        method="GET"
+        path="/api/v1/words/search"
+        categories={mockCategories}
+      />
+    )
 
     // The search form should be rendered
     expect(screen.getByText('Reset')).toBeVisible()
   })
 
   it('should render word form for POST endpoint', () => {
-    render(<EndpointDemo method="POST" path="/api/v1/words" />)
+    render(
+      <EndpointDemo
+        method="POST"
+        path="/api/v1/words"
+        categories={mockCategories}
+      />
+    )
 
     // The word form should be rendered (we can check for the form elements)
     expect(screen.getByText('Reset')).toBeVisible()
   })
 
   it('should render filter form for GET words endpoint', () => {
-    render(<EndpointDemo method="GET" path="/api/v1/words" />)
+    render(
+      <EndpointDemo
+        method="GET"
+        path="/api/v1/words"
+        categories={mockCategories}
+      />
+    )
 
     // The filter form should be rendered
     expect(screen.getByText('Reset')).toBeVisible()

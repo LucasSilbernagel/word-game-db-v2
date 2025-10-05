@@ -11,19 +11,22 @@ export const MobileMenuContent = ({
 }: PropsWithChildren<ComponentProps<typeof SheetPrimitive.Content>>) => {
   return (
     <SheetPrimitive.Portal>
-      <SheetPrimitive.Overlay className="mobile-menu-overlay fixed inset-0 z-50 bg-black/50" />
+      <SheetPrimitive.Overlay className="z-50 fixed inset-0 bg-black/50 mobile-menu-overlay" />
       <SheetPrimitive.Content
         data-slot="sheet-content"
-        className="bg-background mobile-menu-content fixed inset-x-0 top-0 z-50 flex h-auto w-full flex-col gap-4 shadow-2xl"
+        className="top-0 z-50 fixed inset-x-0 flex flex-col gap-4 bg-background shadow-2xl w-full h-auto mobile-menu-content"
       >
+        <SheetPrimitive.Title className="sr-only">
+          Mobile Navigation Menu
+        </SheetPrimitive.Title>
         <SheetClose asChild>
           <Button
             variant="ghost"
             size="icon"
-            className="absolute top-3 right-4 z-10 transition-all duration-200"
+            className="top-3 right-4 z-10 absolute transition-all duration-200"
             aria-label="Close mobile menu"
           >
-            <X className="h-6 w-6" />
+            <X className="w-6 h-6" />
           </Button>
         </SheetClose>
         {children}

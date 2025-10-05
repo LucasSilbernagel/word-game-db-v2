@@ -58,11 +58,17 @@ describe('/api/v1/categories', () => {
         new Error('Database error')
       )
 
+      // Suppress console.error for this test since we're testing error handling
+      const consoleSpy = vi.spyOn(console, 'error').mockImplementation(() => {})
+
       // The withGetWrapper should handle the error and return a 500 response
       const request = new NextRequest('http://localhost:3000/api/v1/categories')
       const response = await GET(request)
 
       expect(response.status).toBe(500)
+
+      // Restore console.error
+      consoleSpy.mockRestore()
     })
   })
 })

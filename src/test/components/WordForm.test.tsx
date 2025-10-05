@@ -144,9 +144,9 @@ describe('WordForm', () => {
     const selectTrigger = screen.getByRole('combobox')
     fireEvent.click(selectTrigger)
 
-    mockCategories.forEach((category) => {
+    for (const category of mockCategories) {
       expect(screen.getByText(category)).toBeVisible()
-    })
+    }
   })
 
   it('should call updateWordForm when category is selected', () => {

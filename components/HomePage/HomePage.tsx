@@ -63,6 +63,7 @@ const HomePage = () => {
   const [isClient, setIsClient] = useState(false)
   const [isDestructiveEnabled, setIsDestructiveEnabled] = useState(false)
   const [isLoadingConfig, setIsLoadingConfig] = useState(true)
+  const [categories, setCategories] = useState<string[]>([])
 
   // Ensure hydration consistency
   useEffect(() => {
@@ -95,6 +96,30 @@ const HomePage = () => {
     }
   }, [isClient])
 
+  // Fetch categories once for all EndpointDemo components
+  useEffect(() => {
+    const fetchCategories = async () => {
+      try {
+        const res = await fetch(API_ROUTES.CATEGORIES, {
+          // Add cache headers for better performance
+          headers: {
+            'Cache-Control': 'max-age=3600', // Cache for 1 hour
+          },
+        })
+        if (res.ok) {
+          const data = await res.json()
+          setCategories(data)
+        }
+      } catch (error) {
+        console.error('Failed to fetch categories:', error)
+      }
+    }
+
+    if (isClient) {
+      fetchCategories()
+    }
+  }, [isClient])
+
   const apiEndpoints = allApiEndpoints.filter(
     (endpoint) => !endpoint.isDestructive || isDestructiveEnabled
   )
@@ -110,13 +135,13 @@ const HomePage = () => {
   }
 
   return (
-    <div className="container mx-auto px-4 py-8">
+    <div className="mx-auto px-4 py-8 container">
       <div className="mx-auto max-w-4xl">
         <header className="mb-12 text-center">
-          <h1 className="mb-4 text-4xl font-bold tracking-tight">
+          <h1 className="mb-4 font-bold text-4xl tracking-tight">
             Word Game DB
           </h1>
-          <p className="text-muted-foreground mb-8 text-xl">
+          <p className="mb-8 text-muted-foreground text-xl">
             A read-only REST API for educational word game development
           </p>
           <nav aria-label="Main navigation">
@@ -137,9 +162,9 @@ const HomePage = () => {
           </h2>
           <Card>
             <CardContent className="pt-6">
-              <div className="dark:prose-invert prose prose-gray max-w-none text-center">
+              <div className="dark:prose-invert max-w-none text-center prose prose-gray">
                 <p className="text-lg">
-                  <span className="text-primary font-semibold">
+                  <span className="font-semibold text-primary">
                     Word Game DB
                   </span>{' '}
                   is designed for educational purposes, helping developers
@@ -159,19 +184,19 @@ const HomePage = () => {
         <section className="mb-12" aria-labelledby="api-endpoints-heading">
           <h2
             id="api-endpoints-heading"
-            className="mb-6 text-2xl font-semibold"
+            className="mb-6 font-semibold text-2xl"
           >
             API Endpoints
           </h2>
           <ul
-            className="grid list-none grid-cols-1 gap-4"
+            className="gap-4 grid grid-cols-1 list-none"
             aria-label="API endpoints"
           >
             {apiEndpoints.map((endpoint, index) => (
               <li key={index}>
                 <Card>
                   <CardHeader>
-                    <div className="flex flex-col items-center gap-3 sm:flex-row">
+                    <div className="flex sm:flex-row flex-col items-center gap-3">
                       <span
                         className={`rounded px-2 py-1 font-mono text-xs ${(() => {
                           if (endpoint.method === 'GET') {
@@ -189,7 +214,7 @@ const HomePage = () => {
                       >
                         {endpoint.method}
                       </span>
-                      <code className="bg-muted overflow-hidden rounded px-2 py-1 font-mono text-sm break-all">
+                      <code className="bg-muted px-2 py-1 rounded overflow-hidden font-mono text-sm break-all">
                         https://wordgamedb.com{endpoint.path}
                       </code>
                     </div>
@@ -200,22 +225,22 @@ const HomePage = () => {
                   <CardContent>
                     {endpoint.example && (
                       <>
-                        <p className="text-muted-foreground mb-2 text-sm">
+                        <p className="mb-2 text-muted-foreground text-sm">
                           Example:
                         </p>
-                        <code className="bg-muted block rounded p-2 text-sm break-all">
+                        <code className="block bg-muted p-2 rounded text-sm break-all">
                           {endpoint.example}
                         </code>
                       </>
                     )}
                     <Suspense
                       fallback={
-                        <div className="flex items-center justify-center py-4">
+                        <div className="flex justify-center items-center py-4">
                           <div
-                            className="border-primary h-6 w-6 animate-spin rounded-full border-2 border-t-transparent"
+                            className="border-2 border-primary border-t-transparent rounded-full w-6 h-6 animate-spin"
                             aria-hidden="true"
                           />
-                          <span className="text-muted-foreground ml-2 text-sm">
+                          <span className="ml-2 text-muted-foreground text-sm">
                             Loading demo...
                           </span>
                         </div>
@@ -227,6 +252,7 @@ const HomePage = () => {
                         description={endpoint.description}
                         example={endpoint.example}
                         isDestructiveEnabled={isDestructiveEnabled}
+                        categories={categories}
                       />
                     </Suspense>
                   </CardContent>
@@ -237,12 +263,12 @@ const HomePage = () => {
               <li>
                 <Card>
                   <CardContent className="pt-6">
-                    <div className="flex items-center justify-center py-4">
+                    <div className="flex justify-center items-center py-4">
                       <div
-                        className="border-primary h-6 w-6 animate-spin rounded-full border-2 border-t-transparent"
+                        className="border-2 border-primary border-t-transparent rounded-full w-6 h-6 animate-spin"
                         aria-hidden="true"
                       />
-                      <span className="text-muted-foreground ml-2 text-sm">
+                      <span className="ml-2 text-muted-foreground text-sm">
                         Loading additional endpoints...
                       </span>
                     </div>
