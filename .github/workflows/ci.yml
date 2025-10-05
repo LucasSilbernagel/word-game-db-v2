@@ -45,6 +45,8 @@ jobs:
 
       - name: Build project
         run: pnpm build
+        env:
+          MONGODB_URI: mongodb://localhost:27017/test
 
       - name: Check for unused dependencies
         run: |
@@ -123,6 +125,8 @@ jobs:
 
       - name: Build project
         run: pnpm build
+        env:
+          MONGODB_URI: mongodb://localhost:27017/test
 
       - name: Check bundle size
         run: |
