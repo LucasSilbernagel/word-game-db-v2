@@ -1,0 +1,122 @@
+name: CI
+
+on:
+  push:
+    branches: [main, develop]
+  pull_request:
+    branches: [main, develop]
+
+jobs:
+  quality-checks:
+    name: Quality Checks
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+          cache: 'npm'
+
+      - name: Setup pnpm
+        uses: pnpm/action-setup@v4
+        with:
+          version: latest
+
+      - name: Install dependencies
+        run: pnpm install --frozen-lockfile
+
+      - name: TypeScript type checking
+        run: npx tsc --noEmit
+
+      - name: ESLint check
+        run: pnpm lint
+
+      - name: Prettier format check
+        run: pnpm format:check
+
+      - name: Run tests
+        run: pnpm test:run
+
+      - name: Build project
+        run: pnpm build
+
+      - name: Check for unused dependencies
+        run: |
+          # Install depcheck to find unused dependencies
+          npx depcheck --json > unused-deps.json || true
+          if [ -s unused-deps.json ]; then
+            echo "Found unused dependencies:"
+            cat unused-deps.json
+            echo "::error::Unused dependencies found. Please remove them or add them to package.json if needed."
+            exit 1
+          fi
+
+      - name: Check for unused exports
+        run: |
+          # Install ts-unused-exports to find unused exports
+          npx ts-unused-exports tsconfig.json --excludePathsFromReport=node_modules,coverage,.next,dist,build || true
+
+  security-audit:
+    name: Security Audit
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+          cache: 'npm'
+
+      - name: Setup pnpm
+        uses: pnpm/action-setup@v4
+        with:
+          version: latest
+
+      - name: Install dependencies
+        run: pnpm install --frozen-lockfile
+
+      - name: Security audit
+        run: pnpm audit --audit-level moderate
+
+  performance-check:
+    name: Performance Check
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+          cache: 'npm'
+
+      - name: Setup pnpm
+        uses: pnpm/action-setup@v4
+        with:
+          version: latest
+
+      - name: Install dependencies
+        run: pnpm install --frozen-lockfile
+
+      - name: Build project
+        run: pnpm build
+
+      - name: Check bundle size
+        run: |
+          # Check if build output is reasonable (adjust threshold as needed)
+          BUILD_SIZE=$(du -s .next | cut -f1)
+          MAX_SIZE=50000  # 50MB in KB
+          if [ $BUILD_SIZE -gt $MAX_SIZE ]; then
+            echo "::error::Build size ($BUILD_SIZE KB) exceeds maximum allowed size ($MAX_SIZE KB)"
+            exit 1
+          fi
+          echo "Build size: $BUILD_SIZE KB (max: $MAX_SIZE KB)"

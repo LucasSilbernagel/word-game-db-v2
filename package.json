@@ -14,7 +14,10 @@
     "test": "vitest",
     "test:ui": "vitest --ui",
     "test:run": "vitest run",
-    "test:watch": "vitest --watch"
+    "test:watch": "vitest --watch",
+    "check": "bash scripts/check-quality.sh",
+    "check:unused": "npx depcheck && npx ts-unused-exports tsconfig.json --excludePathsFromReport=node_modules,coverage,.next,dist,build",
+    "audit": "pnpm audit --audit-level moderate"
   },
   "dependencies": {
     "@radix-ui/react-checkbox": "^1.3.3",
@@ -50,6 +53,7 @@
     "@typescript-eslint/parser": "^8.44.0",
     "@vitejs/plugin-react": "^5.0.4",
     "@vitest/ui": "^3.2.4",
+    "depcheck": "^1.4.7",
     "eslint": "^9.36.0",
     "eslint-config-prettier": "^10.1.8",
     "eslint-plugin-jsx-a11y": "^6.10.2",
@@ -61,6 +65,7 @@
     "prettier-plugin-organize-imports": "^4.3.0",
     "prettier-plugin-tailwindcss": "^0.6.14",
     "tailwindcss": "^4",
+    "ts-unused-exports": "^11.0.1",
     "typescript": "^5",
     "vitest": "^3.2.4"
   }
