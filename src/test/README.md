@@ -46,9 +46,6 @@ pnpm test:run
 # Run tests with UI (browser-based)
 pnpm test:ui
 
-# Run tests with coverage report
-pnpm test:coverage
-
 # Run tests in watch mode
 pnpm test:watch
 ```
@@ -219,21 +216,6 @@ expect(data.word).toBe('apple')
 
 // Avoid
 expect(response).toBeTruthy()
-```
-
-## Coverage Goals
-
-The test suite aims for:
-
-- **Statements**: 90%+
-- **Branches**: 85%+
-- **Functions**: 90%+
-- **Lines**: 90%+
-
-Run coverage with:
-
-```bash
-pnpm test:coverage
 ```
 
 ## Debugging Tests
