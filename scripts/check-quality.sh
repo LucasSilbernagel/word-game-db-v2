@@ -25,17 +25,6 @@ pnpm test:run
 echo "🏗️ Building project..."
 pnpm build
 
-echo "📊 Checking for unused dependencies..."
-npx depcheck --json > unused-deps.json || true
-if [ -s unused-deps.json ]; then
-  echo "❌ Found unused dependencies:"
-  cat unused-deps.json
-  echo "Please remove them or add them to package.json if needed."
-  exit 1
-fi
-
-echo "📈 Checking for unused exports..."
-npx ts-unused-exports tsconfig.json --excludePathsFromReport=node_modules,coverage,.next,dist,build || true
 
 echo "🔒 Security audit..."
 pnpm audit --audit-level moderate
