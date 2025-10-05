@@ -54,6 +54,7 @@ export default [
       'unicorn/filename-case': 'off',
       semi: 'off',
       '@typescript-eslint/semi': 'off',
+      'prettier/prettier': 'off',
     },
   },
   {
