@@ -14,22 +14,8 @@ jobs:
       success: ${{ steps.quality-check.outputs.success }}
 
     steps:
-      - name: Checkout code
-        uses: actions/checkout@v4
-
-      - name: Setup pnpm
-        uses: pnpm/action-setup@v4
-        with:
-          version: latest
-
-      - name: Setup Node.js
-        uses: actions/setup-node@v4
-        with:
-          node-version: '20'
-          cache: 'pnpm'
-
-      - name: Install dependencies
-        run: pnpm install --frozen-lockfile
+      - name: Setup Node.js project
+        uses: ./.github/actions/setup-node-project
 
       - name: TypeScript type checking
         run: npx tsc --noEmit
@@ -44,18 +30,18 @@ jobs:
         run: pnpm test:run
 
       - name: Build project
-        run: pnpm build
-        env:
-          MONGODB_URI: mongodb://localhost:27017/test
+        uses: ./.github/actions/build-project
 
       - name: Check for unused exports
         run: |
           # Install ts-unused-exports to find unused exports
           npx ts-unused-exports tsconfig.json --excludePathsFromReport=node_modules,coverage,.next,dist,build || true
 
-      - name: Quality Check Status
+      - name: Set success output
         id: quality-check
-        run: echo "success=true" >> $GITHUB_OUTPUT
+        uses: ./.github/actions/set-success-output
+        with:
+          output-name: success
 
   security-audit:
     name: Security Audit
@@ -64,29 +50,17 @@ jobs:
       success: ${{ steps.security-check.outputs.success }}
 
     steps:
-      - name: Checkout code
-        uses: actions/checkout@v4
-
-      - name: Setup pnpm
-        uses: pnpm/action-setup@v4
-        with:
-          version: latest
-
-      - name: Setup Node.js
-        uses: actions/setup-node@v4
-        with:
-          node-version: '20'
-          cache: 'pnpm'
-
-      - name: Install dependencies
-        run: pnpm install --frozen-lockfile
+      - name: Setup Node.js project
+        uses: ./.github/actions/setup-node-project
 
       - name: Security audit
         run: pnpm audit --audit-level moderate
 
-      - name: Security Check Status
+      - name: Set success output
         id: security-check
-        run: echo "success=true" >> $GITHUB_OUTPUT
+        uses: ./.github/actions/set-success-output
+        with:
+          output-name: success
 
   performance-check:
     name: Performance Check
@@ -95,27 +69,11 @@ jobs:
       success: ${{ steps.performance-check.outputs.success }}
 
     steps:
-      - name: Checkout code
-        uses: actions/checkout@v4
-
-      - name: Setup pnpm
-        uses: pnpm/action-setup@v4
-        with:
-          version: latest
-
-      - name: Setup Node.js
-        uses: actions/setup-node@v4
-        with:
-          node-version: '20'
-          cache: 'pnpm'
-
-      - name: Install dependencies
-        run: pnpm install --frozen-lockfile
+      - name: Setup Node.js project
+        uses: ./.github/actions/setup-node-project
 
       - name: Build project
-        run: pnpm build
-        env:
-          MONGODB_URI: mongodb://localhost:27017/test
+        uses: ./.github/actions/build-project
 
       - name: Check bundle size
         run: |
@@ -128,6 +86,8 @@ jobs:
           fi
           echo "Build size: $BUILD_SIZE KB (max: $MAX_SIZE KB)"
 
-      - name: Performance Check Status
+      - name: Set success output
         id: performance-check
-        run: echo "success=true" >> $GITHUB_OUTPUT
+        uses: ./.github/actions/set-success-output
+        with:
+          output-name: success

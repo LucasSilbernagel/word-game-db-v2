@@ -1,0 +1,16 @@
+name: 'Build Project'
+description: 'Build the Next.js project with environment variables'
+inputs:
+  mongodb-uri:
+    description: 'MongoDB URI for the build'
+    required: false
+    default: 'mongodb://localhost:27017/test'
+
+runs:
+  using: 'composite'
+  steps:
+    - name: Build project
+      shell: bash
+      run: pnpm build
+      env:
+        MONGODB_URI: ${{ inputs.mongodb-uri }}
