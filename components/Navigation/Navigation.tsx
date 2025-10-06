@@ -23,21 +23,18 @@ export const Navigation = () => {
   // Close mobile menu when screen becomes desktop-sized
   useEffect(() => {
     const handleResize = () => {
-      if (
-        globalThis.window !== undefined &&
-        globalThis.window.innerWidth >= 768
-      ) {
+      if (typeof window !== 'undefined' && window.innerWidth >= 768) {
         // md breakpoint
         setIsOpen(false)
       }
     }
 
-    if (globalThis.window !== undefined) {
-      globalThis.window.addEventListener('resize', handleResize)
+    if (typeof window !== 'undefined') {
+      window.addEventListener('resize', handleResize)
 
       // Cleanup event listener on component unmount
       return () => {
-        globalThis.window.removeEventListener('resize', handleResize)
+        window.removeEventListener('resize', handleResize)
       }
     }
   }, [])

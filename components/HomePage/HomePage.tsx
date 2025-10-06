@@ -120,19 +120,26 @@ const HomePage = () => {
     }
   }, [isClient])
 
-  const apiEndpoints = allApiEndpoints.filter(
-    (endpoint) => !endpoint.isDestructive || isDestructiveEnabled
-  )
+  // Always show all endpoints during SSR and initial client render
+  // Only filter after config is loaded on client
+  const apiEndpoints =
+    !isClient || !isLoadingConfig
+      ? allApiEndpoints.filter(
+          (endpoint) => !endpoint.isDestructive || isDestructiveEnabled
+        )
+      : allApiEndpoints.filter((endpoint) => !endpoint.isDestructive)
 
   // Debug information (remove in production)
-  if (process.env.NODE_ENV === 'development') {
-    console.log('Environment check:', {
-      isDestructiveEnabled,
-      totalEndpoints: allApiEndpoints.length,
-      filteredEndpoints: apiEndpoints.length,
-      isLoadingConfig,
-    })
-  }
+  useEffect(() => {
+    if (process.env.NODE_ENV === 'development') {
+      console.log('Environment check:', {
+        isDestructiveEnabled,
+        totalEndpoints: allApiEndpoints.length,
+        filteredEndpoints: apiEndpoints.length,
+        isLoadingConfig,
+      })
+    }
+  }, [isDestructiveEnabled, apiEndpoints.length, isLoadingConfig])
 
   return (
     <div className="container mx-auto px-4 py-8">
@@ -259,7 +266,7 @@ const HomePage = () => {
                 </Card>
               </li>
             ))}
-            {isLoadingConfig && (
+            {isClient && isLoadingConfig && (
               <li>
                 <Card>
                   <CardContent className="pt-6">
