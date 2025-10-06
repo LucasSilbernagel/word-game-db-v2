@@ -11,6 +11,29 @@ const nextConfig: NextConfig = {
   // Configure security headers and performance optimizations
   async headers() {
     return [
+      // CORS headers for API routes
+      {
+        source: '/api/(.*)',
+        headers: [
+          {
+            key: 'Access-Control-Allow-Origin',
+            value: '*',
+          },
+          {
+            key: 'Access-Control-Allow-Methods',
+            value: 'GET, POST, PUT, DELETE, OPTIONS',
+          },
+          {
+            key: 'Access-Control-Allow-Headers',
+            value:
+              'Origin, X-Requested-With, Content-Type, Accept, Authorization',
+          },
+          {
+            key: 'Access-Control-Max-Age',
+            value: '86400',
+          },
+        ],
+      },
       {
         // Apply headers to all routes
         source: '/(.*)',
