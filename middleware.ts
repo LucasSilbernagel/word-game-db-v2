@@ -2,6 +2,12 @@ import { NextRequest, NextResponse } from 'next/server'
 
 function middleware(request: NextRequest) {
   const hostname = request.headers.get('host') || ''
+  const pathname = request.nextUrl.pathname
+
+  // Skip redirects for API routes - let them handle CORS
+  if (pathname.startsWith('/api/')) {
+    return NextResponse.next()
+  }
 
   // Skip redirects for localhost and IP addresses (development)
   if (
