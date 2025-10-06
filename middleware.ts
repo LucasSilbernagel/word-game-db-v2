@@ -14,13 +14,21 @@ function middleware(request: NextRequest) {
     return NextResponse.next()
   }
 
-  // Check if the hostname starts with 'www.'
+  // Check if the hostname is the non-www version (redirect to www)
+  if (hostname === 'wordgamedb.com') {
+    // Redirect non-www to www (primary domain)
+    const url = request.nextUrl.clone()
+    url.hostname = 'www.wordgamedb.com'
+    return NextResponse.redirect(url, 301)
+  }
+
+  // Check if the hostname starts with 'www.' (primary domain)
   if (hostname.startsWith('www.')) {
-    // For API routes, serve directly with CORS headers to support legacy apps
+    // For API routes, add CORS headers to support cross-origin requests
     if (pathname.startsWith('/api/')) {
       const response = NextResponse.next()
 
-      // Add CORS headers for API requests from www subdomain
+      // Add CORS headers for API requests
       response.headers.set('Access-Control-Allow-Origin', '*')
       response.headers.set(
         'Access-Control-Allow-Methods',
@@ -36,11 +44,8 @@ function middleware(request: NextRequest) {
       return response
     }
 
-    // For non-API routes, redirect to non-www version
-    const domainWithoutWww = hostname.slice(4) // Remove 'www.'
-    const url = request.nextUrl.clone()
-    url.hostname = domainWithoutWww
-    return NextResponse.redirect(url, 301)
+    // For non-API routes, serve normally (www is now primary)
+    return NextResponse.next()
   }
 
   // Allow requests to proceed normally for non-www domains
