@@ -19,25 +19,31 @@ const navigation = [
 export const Navigation = () => {
   const pathname = usePathname()
   const [isOpen, setIsOpen] = useState(false)
+  const [isClient, setIsClient] = useState(false)
+
+  // Ensure hydration consistency
+  useEffect(() => {
+    setIsClient(true)
+  }, [])
 
   // Close mobile menu when screen becomes desktop-sized
   useEffect(() => {
+    if (!isClient) return
+
     const handleResize = () => {
-      if (typeof window !== 'undefined' && window.innerWidth >= 768) {
+      if (window.innerWidth >= 768) {
         // md breakpoint
         setIsOpen(false)
       }
     }
 
-    if (typeof window !== 'undefined') {
-      window.addEventListener('resize', handleResize)
+    window.addEventListener('resize', handleResize)
 
-      // Cleanup event listener on component unmount
-      return () => {
-        window.removeEventListener('resize', handleResize)
-      }
+    // Cleanup event listener on component unmount
+    return () => {
+      window.removeEventListener('resize', handleResize)
     }
-  }, [])
+  }, [isClient])
 
   return (
     <nav
@@ -75,47 +81,51 @@ export const Navigation = () => {
           </div>
 
           {/* Mobile menu */}
-          <Sheet open={isOpen} onOpenChange={setIsOpen}>
-            <SheetTrigger asChild>
-              <Button
-                variant="ghost"
-                size="icon"
-                className="md:hidden"
-                aria-label="Open mobile menu"
-              >
-                <Menu className="h-6 w-6" />
-              </Button>
-            </SheetTrigger>
+          {isClient && (
+            <Sheet open={isOpen} onOpenChange={setIsOpen}>
+              <SheetTrigger asChild>
+                <Button
+                  variant="ghost"
+                  size="icon"
+                  className="md:hidden"
+                  aria-label="Open mobile menu"
+                >
+                  <Menu className="h-6 w-6" />
+                </Button>
+              </SheetTrigger>
 
-            <MobileMenuContent>
-              <SheetPrimitive.Title className="sr-only">
-                Mobile Navigation Menu
-              </SheetPrimitive.Title>
-              <nav className="flex flex-col items-center space-y-6 pt-8 pb-6">
-                {navigation.map((item, index) => (
-                  <SheetClose asChild key={item.name}>
-                    <Link
-                      href={item.href}
-                      className={cn(
-                        'mobile-menu-item transform py-2 text-xl font-medium transition-all duration-300 ease-out',
-                        'hover:scale-105 focus-visible:scale-105 active:scale-95',
-                        pathname === item.href
-                          ? 'text-foreground'
-                          : 'text-muted-foreground hover:text-foreground focus-visible:text-foreground'
-                      )}
-                      style={{
-                        animationDelay: `${index * 100}ms`,
-                        animationFillMode: 'both',
-                      }}
-                      aria-current={pathname === item.href ? 'page' : undefined}
-                    >
-                      {item.name}
-                    </Link>
-                  </SheetClose>
-                ))}
-              </nav>
-            </MobileMenuContent>
-          </Sheet>
+              <MobileMenuContent>
+                <SheetPrimitive.Title className="sr-only">
+                  Mobile Navigation Menu
+                </SheetPrimitive.Title>
+                <nav className="flex flex-col items-center space-y-6 pt-8 pb-6">
+                  {navigation.map((item, index) => (
+                    <SheetClose asChild key={item.name}>
+                      <Link
+                        href={item.href}
+                        className={cn(
+                          'mobile-menu-item transform py-2 text-xl font-medium transition-all duration-300 ease-out',
+                          'hover:scale-105 focus-visible:scale-105 active:scale-95',
+                          pathname === item.href
+                            ? 'text-foreground'
+                            : 'text-muted-foreground hover:text-foreground focus-visible:text-foreground'
+                        )}
+                        style={{
+                          animationDelay: `${index * 100}ms`,
+                          animationFillMode: 'both',
+                        }}
+                        aria-current={
+                          pathname === item.href ? 'page' : undefined
+                        }
+                      >
+                        {item.name}
+                      </Link>
+                    </SheetClose>
+                  ))}
+                </nav>
+              </MobileMenuContent>
+            </Sheet>
+          )}
         </div>
       </div>
     </nav>
