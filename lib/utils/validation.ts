@@ -67,8 +67,10 @@ export const buildWordFilter = (searchParams: URLSearchParams) => {
   const filter: Record<string, unknown> = {}
 
   const category = searchParams.get('category')
+  const numLetters = searchParams.get('numLetters')
   const minLetters = searchParams.get('minLetters')
   const maxLetters = searchParams.get('maxLetters')
+  const numSyllables = searchParams.get('numSyllables')
   const minSyllables = searchParams.get('minSyllables')
   const maxSyllables = searchParams.get('maxSyllables')
 
@@ -76,14 +78,26 @@ export const buildWordFilter = (searchParams: URLSearchParams) => {
     filter.category = category
   }
 
-  const lettersFilter = createRangeFilter(minLetters, maxLetters)
-  if (lettersFilter) {
-    filter.numLetters = lettersFilter
+  // Handle direct numLetters filter
+  if (numLetters) {
+    filter.numLetters = Number.parseInt(numLetters)
+  } else {
+    // Handle range filters for letters
+    const lettersFilter = createRangeFilter(minLetters, maxLetters)
+    if (lettersFilter) {
+      filter.numLetters = lettersFilter
+    }
   }
 
-  const syllablesFilter = createRangeFilter(minSyllables, maxSyllables)
-  if (syllablesFilter) {
-    filter.numSyllables = syllablesFilter
+  // Handle direct numSyllables filter
+  if (numSyllables) {
+    filter.numSyllables = Number.parseInt(numSyllables)
+  } else {
+    // Handle range filters for syllables
+    const syllablesFilter = createRangeFilter(minSyllables, maxSyllables)
+    if (syllablesFilter) {
+      filter.numSyllables = syllablesFilter
+    }
   }
 
   return filter

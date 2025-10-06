@@ -17,7 +17,8 @@ export const GET = withGetWrapper(async (request: NextRequest) => {
   const words = await Word.find(filter).limit(limit).skip(offset).lean()
 
   // Sort the results array since Mongoose sort() is different from Array.sort()
-  const sortedWords = words.toSorted((a, b) => {
+  // eslint-disable-next-line unicorn/no-array-sort
+  const sortedWords = [...words].sort((a, b) => {
     const dateA = new Date(a.createdAt).getTime()
     const dateB = new Date(b.createdAt).getTime()
     return dateB - dateA
