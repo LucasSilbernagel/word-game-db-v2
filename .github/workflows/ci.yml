@@ -1,0 +1,102 @@
+name: CI
+
+on:
+  push:
+    branches: [main, develop]
+  pull_request:
+    branches: [main, develop]
+
+jobs:
+  quality-checks:
+    name: Quality Checks
+    runs-on: ubuntu-latest
+    outputs:
+      success: ${{ steps.quality-check.outputs.success }}
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js project
+        uses: ./.github/actions/setup-node-project
+
+      - name: TypeScript type checking
+        run: npx tsc --noEmit
+
+      - name: ESLint check
+        run: pnpm lint
+
+      - name: Prettier format check
+        run: pnpm format:check
+
+      - name: Run tests
+        run: pnpm test:run
+
+      - name: Build project
+        uses: ./.github/actions/build-project
+
+      - name: Check for unused exports
+        run: |
+          # Install ts-unused-exports to find unused exports
+          npx ts-unused-exports tsconfig.json --excludePathsFromReport=node_modules,coverage,.next,dist,build || true
+
+      - name: Set success output
+        id: quality-check
+        uses: ./.github/actions/set-success-output
+        with:
+          output-name: success
+
+  security-audit:
+    name: Security Audit
+    runs-on: ubuntu-latest
+    outputs:
+      success: ${{ steps.security-check.outputs.success }}
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js project
+        uses: ./.github/actions/setup-node-project
+
+      - name: Security audit
+        run: pnpm audit --audit-level moderate
+
+      - name: Set success output
+        id: security-check
+        uses: ./.github/actions/set-success-output
+        with:
+          output-name: success
+
+  performance-check:
+    name: Performance Check
+    runs-on: ubuntu-latest
+    outputs:
+      success: ${{ steps.performance-check.outputs.success }}
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js project
+        uses: ./.github/actions/setup-node-project
+
+      - name: Build project
+        uses: ./.github/actions/build-project
+
+      - name: Check bundle size
+        run: |
+          # Check if build output is reasonable (adjust threshold as needed)
+          BUILD_SIZE=$(du -s .next | cut -f1)
+          MAX_SIZE=50000  # 50MB in KB
+          if [ $BUILD_SIZE -gt $MAX_SIZE ]; then
+            echo "::error::Build size ($BUILD_SIZE KB) exceeds maximum allowed size ($MAX_SIZE KB)"
+            exit 1
+          fi
+          echo "Build size: $BUILD_SIZE KB (max: $MAX_SIZE KB)"
+
+      - name: Set success output
+        id: performance-check
+        uses: ./.github/actions/set-success-output
+        with:
+          output-name: success

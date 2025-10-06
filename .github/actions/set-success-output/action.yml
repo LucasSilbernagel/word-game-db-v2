@@ -1,0 +1,14 @@
+name: 'Set Success Output'
+description: 'Set a success output for job status tracking'
+inputs:
+  output-name:
+    description: 'Name of the output variable'
+    required: true
+
+runs:
+  using: 'composite'
+  steps:
+    - name: Set Success Output
+      id: success-output
+      shell: bash
+      run: echo "${{ inputs.output-name }}=true" >> $GITHUB_OUTPUT
