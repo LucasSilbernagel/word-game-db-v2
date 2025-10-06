@@ -1,0 +1,5 @@
+# Handle API requests from www subdomain - proxy to non-www with CORS
+https://www.wordgamedb.com/api/* https://wordgamedb.com/api/:splat 200!
+
+# Redirect non-API www requests to non-www
+https://www.wordgamedb.com/* https://wordgamedb.com/:splat 301!
