@@ -1,6 +1,7 @@
 import { withGetWrapper, withPostWrapper } from '@/lib/utils/apiWrapper'
 import {
   buildWordFilter,
+  extractPaginationParams,
   validateAndTransformWordData,
   validateRequiredFields,
 } from '@/lib/utils/validation'
@@ -9,11 +10,11 @@ import { NextRequest, NextResponse } from 'next/server'
 
 export const GET = withGetWrapper(async (request: NextRequest) => {
   const { searchParams } = new URL(request.url)
+  const { limit, offset } = extractPaginationParams(searchParams)
   const filter = buildWordFilter(searchParams)
 
-  // For v1 API, return all matching words as a simple array (backward compatibility)
   // eslint-disable-next-line unicorn/no-array-callback-reference
-  const words = await Word.find(filter).lean()
+  const words = await Word.find(filter).limit(limit).skip(offset).lean()
 
   // Sort the results array since Mongoose sort() is different from Array.sort()
   // eslint-disable-next-line unicorn/no-array-sort
@@ -23,8 +24,17 @@ export const GET = withGetWrapper(async (request: NextRequest) => {
     return dateB - dateA
   })
 
-  // Return simple array format for backward compatibility with hangman app
-  return NextResponse.json(sortedWords)
+  const total = await Word.countDocuments(filter)
+
+  return NextResponse.json({
+    words: sortedWords,
+    pagination: {
+      total,
+      limit,
+      offset,
+      hasMore: offset + limit < total,
+    },
+  })
 })
 
 export const POST = withPostWrapper(async (request: NextRequest) => {

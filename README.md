@@ -102,11 +102,52 @@ Check out this example implementation using the API:
 
 **Source Code**: [https://github.com/LucasSilbernagel/hangman](https://github.com/LucasSilbernagel/hangman)
 
+## API Versions
+
+### Version 1 (v1) - Simple Array Format
+
+**Best for:** Games like hangman, simple word selection, backward compatibility
+
+**Response Format:** Direct array of word objects
+
+```json
+[
+  {
+    "_id": "5fee49e11935ff7c8aa1660b",
+    "word": "cobra",
+    "category": "animal",
+    "numLetters": 5,
+    "numSyllables": 2,
+    "hint": "Hooded snake"
+  }
+]
+```
+
+### Version 2 (v2) - Paginated Format
+
+**Best for:** Word management apps, large datasets, advanced filtering
+
+**Response Format:** Object with words array and pagination metadata
+
+```json
+{
+  "words": [...],
+  "pagination": {
+    "total": 25,
+    "limit": 10,
+    "offset": 0,
+    "hasMore": true
+  }
+}
+```
+
 ## API Endpoints
 
 ### Available Endpoints
 
-- `GET /api/v1/words` - Retrieve all words with optional query filtering
+#### Version 1 (v1) - Simple Array Format
+
+- `GET /api/v1/words` - Retrieve all words with optional query filtering (returns simple array)
 - `GET /api/v1/words/search` - Search for words by name with partial matching
 - `GET /api/v1/words/random` - Get a random word from the database
 - `GET /api/v1/categories` - Get all distinct categories
@@ -115,26 +156,49 @@ Check out this example implementation using the API:
 - `PUT /api/v1/words/[id]` - Update an existing word _(requires ENABLE_DESTRUCTIVE_ENDPOINTS=true)_
 - `DELETE /api/v1/words/[id]` - Delete a word from the database _(requires ENABLE_DESTRUCTIVE_ENDPOINTS=true)_
 
+#### Version 2 (v2) - Paginated Format
+
+- `GET /api/v2/words` - Retrieve words with pagination and optional query filtering
+- `GET /api/v2/words/search` - Search for words by name with partial matching (paginated)
+- `GET /api/v2/words/random` - Get a random word from the database
+- `GET /api/v2/categories` - Get all distinct categories
+- `GET /api/v2/words/[id]` - Get a specific word by ID
+- `POST /api/v2/words` - Create a new word entry _(requires ENABLE_DESTRUCTIVE_ENDPOINTS=true)_
+- `PUT /api/v2/words/[id]` - Update an existing word _(requires ENABLE_DESTRUCTIVE_ENDPOINTS=true)_
+- `DELETE /api/v2/words/[id]` - Delete a word from the database _(requires ENABLE_DESTRUCTIVE_ENDPOINTS=true)_
+
 ### Query Parameters
 
-#### GET /api/v1/words
+#### GET /api/v1/words and GET /api/v2/words
+
+**Filtering Parameters:**
 
 - `category` - Filter by category
-- `limit` - Number of words to return (default: 10)
-- `offset` - Number of words to skip (default: 0)
+- `numLetters` - Exact number of letters (v1 & v2)
+- `numSyllables` - Exact number of syllables (v1 & v2)
 - `minLetters` - Minimum number of letters
 - `maxLetters` - Maximum number of letters
 - `minSyllables` - Minimum number of syllables
 - `maxSyllables` - Maximum number of syllables
-- Any other field from the Word model for direct filtering
 
-#### GET /api/v1/words/search
+**Pagination Parameters (v2 only):**
+
+- `limit` - Number of words to return (default: 10)
+- `offset` - Number of words to skip (default: 0)
+
+**Note:** v1 returns ALL matching words (no pagination), v2 supports pagination.
+
+#### GET /api/v1/words/search and GET /api/v2/words/search
 
 - `q` - Search query (required, minimum 2 characters)
 - `limit` - Number of words to return (default: 10)
 - `offset` - Number of words to skip (default: 0)
 
-**Example**: `/api/v1/words/search?q=cat&limit=5`
+**Examples:**
+
+- v1: `/api/v1/words?numLetters=5` (returns all 5-letter words as array)
+- v2: `/api/v2/words?numLetters=5&limit=10` (returns paginated response)
+- Search: `/api/v1/words/search?q=cat&limit=5`
 
 ## Data Model
 
@@ -176,7 +240,14 @@ type Word = {
 ```
 ├── app/                    # Next.js App Router
 │   ├── api/               # API routes
-│   │   └── v1/           # API version 1
+│   │   ├── v1/           # API version 1 (simple array format)
+│   │   │   ├── categories/  # Category endpoints
+│   │   │   ├── config/     # Configuration endpoints
+│   │   │   └── words/      # Word management endpoints
+│   │   │       ├── [id]/   # Individual word operations
+│   │   │       ├── random/ # Random word endpoint
+│   │   │       └── search/ # Word search endpoint
+│   │   └── v2/           # API version 2 (paginated format)
 │   │       ├── categories/  # Category endpoints
 │   │       ├── config/     # Configuration endpoints
 │   │       └── words/      # Word management endpoints

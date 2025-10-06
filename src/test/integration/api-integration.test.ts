@@ -25,17 +25,9 @@ describe('API Integration Tests', () => {
 
       // Mock dynamic word storage
       server.use(
-        // GET all words
+        // GET all words (v1 returns simple array)
         http.get('http://localhost:3000/api/v1/words', () => {
-          return HttpResponse.json({
-            words,
-            pagination: {
-              total: words.length,
-              limit: 10,
-              offset: 0,
-              hasMore: false,
-            },
-          })
+          return HttpResponse.json(words)
         }),
 
         // POST create word
@@ -134,8 +126,8 @@ describe('API Integration Tests', () => {
       const getAllResponse = await fetch('http://localhost:3000/api/v1/words')
       expect(getAllResponse.status).toBe(200)
       const allWords = await getAllResponse.json()
-      expect(allWords.words).toHaveLength(1)
-      expect(allWords.words[0].word).toBe('apple')
+      expect(allWords).toHaveLength(1)
+      expect(allWords[0].word).toBe('apple')
 
       // 3. Get specific word by ID
       const getByIdResponse = await fetch(
@@ -181,7 +173,7 @@ describe('API Integration Tests', () => {
       const getFinalResponse = await fetch('http://localhost:3000/api/v1/words')
       expect(getFinalResponse.status).toBe(200)
       const finalWords = await getFinalResponse.json()
-      expect(finalWords.words).toHaveLength(0)
+      expect(finalWords).toHaveLength(0)
     })
 
     it('should handle search functionality', async () => {
@@ -323,8 +315,6 @@ describe('API Integration Tests', () => {
           const url = new URL(request.url)
           const category = url.searchParams.get('category')
           const numLetters = url.searchParams.get('numLetters')
-          const limit = Number.parseInt(url.searchParams.get('limit') || '10')
-          const offset = Number.parseInt(url.searchParams.get('offset') || '0')
 
           let filteredWords = [...testWords]
 
@@ -340,17 +330,8 @@ describe('API Integration Tests', () => {
             )
           }
 
-          const paginatedWords = filteredWords.slice(offset, offset + limit)
-
-          return HttpResponse.json({
-            words: paginatedWords,
-            pagination: {
-              total: filteredWords.length,
-              limit,
-              offset,
-              hasMore: offset + limit < filteredWords.length,
-            },
-          })
+          // v1 returns simple array (no pagination)
+          return HttpResponse.json(filteredWords)
         })
       )
 
@@ -360,9 +341,9 @@ describe('API Integration Tests', () => {
       )
       expect(categoryResponse.status).toBe(200)
       const categoryResult = await categoryResponse.json()
-      expect(categoryResult.words).toHaveLength(2)
+      expect(categoryResult).toHaveLength(2)
       expect(
-        categoryResult.words.every((word: Word) => word.category === 'fruit')
+        categoryResult.every((word: Word) => word.category === 'fruit')
       ).toBe(true)
 
       // Test numLetters filtering
@@ -371,17 +352,17 @@ describe('API Integration Tests', () => {
       )
       expect(lettersResponse.status).toBe(200)
       const lettersResult = await lettersResponse.json()
-      expect(lettersResult.words).toHaveLength(1)
-      expect(lettersResult.words[0].word).toBe('apple')
+      expect(lettersResult).toHaveLength(1)
+      expect(lettersResult[0].word).toBe('apple')
 
-      // Test pagination
+      // Test pagination (v1 ignores pagination parameters)
       const paginationResponse = await fetch(
         'http://localhost:3000/api/v1/words?limit=2&offset=1'
       )
       expect(paginationResponse.status).toBe(200)
       const paginationResult = await paginationResponse.json()
-      expect(paginationResult.words).toHaveLength(2)
-      expect(paginationResult.pagination.hasMore).toBe(false)
+      expect(paginationResult).toHaveLength(3) // All 3 words returned (pagination ignored in v1)
+      // Note: v1 doesn't support pagination, so limit/offset are ignored
 
       // Test combined filters
       const combinedResponse = await fetch(
@@ -389,8 +370,8 @@ describe('API Integration Tests', () => {
       )
       expect(combinedResponse.status).toBe(200)
       const combinedResult = await combinedResponse.json()
-      expect(combinedResult.words).toHaveLength(1)
-      expect(combinedResult.words[0].word).toBe('banana')
+      expect(combinedResult).toHaveLength(1)
+      expect(combinedResult[0].word).toBe('banana')
     })
   })
 
