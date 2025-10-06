@@ -16,9 +16,24 @@ function middleware(request: NextRequest) {
 
   // Check if the hostname starts with 'www.'
   if (hostname.startsWith('www.')) {
-    // For API routes, serve directly without redirect to avoid CORS issues
+    // For API routes, serve directly with CORS headers to support legacy apps
     if (pathname.startsWith('/api/')) {
-      return NextResponse.next()
+      const response = NextResponse.next()
+
+      // Add CORS headers for API requests from www subdomain
+      response.headers.set('Access-Control-Allow-Origin', '*')
+      response.headers.set(
+        'Access-Control-Allow-Methods',
+        'GET, POST, PUT, DELETE, OPTIONS'
+      )
+      response.headers.set(
+        'Access-Control-Allow-Headers',
+        'Origin, X-Requested-With, Content-Type, Accept, Authorization'
+      )
+      response.headers.set('Access-Control-Max-Age', '86400')
+      response.headers.set('Access-Control-Allow-Credentials', 'false')
+
+      return response
     }
 
     // For non-API routes, redirect to non-www version

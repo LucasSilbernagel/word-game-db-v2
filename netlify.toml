@@ -1,0 +1,26 @@
+[build]
+  command = "npm run build"
+  publish = ".next"
+
+# Handle API requests from www subdomain with CORS headers
+[[redirects]]
+  from = "https://www.wordgamedb.com/api/*"
+  to = "https://wordgamedb.com/api/:splat"
+  status = 200
+  force = true
+  headers = { 
+    Access-Control-Allow-Origin = "*", 
+    Access-Control-Allow-Methods = "GET, POST, PUT, DELETE, OPTIONS", 
+    Access-Control-Allow-Headers = "Origin, X-Requested-With, Content-Type, Accept, Authorization", 
+    Access-Control-Max-Age = "86400",
+    Access-Control-Allow-Credentials = "false"
+  }
+
+# Redirect non-API www requests to non-www
+[[redirects]]
+  from = "https://www.wordgamedb.com/*"
+  to = "https://wordgamedb.com/:splat"
+  status = 301
+
+[build.environment]
+  NODE_VERSION = "18"
