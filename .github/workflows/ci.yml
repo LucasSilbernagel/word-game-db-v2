@@ -15,7 +15,7 @@ jobs:
 
     steps:
       - name: Setup Node.js project
-        uses: ./github/actions/setup-node-project
+        uses: ./.github/actions/setup-node-project
 
       - name: TypeScript type checking
         run: npx tsc --noEmit
@@ -30,7 +30,7 @@ jobs:
         run: pnpm test:run
 
       - name: Build project
-        uses: ./github/actions/build-project
+        uses: ./.github/actions/build-project
 
       - name: Check for unused exports
         run: |
@@ -39,7 +39,7 @@ jobs:
 
       - name: Set success output
         id: quality-check
-        uses: ./github/actions/set-success-output
+        uses: ./.github/actions/set-success-output
         with:
           output-name: success
 
@@ -51,14 +51,14 @@ jobs:
 
     steps:
       - name: Setup Node.js project
-        uses: ./github/actions/setup-node-project
+        uses: ./.github/actions/setup-node-project
 
       - name: Security audit
         run: pnpm audit --audit-level moderate
 
       - name: Set success output
         id: security-check
-        uses: ./github/actions/set-success-output
+        uses: ./.github/actions/set-success-output
         with:
           output-name: success
 
@@ -70,10 +70,10 @@ jobs:
 
     steps:
       - name: Setup Node.js project
-        uses: ./github/actions/setup-node-project
+        uses: ./.github/actions/setup-node-project
 
       - name: Build project
-        uses: ./github/actions/build-project
+        uses: ./.github/actions/build-project
 
       - name: Check bundle size
         run: |
@@ -88,6 +88,6 @@ jobs:
 
       - name: Set success output
         id: performance-check
-        uses: ./github/actions/set-success-output
+        uses: ./.github/actions/set-success-output
         with:
           output-name: success
