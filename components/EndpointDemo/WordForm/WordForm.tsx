@@ -33,14 +33,14 @@ export const WordForm = ({
 }: WordFormProps) => {
   return (
     <div className="space-y-4">
-      <h4 className="mb-3 text-sm font-medium text-gray-700 dark:text-gray-300">
+      <h4 className="mb-3 font-medium text-gray-700 dark:text-gray-300 text-sm">
         {TEXT_CONTENT.HEADINGS.CREATE_NEW_WORD}
       </h4>
-      <div className="grid grid-cols-1 gap-4 md:grid-cols-2">
+      <div className="gap-4 grid grid-cols-1 md:grid-cols-2">
         <div>
           <Label
             htmlFor="word"
-            className="text-xs font-medium text-gray-600 dark:text-gray-400"
+            className="font-medium text-gray-600 dark:text-gray-400 text-xs"
           >
             {TEXT_CONTENT.LABELS.WORD_REQUIRED}
           </Label>
@@ -57,7 +57,7 @@ export const WordForm = ({
         <div>
           <Label
             htmlFor="hint"
-            className="text-xs font-medium text-gray-600 dark:text-gray-400"
+            className="font-medium text-gray-600 dark:text-gray-400 text-xs"
           >
             {TEXT_CONTENT.LABELS.HINT_REQUIRED}
           </Label>
@@ -74,7 +74,7 @@ export const WordForm = ({
         <div>
           <Label
             htmlFor="num-letters"
-            className="text-xs font-medium text-gray-600 dark:text-gray-400"
+            className="font-medium text-gray-600 dark:text-gray-400 text-xs"
           >
             {TEXT_CONTENT.LABELS.NUM_LETTERS_REQUIRED}
           </Label>
@@ -92,7 +92,7 @@ export const WordForm = ({
         <div>
           <Label
             htmlFor="num-syllables"
-            className="text-xs font-medium text-gray-600 dark:text-gray-400"
+            className="font-medium text-gray-600 dark:text-gray-400 text-xs"
           >
             {TEXT_CONTENT.LABELS.NUM_SYLLABLES_REQUIRED}
           </Label>
@@ -109,15 +109,15 @@ export const WordForm = ({
       </div>
 
       {/* Category Selection */}
-      <div className="border-t pt-4">
-        <h5 className="mb-3 text-sm font-medium text-gray-700 dark:text-gray-300">
+      <div className="pt-4 border-t">
+        <h5 className="mb-3 font-medium text-gray-700 dark:text-gray-300 text-sm">
           {TEXT_CONTENT.HEADINGS.CATEGORY}
         </h5>
         <div className="space-y-3">
           <RadioGroup
             value={wordForm.categoryMode}
             onValueChange={(value) => updateWordForm('categoryMode', value)}
-            className="flex flex-col gap-4 sm:flex-row"
+            className="flex sm:flex-row flex-col gap-4"
           >
             <div className="flex items-center space-x-2">
               <RadioGroupItem value="existing" id="existing" />
@@ -137,7 +137,7 @@ export const WordForm = ({
             <div>
               <Label
                 htmlFor="category-select"
-                className="text-xs font-medium text-gray-600 dark:text-gray-400"
+                className="font-medium text-gray-600 dark:text-gray-400 text-xs"
               >
                 {TEXT_CONTENT.LABELS.CATEGORY_REQUIRED}
               </Label>
@@ -145,7 +145,7 @@ export const WordForm = ({
                 value={wordForm.category}
                 onValueChange={(value) => updateWordForm('category', value)}
               >
-                <SelectTrigger className="mt-1">
+                <SelectTrigger className="mt-1" aria-label="Category selection">
                   <SelectValue
                     placeholder={TEXT_CONTENT.MESSAGES.SELECT_A_CATEGORY}
                   />
@@ -163,7 +163,7 @@ export const WordForm = ({
             <div>
               <Label
                 htmlFor="new-category"
-                className="text-xs font-medium text-gray-600 dark:text-gray-400"
+                className="font-medium text-gray-600 dark:text-gray-400 text-xs"
               >
                 {TEXT_CONTENT.LABELS.NEW_CATEGORY_REQUIRED}
               </Label>
