@@ -70,12 +70,6 @@ const RootLayout = ({
         <link rel="preconnect" href="https://lucassilbernagel.com" />
 
         {/* Preload critical resources */}
-        <link
-          rel="preload"
-          href={APP_METADATA.OG_IMAGE}
-          as="image"
-          type="image/png"
-        />
       </head>
       <body
         className={`${geistSans.variable} ${geistMono.variable} antialiased`}
