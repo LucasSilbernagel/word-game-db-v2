@@ -14,6 +14,9 @@ jobs:
       success: ${{ steps.quality-check.outputs.success }}
 
     steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
       - name: Setup Node.js project
         uses: ./.github/actions/setup-node-project
 
@@ -50,6 +53,9 @@ jobs:
       success: ${{ steps.security-check.outputs.success }}
 
     steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
       - name: Setup Node.js project
         uses: ./.github/actions/setup-node-project
 
@@ -69,6 +75,9 @@ jobs:
       success: ${{ steps.performance-check.outputs.success }}
 
     steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
       - name: Setup Node.js project
         uses: ./.github/actions/setup-node-project
 
