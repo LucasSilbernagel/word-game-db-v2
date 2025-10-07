@@ -6,6 +6,7 @@ const mockCategories = ['fruit', 'animal', 'color', 'food']
 
 const defaultFilters = {
   category: '',
+  _id: '',
   minLetters: '',
   maxLetters: '',
   minSyllables: '',
@@ -31,6 +32,7 @@ describe('FilterForm', () => {
     )
 
     expect(screen.getByRole('combobox')).toBeVisible()
+    expect(screen.getByLabelText('Word ID:')).toBeVisible()
     expect(screen.getByLabelText('Min Letters:')).toBeVisible()
     expect(screen.getByLabelText('Max Letters:')).toBeVisible()
     expect(screen.getByLabelText('Min Syllables:')).toBeVisible()
@@ -105,6 +107,7 @@ describe('FilterForm', () => {
   it('should display current filter values', () => {
     const filtersWithValues = {
       category: 'fruit',
+      _id: '',
       minLetters: '5',
       maxLetters: '10',
       minSyllables: '1',
@@ -172,5 +175,59 @@ describe('FilterForm', () => {
     fireEvent.click(categorySelect)
 
     expect(screen.getByText('Any Category')).toBeVisible()
+  })
+
+  it('should call updateFilter when _id changes', () => {
+    render(
+      <FilterForm
+        filters={defaultFilters}
+        updateFilter={mockUpdateFilter}
+        categories={mockCategories}
+      />
+    )
+
+    const wordIdInput = screen.getByLabelText('Word ID:')
+    fireEvent.change(wordIdInput, {
+      target: { value: '5ffa1774c0831cbe1460e29c' },
+    })
+
+    expect(mockUpdateFilter).toHaveBeenCalledWith(
+      '_id',
+      '5ffa1774c0831cbe1460e29c'
+    )
+  })
+
+  it('should display current _id value', () => {
+    const filtersWithId = {
+      ...defaultFilters,
+      _id: '5ffa1774c0831cbe1460e29c',
+    }
+
+    render(
+      <FilterForm
+        filters={filtersWithId}
+        updateFilter={mockUpdateFilter}
+        categories={mockCategories}
+      />
+    )
+
+    expect(screen.getByDisplayValue('5ffa1774c0831cbe1460e29c')).toBeVisible()
+  })
+
+  it('should have proper attributes for _id input', () => {
+    render(
+      <FilterForm
+        filters={defaultFilters}
+        updateFilter={mockUpdateFilter}
+        categories={mockCategories}
+      />
+    )
+
+    const wordIdInput = screen.getByLabelText('Word ID:')
+    expect(wordIdInput).toHaveAttribute('type', 'text')
+    expect(wordIdInput).toHaveAttribute(
+      'placeholder',
+      'e.g., 5ffa1774c0831cbe1460e29c'
+    )
   })
 })

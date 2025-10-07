@@ -174,6 +174,7 @@ Check out this example implementation using the API:
 **Filtering Parameters:**
 
 - `category` - Filter by category
+- `_id` - Filter by specific word ID (MongoDB ObjectId)
 - `numLetters` - Exact number of letters (v1 & v2)
 - `numSyllables` - Exact number of syllables (v1 & v2)
 - `minLetters` - Minimum number of letters
@@ -198,6 +199,8 @@ Check out this example implementation using the API:
 
 - v1: `/api/v1/words?numLetters=5` (returns all 5-letter words as array)
 - v2: `/api/v2/words?numLetters=5&limit=10` (returns paginated response)
+- Filter by ID: `/api/v1/words?_id=5ffa1774c0831cbe1460e29c` (returns specific word)
+- Combined filters: `/api/v1/words?category=animal&minLetters=4&maxLetters=6`
 - Search: `/api/v1/words/search?q=cat&limit=5`
 
 ## Data Model

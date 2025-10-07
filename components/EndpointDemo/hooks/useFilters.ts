@@ -4,6 +4,7 @@ import { useCallback } from 'react'
 export type FilterState = {
   // General filters
   category: string
+  _id: string
   minLetters: string
   maxLetters: string
   minSyllables: string
@@ -20,6 +21,7 @@ export const useFilters = () => {
     resetForm: resetFilters,
   } = useGenericForm<FilterState>({
     category: '',
+    _id: '',
     minLetters: '',
     maxLetters: '',
     minSyllables: '',
@@ -33,6 +35,7 @@ export const useFilters = () => {
 
     // Add general filters
     if (filters.category) params.set('category', filters.category)
+    if (filters._id) params.set('_id', filters._id)
     if (filters.minLetters) params.set('minLetters', filters.minLetters)
     if (filters.maxLetters) params.set('maxLetters', filters.maxLetters)
     if (filters.minSyllables) params.set('minSyllables', filters.minSyllables)
@@ -46,6 +49,7 @@ export const useFilters = () => {
     return params.toString()
   }, [
     filters.category,
+    filters._id,
     filters.minLetters,
     filters.maxLetters,
     filters.minSyllables,

@@ -18,6 +18,7 @@ import { UpdateForm } from './UpdateForm/UpdateForm'
 import { buildApiRequest } from './utils/buildApiRequest'
 import { handleApiResponse } from './utils/handleApiResponse'
 import { WordForm } from './WordForm/WordForm'
+import { WordsApiRequestExample } from './WordsApiRequestExample/WordsApiRequestExample'
 
 type EndpointDemoProps = {
   method: string
@@ -140,6 +141,11 @@ const EndpointDemo = ({
           {/* Dynamic Example URL for Search endpoint */}
           {isWordsSearchEndpoint && method === 'GET' && (
             <SearchApiRequestExample searchForm={searchForm} />
+          )}
+
+          {/* Dynamic Example URL for Words endpoint */}
+          {isWordsEndpoint && method === 'GET' && (
+            <WordsApiRequestExample filters={filters} />
           )}
 
           {/* Word Update Form */}

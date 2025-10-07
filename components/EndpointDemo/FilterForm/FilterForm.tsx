@@ -50,6 +50,23 @@ export const FilterForm = ({
 
         <div>
           <Label
+            htmlFor="_id"
+            className="text-xs font-medium text-gray-600 dark:text-gray-400"
+          >
+            Word ID:
+          </Label>
+          <Input
+            id="_id"
+            type="text"
+            value={filters._id}
+            onChange={(e) => updateFilter('_id', e.target.value)}
+            placeholder="e.g., 5ffa1774c0831cbe1460e29c"
+            className="mt-1"
+          />
+        </div>
+
+        <div>
+          <Label
             htmlFor="min-letters"
             className="text-xs font-medium text-gray-600 dark:text-gray-400"
           >

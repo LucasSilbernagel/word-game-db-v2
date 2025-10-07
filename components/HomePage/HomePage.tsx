@@ -142,13 +142,13 @@ const HomePage = () => {
   }, [isDestructiveEnabled, apiEndpoints.length, isLoadingConfig])
 
   return (
-    <div className="mx-auto px-4 py-8 container">
+    <div className="container mx-auto px-4 py-8">
       <div className="mx-auto max-w-4xl">
         <header className="mb-12 text-center">
-          <h1 className="mb-4 font-bold text-4xl tracking-tight">
+          <h1 className="mb-4 text-4xl font-bold tracking-tight">
             Word Game DB
           </h1>
-          <p className="mb-8 text-muted-foreground text-xl">
+          <p className="text-muted-foreground mb-8 text-xl">
             A read-only REST API for educational word game development
           </p>
           <nav aria-label="Main navigation">
@@ -169,9 +169,9 @@ const HomePage = () => {
           </h2>
           <Card>
             <CardContent className="pt-6">
-              <div className="dark:prose-invert max-w-none text-center prose prose-gray">
+              <div className="dark:prose-invert prose prose-gray max-w-none text-center">
                 <p className="text-lg">
-                  <span className="font-semibold text-primary">
+                  <span className="text-primary font-semibold">
                     Word Game DB
                   </span>{' '}
                   is designed for educational purposes, helping developers
@@ -189,31 +189,31 @@ const HomePage = () => {
         </section>
 
         <section className="mb-12" aria-labelledby="api-versions-heading">
-          <h2 id="api-versions-heading" className="mb-6 font-semibold text-2xl">
+          <h2 id="api-versions-heading" className="mb-6 text-2xl font-semibold">
             API Versions
           </h2>
-          <div className="gap-6 grid grid-cols-1 md:grid-cols-2">
+          <div className="grid grid-cols-1 gap-6 md:grid-cols-2">
             <Card>
               <CardHeader>
                 <CardTitle className="flex items-center gap-2">
-                  <span className="bg-blue-100 dark:bg-blue-900 px-2 py-1 rounded font-mono text-blue-800 dark:text-blue-200 text-xs">
+                  <span className="rounded bg-blue-100 px-2 py-1 font-mono text-xs text-blue-800 dark:bg-blue-900 dark:text-blue-200">
                     v1
                   </span>
                   Simple Array Format
                 </CardTitle>
               </CardHeader>
               <CardContent>
-                <p className="mb-4 text-muted-foreground">
+                <p className="text-muted-foreground mb-4">
                   Returns a simple array of word objects - perfect for games
                   like hangman that need direct array access.
                 </p>
                 <div className="space-y-2">
                   <h4 className="font-semibold">Response Format:</h4>
-                  <code className="block bg-muted p-2 rounded text-sm">
+                  <code className="bg-muted block rounded p-2 text-sm">
                     [&#123;word: "cobra", category: "animal", ...&#125;, ...]
                   </code>
                   <h4 className="font-semibold">Use Cases:</h4>
-                  <ul className="text-muted-foreground text-sm list-disc list-inside">
+                  <ul className="text-muted-foreground list-inside list-disc text-sm">
                     <li>Hangman games</li>
                     <li>Simple word selection</li>
                     <li>Backward compatibility</li>
@@ -225,25 +225,25 @@ const HomePage = () => {
             <Card>
               <CardHeader>
                 <CardTitle className="flex items-center gap-2">
-                  <span className="bg-green-100 dark:bg-green-900 px-2 py-1 rounded font-mono text-green-800 dark:text-green-200 text-xs">
+                  <span className="rounded bg-green-100 px-2 py-1 font-mono text-xs text-green-800 dark:bg-green-900 dark:text-green-200">
                     v2
                   </span>
                   Paginated Format
                 </CardTitle>
               </CardHeader>
               <CardContent>
-                <p className="mb-4 text-muted-foreground">
+                <p className="text-muted-foreground mb-4">
                   Returns paginated data with metadata - ideal for applications
                   that need pagination and detailed information.
                 </p>
                 <div className="space-y-2">
                   <h4 className="font-semibold">Response Format:</h4>
-                  <code className="block bg-muted p-2 rounded text-sm">
+                  <code className="bg-muted block rounded p-2 text-sm">
                     &#123;words: [...], pagination: &#123;total, limit, offset,
                     hasMore&#125;&#125;
                   </code>
                   <h4 className="font-semibold">Use Cases:</h4>
-                  <ul className="text-muted-foreground text-sm list-disc list-inside">
+                  <ul className="text-muted-foreground list-inside list-disc text-sm">
                     <li>Word management apps</li>
                     <li>Large datasets</li>
                     <li>Advanced filtering</li>
@@ -257,19 +257,19 @@ const HomePage = () => {
         <section className="mb-12" aria-labelledby="api-endpoints-heading">
           <h2
             id="api-endpoints-heading"
-            className="mb-6 font-semibold text-2xl"
+            className="mb-6 text-2xl font-semibold"
           >
             API Endpoints
           </h2>
           <ul
-            className="gap-4 grid grid-cols-1 list-none"
+            className="grid list-none grid-cols-1 gap-4"
             aria-label="API endpoints"
           >
             {apiEndpoints.map((endpoint, index) => (
               <li key={index}>
                 <Card>
                   <CardHeader>
-                    <div className="flex sm:flex-row flex-col items-center gap-3">
+                    <div className="flex flex-col items-center gap-3 sm:flex-row">
                       <span
                         className={`rounded px-2 py-1 font-mono text-xs ${(() => {
                           if (endpoint.method === 'GET') {
@@ -287,7 +287,7 @@ const HomePage = () => {
                       >
                         {endpoint.method}
                       </span>
-                      <code className="bg-muted px-2 py-1 rounded overflow-hidden font-mono text-sm break-all">
+                      <code className="bg-muted overflow-hidden rounded px-2 py-1 font-mono text-sm break-all">
                         https://wordgamedb.com{endpoint.path}
                       </code>
                     </div>
@@ -298,22 +298,22 @@ const HomePage = () => {
                   <CardContent>
                     {endpoint.example && (
                       <>
-                        <p className="mb-2 text-muted-foreground text-sm">
+                        <p className="text-muted-foreground mb-2 text-sm">
                           Example:
                         </p>
-                        <code className="block bg-muted p-2 rounded text-sm break-all">
+                        <code className="bg-muted block rounded p-2 text-sm break-all">
                           {endpoint.example}
                         </code>
                       </>
                     )}
                     <Suspense
                       fallback={
-                        <div className="flex justify-center items-center py-4">
+                        <div className="flex items-center justify-center py-4">
                           <div
-                            className="border-2 border-primary border-t-transparent rounded-full w-6 h-6 animate-spin"
+                            className="border-primary h-6 w-6 animate-spin rounded-full border-2 border-t-transparent"
                             aria-hidden="true"
                           />
-                          <span className="ml-2 text-muted-foreground text-sm">
+                          <span className="text-muted-foreground ml-2 text-sm">
                             Loading demo...
                           </span>
                         </div>
@@ -336,12 +336,12 @@ const HomePage = () => {
               <li>
                 <Card>
                   <CardContent className="pt-6">
-                    <div className="flex justify-center items-center py-4">
+                    <div className="flex items-center justify-center py-4">
                       <div
-                        className="border-2 border-primary border-t-transparent rounded-full w-6 h-6 animate-spin"
+                        className="border-primary h-6 w-6 animate-spin rounded-full border-2 border-t-transparent"
                         aria-hidden="true"
                       />
-                      <span className="ml-2 text-muted-foreground text-sm">
+                      <span className="text-muted-foreground ml-2 text-sm">
                         Loading additional endpoints...
                       </span>
                     </div>

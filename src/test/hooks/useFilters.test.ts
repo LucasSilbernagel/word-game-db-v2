@@ -51,6 +51,7 @@ describe('useFilters', () => {
 
     expect(result.current.filters).toEqual({
       category: '',
+      _id: '',
       minLetters: '',
       maxLetters: '',
       minSyllables: '',
@@ -86,6 +87,7 @@ describe('useFilters', () => {
 
     expect(result.current.filters).toEqual({
       category: '',
+      _id: '',
       minLetters: '',
       maxLetters: '',
       minSyllables: '',
@@ -101,6 +103,7 @@ describe('useFilters', () => {
     // Set all filter values
     act(() => {
       result.current.updateFilter('category', 'fruit')
+      result.current.updateFilter('_id', '5ffa1774c0831cbe1460e29c')
       result.current.updateFilter('minLetters', '5')
       result.current.updateFilter('maxLetters', '10')
       result.current.updateFilter('minSyllables', '1')
@@ -112,7 +115,7 @@ describe('useFilters', () => {
     const queryString = result.current.buildQueryString()
 
     expect(queryString).toBe(
-      'category=fruit&minLetters=5&maxLetters=10&minSyllables=1&maxSyllables=3&limit=20&offset=10'
+      'category=fruit&_id=5ffa1774c0831cbe1460e29c&minLetters=5&maxLetters=10&minSyllables=1&maxSyllables=3&limit=20&offset=10'
     )
   })
 
@@ -122,13 +125,16 @@ describe('useFilters', () => {
     // Set only some filter values
     act(() => {
       result.current.updateFilter('category', 'fruit')
+      result.current.updateFilter('_id', '5ffa1774c0831cbe1460e29c')
       result.current.updateFilter('minLetters', '5')
       result.current.updateFilter('limit', '20')
     })
 
     const queryString = result.current.buildQueryString()
 
-    expect(queryString).toBe('category=fruit&minLetters=5&limit=20')
+    expect(queryString).toBe(
+      'category=fruit&_id=5ffa1774c0831cbe1460e29c&minLetters=5&limit=20'
+    )
   })
 
   it('should build empty query string when no filters set', () => {
@@ -154,6 +160,16 @@ describe('useFilters', () => {
     queryString = result.current.buildQueryString()
     expect(queryString).toBe('category=fruit&limit=10')
 
+    // Add _id filter
+    act(() => {
+      result.current.updateFilter('_id', '5ffa1774c0831cbe1460e29c')
+    })
+
+    queryString = result.current.buildQueryString()
+    expect(queryString).toBe(
+      'category=fruit&_id=5ffa1774c0831cbe1460e29c&limit=10'
+    )
+
     // Add more filters
     act(() => {
       result.current.updateFilter('minLetters', '5')
@@ -162,7 +178,7 @@ describe('useFilters', () => {
 
     queryString = result.current.buildQueryString()
     expect(queryString).toBe(
-      'category=fruit&minLetters=5&maxLetters=10&limit=10'
+      'category=fruit&_id=5ffa1774c0831cbe1460e29c&minLetters=5&maxLetters=10&limit=10'
     )
   })
 
@@ -172,6 +188,7 @@ describe('useFilters', () => {
     // Set some filters to empty strings
     act(() => {
       result.current.updateFilter('category', '')
+      result.current.updateFilter('_id', '')
       result.current.updateFilter('minLetters', '5')
       result.current.updateFilter('maxLetters', '')
     })
@@ -197,5 +214,35 @@ describe('useFilters', () => {
 
     expect(result1.current.filters.category).toBe('fruit')
     expect(result2.current.filters.category).toBe('animal')
+  })
+
+  it('should handle _id filter correctly', () => {
+    const { result } = renderHook(() => useFilters())
+
+    act(() => {
+      result.current.updateFilter('_id', '5ffa1774c0831cbe1460e29c')
+    })
+
+    expect(result.current.filters._id).toBe('5ffa1774c0831cbe1460e29c')
+
+    const queryString = result.current.buildQueryString()
+    expect(queryString).toBe('_id=5ffa1774c0831cbe1460e29c&limit=10')
+  })
+
+  it('should handle _id filter with other filters', () => {
+    const { result } = renderHook(() => useFilters())
+
+    act(() => {
+      result.current.updateFilter('_id', '5ffa1774c0831cbe1460e29c')
+      result.current.updateFilter('category', 'animal')
+    })
+
+    expect(result.current.filters._id).toBe('5ffa1774c0831cbe1460e29c')
+    expect(result.current.filters.category).toBe('animal')
+
+    const queryString = result.current.buildQueryString()
+    expect(queryString).toBe(
+      'category=animal&_id=5ffa1774c0831cbe1460e29c&limit=10'
+    )
   })
 })

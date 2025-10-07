@@ -8,8 +8,13 @@ vi.mock('@/components/EndpointDemo/hooks/useFilters', () => ({
   useFilters: () => ({
     filters: {
       category: '',
-      numLetters: '',
-      numSyllables: '',
+      _id: '',
+      minLetters: '',
+      maxLetters: '',
+      minSyllables: '',
+      maxSyllables: '',
+      limit: '10',
+      offset: '0',
     },
     updateFilter: vi.fn(),
     resetFilters: vi.fn(),

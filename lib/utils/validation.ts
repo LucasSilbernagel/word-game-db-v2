@@ -73,9 +73,14 @@ export const buildWordFilter = (searchParams: URLSearchParams) => {
   const numSyllables = searchParams.get('numSyllables')
   const minSyllables = searchParams.get('minSyllables')
   const maxSyllables = searchParams.get('maxSyllables')
+  const _id = searchParams.get('_id')
 
   if (category) {
     filter.category = category
+  }
+
+  if (_id) {
+    filter._id = _id
   }
 
   // Handle direct numLetters filter

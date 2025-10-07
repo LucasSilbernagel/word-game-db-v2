@@ -230,6 +230,31 @@ describe('validation utils', () => {
       })
     })
 
+    it('should build filter with _id parameter', () => {
+      const searchParams = new URLSearchParams('_id=5ffa1774c0831cbe1460e29c')
+
+      const result = buildWordFilter(searchParams)
+
+      expect(result).toEqual({
+        _id: '5ffa1774c0831cbe1460e29c',
+      })
+    })
+
+    it('should build complex filter with all parameters including _id', () => {
+      const searchParams = new URLSearchParams(
+        'category=fruit&_id=5ffa1774c0831cbe1460e29c&minLetters=5&maxLetters=10&minSyllables=1&maxSyllables=3'
+      )
+
+      const result = buildWordFilter(searchParams)
+
+      expect(result).toEqual({
+        category: 'fruit',
+        _id: '5ffa1774c0831cbe1460e29c',
+        numLetters: { $gte: 5, $lte: 10 },
+        numSyllables: { $gte: 1, $lte: 3 },
+      })
+    })
+
     it('should build complex filter with all parameters', () => {
       const searchParams = new URLSearchParams(
         'category=fruit&minLetters=5&maxLetters=10&minSyllables=1&maxSyllables=3'
