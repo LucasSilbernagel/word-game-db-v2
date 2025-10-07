@@ -173,7 +173,7 @@ describe('Home Page', () => {
     // Check for proper heading hierarchy
     expect(screen.getByRole('heading', { level: 1 })).toBeVisible()
     const h2Headings = screen.getAllByRole('heading', { level: 2 })
-    expect(h2Headings).toHaveLength(2) // "About Word Game DB" (sr-only) and "API Endpoints"
+    expect(h2Headings).toHaveLength(3) // "About Word Game DB" (sr-only), "API Versions", and "API Endpoints"
 
     // Check for screen reader only content
     expect(screen.getByText('About Word Game DB')).toBeInTheDocument()

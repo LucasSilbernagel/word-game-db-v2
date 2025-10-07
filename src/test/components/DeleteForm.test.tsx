@@ -113,7 +113,7 @@ describe('DeleteForm', () => {
     ).toBeVisible()
     expect(
       screen.getByText(
-        /You can find word IDs by using the GET \/api\/v1\/words endpoint/
+        /You can find word IDs by using the GET \/api\/v2\/words endpoint/
       )
     ).toBeVisible()
   })

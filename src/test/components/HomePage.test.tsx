@@ -215,7 +215,7 @@ describe('HomePage', () => {
 
     // Check for proper heading hierarchy
     expect(screen.getByRole('heading', { level: 1 })).toBeVisible()
-    expect(screen.getAllByRole('heading', { level: 2 })).toHaveLength(2)
+    expect(screen.getAllByRole('heading', { level: 2 })).toHaveLength(3)
 
     // Check for screen reader only content
     expect(screen.getByText('About Word Game DB')).toBeInTheDocument()
