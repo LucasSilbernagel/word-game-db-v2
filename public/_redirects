@@ -1,2 +1,0 @@
-# Redirect non-www to www (primary domain)
-https://wordgamedb.com/* https://www.wordgamedb.com/:splat 301!
