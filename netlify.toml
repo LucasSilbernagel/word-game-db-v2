@@ -1,0 +1,5 @@
+[[redirects]]
+  from = "https://www.wordgamedb.com/api/*"
+  to = "/api/:splat"
+  status = 200
+  force = true
