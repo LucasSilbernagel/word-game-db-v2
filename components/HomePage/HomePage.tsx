@@ -181,7 +181,7 @@ const HomePage = () => {
                 </p>
                 <p className="text-muted-foreground">
                   Perfect for building hangman games, word puzzles, vocabulary
-                  apps, and other educational projects.
+                  apps, and other projects.
                 </p>
               </div>
             </CardContent>
@@ -196,35 +196,6 @@ const HomePage = () => {
             <Card>
               <CardHeader>
                 <CardTitle className="flex items-center gap-2">
-                  <span className="rounded bg-blue-100 px-2 py-1 font-mono text-xs text-blue-800 dark:bg-blue-900 dark:text-blue-200">
-                    v1
-                  </span>
-                  Simple Array Format
-                </CardTitle>
-              </CardHeader>
-              <CardContent>
-                <p className="text-muted-foreground mb-4">
-                  Returns a simple array of word objects - perfect for games
-                  like hangman that need direct array access.
-                </p>
-                <div className="space-y-2">
-                  <h4 className="font-semibold">Response Format:</h4>
-                  <code className="bg-muted block rounded p-2 text-sm">
-                    [&#123;word: "cobra", category: "animal", ...&#125;, ...]
-                  </code>
-                  <h4 className="font-semibold">Use Cases:</h4>
-                  <ul className="text-muted-foreground list-inside list-disc text-sm">
-                    <li>Hangman games</li>
-                    <li>Simple word selection</li>
-                    <li>Backward compatibility</li>
-                  </ul>
-                </div>
-              </CardContent>
-            </Card>
-
-            <Card>
-              <CardHeader>
-                <CardTitle className="flex items-center gap-2">
                   <span className="rounded bg-green-100 px-2 py-1 font-mono text-xs text-green-800 dark:bg-green-900 dark:text-green-200">
                     v2
                   </span>
@@ -233,21 +204,40 @@ const HomePage = () => {
               </CardHeader>
               <CardContent>
                 <p className="text-muted-foreground mb-4">
-                  Returns paginated data with metadata - ideal for applications
-                  that need pagination and detailed information.
+                  Returns paginated data with metadata.
                 </p>
                 <div className="space-y-2">
                   <h4 className="font-semibold">Response Format:</h4>
                   <code className="bg-muted block rounded p-2 text-sm">
-                    &#123;words: [...], pagination: &#123;total, limit, offset,
+                    &#123;words: [&#123;word: "cobra", category: "animal",
+                    ...&#125;, ...], pagination: &#123;total, limit, offset,
                     hasMore&#125;&#125;
                   </code>
-                  <h4 className="font-semibold">Use Cases:</h4>
-                  <ul className="text-muted-foreground list-inside list-disc text-sm">
-                    <li>Word management apps</li>
-                    <li>Large datasets</li>
-                    <li>Advanced filtering</li>
-                  </ul>
+                </div>
+              </CardContent>
+            </Card>
+
+            <Card>
+              <CardHeader>
+                <CardTitle className="flex items-center gap-2">
+                  <span className="rounded bg-blue-100 px-2 py-1 font-mono text-xs text-blue-800 dark:bg-blue-900 dark:text-blue-200">
+                    v1
+                  </span>
+                  <span className="rounded bg-orange-100 px-2 py-1 text-xs font-medium text-orange-800 dark:bg-orange-900 dark:text-orange-200">
+                    Legacy
+                  </span>
+                  Simple Array Format
+                </CardTitle>
+              </CardHeader>
+              <CardContent>
+                <p className="text-muted-foreground mb-4">
+                  Returns a simple array of word objects.
+                </p>
+                <div className="space-y-2">
+                  <h4 className="font-semibold">Response Format:</h4>
+                  <code className="bg-muted block rounded p-2 text-sm">
+                    [&#123;word: "cobra", category: "animal", ...&#125;, ...]
+                  </code>
                 </div>
               </CardContent>
             </Card>
@@ -288,7 +278,7 @@ const HomePage = () => {
                         {endpoint.method}
                       </span>
                       <code className="bg-muted overflow-hidden rounded px-2 py-1 font-mono text-sm break-all">
-                        https://wordgamedb.com{endpoint.path}
+                        https://www.wordgamedb.com{endpoint.path}
                       </code>
                     </div>
                     <CardTitle className="text-lg">

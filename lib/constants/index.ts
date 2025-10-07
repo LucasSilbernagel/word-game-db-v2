@@ -1,12 +1,12 @@
 // API Constants
 export const API_ROUTES = {
-  BASE: '/api/v1',
-  WORDS: '/api/v1/words',
-  WORDS_WITH_ID: '/api/v1/words/[id]',
-  WORDS_SEARCH: '/api/v1/words/search',
-  WORDS_RANDOM: '/api/v1/words/random',
-  CATEGORIES: '/api/v1/categories',
-  CONFIG: '/api/v1/config',
+  BASE: '/api/v2',
+  WORDS: '/api/v2/words',
+  WORDS_WITH_ID: '/api/v2/words/[id]',
+  WORDS_SEARCH: '/api/v2/words/search',
+  WORDS_RANDOM: '/api/v2/words/random',
+  CATEGORIES: '/api/v2/categories',
+  CONFIG: '/api/v2/config',
 } as const
 
 // Common Text Content
@@ -78,7 +78,7 @@ export const APP_METADATA = {
   TITLE: 'Word Game DB',
   DESCRIPTION:
     'A REST API for building word games and puzzles. Word Game DB is designed for educational purposes, helping developers practice their coding skills by building word games that incorporate an API. Each word comes with a category, letter count, syllable count, and helpful hint.',
-  BASE_URL: 'https://wordgamedb.com',
+  BASE_URL: 'https://www.wordgamedb.com',
   OG_IMAGE: '/og-image.png',
   OG_IMAGE_WIDTH: 1200,
   OG_IMAGE_HEIGHT: 630,

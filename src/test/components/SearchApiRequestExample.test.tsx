@@ -13,7 +13,7 @@ describe('SearchApiRequestExample', () => {
     render(<SearchApiRequestExample searchForm={defaultSearchForm} />)
 
     expect(screen.getByText('API Request Example:')).toBeVisible()
-    expect(screen.getByText('GET /api/v1/words/search?q=cat')).toBeVisible()
+    expect(screen.getByText('GET /api/v2/words/search?q=cat')).toBeVisible()
     expect(screen.getByText('Content-Type: application/json')).toBeVisible()
     expect(
       screen.getByText('Returns words matching "cat" with pagination')
@@ -30,7 +30,7 @@ describe('SearchApiRequestExample', () => {
     render(<SearchApiRequestExample searchForm={searchFormWithQuery} />)
 
     expect(
-      screen.getByText('GET /api/v1/words/search?q=elephant')
+      screen.getByText('GET /api/v2/words/search?q=elephant')
     ).toBeVisible()
     expect(
       screen.getByText('Returns words matching "elephant" with pagination')
@@ -47,7 +47,7 @@ describe('SearchApiRequestExample', () => {
     render(<SearchApiRequestExample searchForm={searchFormWithLimit} />)
 
     expect(
-      screen.getByText('GET /api/v1/words/search?q=cat&limit=5')
+      screen.getByText('GET /api/v2/words/search?q=cat&limit=5')
     ).toBeVisible()
   })
 
@@ -61,7 +61,7 @@ describe('SearchApiRequestExample', () => {
     render(<SearchApiRequestExample searchForm={searchFormWithOffset} />)
 
     expect(
-      screen.getByText('GET /api/v1/words/search?q=cat&offset=20')
+      screen.getByText('GET /api/v2/words/search?q=cat&offset=20')
     ).toBeVisible()
   })
 
@@ -75,7 +75,7 @@ describe('SearchApiRequestExample', () => {
     render(<SearchApiRequestExample searchForm={searchFormWithAllParams} />)
 
     expect(
-      screen.getByText('GET /api/v1/words/search?q=dog&limit=15&offset=30')
+      screen.getByText('GET /api/v2/words/search?q=dog&limit=15&offset=30')
     ).toBeVisible()
     expect(
       screen.getByText('Returns words matching "dog" with pagination')
@@ -91,7 +91,7 @@ describe('SearchApiRequestExample', () => {
 
     render(<SearchApiRequestExample searchForm={searchFormWithEmptyQuery} />)
 
-    expect(screen.getByText('GET /api/v1/words/search?q=cat')).toBeVisible()
+    expect(screen.getByText('GET /api/v2/words/search?q=cat')).toBeVisible()
     expect(
       screen.getByText('Returns words matching "cat" with pagination')
     ).toBeVisible()
@@ -116,7 +116,7 @@ describe('SearchApiRequestExample', () => {
       'dark:bg-gray-800'
     )
 
-    const methodText = screen.getByText('GET /api/v1/words/search?q=cat')
+    const methodText = screen.getByText('GET /api/v2/words/search?q=cat')
     expect(methodText).toHaveClass(
       'font-semibold',
       'text-green-600',
@@ -150,7 +150,7 @@ describe('SearchApiRequestExample', () => {
 
     render(<SearchApiRequestExample searchForm={searchFormWithDefaultLimit} />)
 
-    expect(screen.getByText('GET /api/v1/words/search?q=test')).toBeVisible()
+    expect(screen.getByText('GET /api/v2/words/search?q=test')).toBeVisible()
     expect(screen.queryByText(/limit=10/)).not.toBeInTheDocument()
   })
 
@@ -163,7 +163,7 @@ describe('SearchApiRequestExample', () => {
 
     render(<SearchApiRequestExample searchForm={searchFormWithDefaultOffset} />)
 
-    expect(screen.getByText('GET /api/v1/words/search?q=test')).toBeVisible()
+    expect(screen.getByText('GET /api/v2/words/search?q=test')).toBeVisible()
     expect(screen.queryByText(/offset=0/)).not.toBeInTheDocument()
   })
 
@@ -177,7 +177,7 @@ describe('SearchApiRequestExample', () => {
     render(<SearchApiRequestExample searchForm={searchFormWithSpecialChars} />)
 
     expect(
-      screen.getByText('GET /api/v1/words/search?q=test+%26+query')
+      screen.getByText('GET /api/v2/words/search?q=test+%26+query')
     ).toBeVisible()
     expect(
       screen.getByText('Returns words matching "test & query" with pagination')
@@ -190,7 +190,7 @@ describe('SearchApiRequestExample', () => {
     const exampleBox = screen.getByText(
       'API Request Example:'
     ).nextElementSibling!
-    const methodText = screen.getByText('GET /api/v1/words/search?q=cat')
+    const methodText = screen.getByText('GET /api/v2/words/search?q=cat')
     const contentTypeText = screen.getByText('Content-Type: application/json')
     const descriptionText = screen.getByText(
       'Returns words matching "cat" with pagination'
@@ -214,7 +214,7 @@ describe('SearchApiRequestExample', () => {
     )
 
     expect(
-      screen.getByText('GET /api/v1/words/search?q=test&limit=25&offset=50')
+      screen.getByText('GET /api/v2/words/search?q=test&limit=25&offset=50')
     ).toBeVisible()
   })
 })

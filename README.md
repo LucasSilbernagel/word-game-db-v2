@@ -4,7 +4,7 @@ A modern, full-stack word game database built with Next.js 15, MongoDB, and Type
 
 ## 🚀 Live Demo
 
-**Production API**: [https://wordgamedb.com](https://wordgamedb.com) (Read-only endpoints)
+**Production API**: [https://www.wordgamedb.com](https://www.wordgamedb.com) (Read-only endpoints)
 
 ## Features
 
@@ -243,7 +243,7 @@ type Word = {
 ```
 ├── app/                    # Next.js App Router
 │   ├── api/               # API routes
-│   │   ├── v1/           # API version 1 (simple array format)
+│   │   ├── v1/           # API version 1 (legacy - simple array format)
 │   │   │   ├── categories/  # Category endpoints
 │   │   │   ├── config/     # Configuration endpoints
 │   │   │   └── words/      # Word management endpoints

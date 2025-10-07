@@ -19,7 +19,7 @@ export const SearchApiRequestExample = ({
     if (limit !== '10') params.set('limit', limit)
     if (offset !== '0') params.set('offset', offset)
 
-    return `/api/v1/words/search?${params.toString()}`
+    return `/api/v2/words/search?${params.toString()}`
   }
 
   return (

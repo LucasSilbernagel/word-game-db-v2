@@ -65,14 +65,14 @@ The test configuration is defined in `vitest.config.ts`:
 
 Comprehensive API endpoint testing including:
 
-- GET `/api/v1/words` - List words with filtering and pagination
-- POST `/api/v1/words` - Create new words
-- GET `/api/v1/words/search` - Search words
-- GET `/api/v1/words/random` - Get random word
-- GET `/api/v1/words/[id]` - Get word by ID
-- PUT `/api/v1/words/[id]` - Update word
-- DELETE `/api/v1/words/[id]` - Delete word
-- GET `/api/v1/categories` - Get all categories
+- GET `/api/v2/words` - List words with filtering and pagination
+- POST `/api/v2/words` - Create new words
+- GET `/api/v2/words/search` - Search words
+- GET `/api/v2/words/random` - Get random word
+- GET `/api/v2/words/[id]` - Get word by ID
+- PUT `/api/v2/words/[id]` - Update word
+- DELETE `/api/v2/words/[id]` - Delete word
+- GET `/api/v2/categories` - Get all categories
 
 Each test includes:
 
@@ -141,7 +141,7 @@ The test suite uses MSW to mock API calls instead of hitting real endpoints:
 
 ```typescript
 // Example mock handler
-http.get('http://localhost:3000/api/v1/words', () => {
+http.get('http://localhost:3000/api/v2/words', () => {
   return HttpResponse.json({
     words: mockWords,
     pagination: { total: 1, limit: 10, offset: 0, hasMore: false },

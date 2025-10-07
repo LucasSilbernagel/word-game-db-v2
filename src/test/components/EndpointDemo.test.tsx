@@ -88,7 +88,7 @@ vi.mock('@/components/EndpointDemo/hooks/useApiState', () => ({
 // Mock the utility functions
 vi.mock('@/components/EndpointDemo/utils/buildApiRequest', () => ({
   buildApiRequest: vi.fn(() => ({
-    url: 'http://localhost:3000/api/v1/words',
+    url: 'http://localhost:3000/api/v2/words',
     options: { method: 'GET' },
   })),
 }))
@@ -108,7 +108,7 @@ describe('EndpointDemo', () => {
     render(
       <EndpointDemo
         method="GET"
-        path="/api/v1/words"
+        path="/api/v2/words"
         categories={mockCategories}
       />
     )
@@ -122,7 +122,7 @@ describe('EndpointDemo', () => {
     render(
       <EndpointDemo
         method="POST"
-        path="/api/v1/words"
+        path="/api/v2/words"
         categories={mockCategories}
       />
     )
@@ -135,7 +135,7 @@ describe('EndpointDemo', () => {
     render(
       <EndpointDemo
         method="POST"
-        path="/api/v1/words"
+        path="/api/v2/words"
         isDestructiveEnabled={false}
         categories={mockCategories}
       />
@@ -149,7 +149,7 @@ describe('EndpointDemo', () => {
     render(
       <EndpointDemo
         method="GET"
-        path="/api/v1/words"
+        path="/api/v2/words"
         categories={mockCategories}
       />
     )
@@ -178,7 +178,7 @@ describe('EndpointDemo', () => {
     render(
       <EndpointDemo
         method="GET"
-        path="/api/v1/words"
+        path="/api/v2/words"
         categories={mockCategories}
       />
     )
@@ -207,7 +207,7 @@ describe('EndpointDemo', () => {
     render(
       <EndpointDemo
         method="GET"
-        path="/api/v1/words"
+        path="/api/v2/words"
         categories={mockCategories}
       />
     )
@@ -237,7 +237,7 @@ describe('EndpointDemo', () => {
     render(
       <EndpointDemo
         method="GET"
-        path="/api/v1/words"
+        path="/api/v2/words"
         categories={mockCategories}
       />
     )
@@ -250,7 +250,7 @@ describe('EndpointDemo', () => {
     render(
       <EndpointDemo
         method="GET"
-        path="/api/v1/words/search"
+        path="/api/v2/words/search"
         categories={mockCategories}
       />
     )
@@ -263,7 +263,7 @@ describe('EndpointDemo', () => {
     render(
       <EndpointDemo
         method="POST"
-        path="/api/v1/words"
+        path="/api/v2/words"
         categories={mockCategories}
       />
     )
@@ -276,7 +276,7 @@ describe('EndpointDemo', () => {
     render(
       <EndpointDemo
         method="GET"
-        path="/api/v1/words"
+        path="/api/v2/words"
         categories={mockCategories}
       />
     )

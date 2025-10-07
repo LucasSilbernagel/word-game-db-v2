@@ -44,10 +44,10 @@ export const mockWords = [
 
 export const mockCategories = ['fruit', 'animal', 'color', 'food']
 
-const baseUrl = 'http://localhost:3000/api/v1'
+const baseUrl = 'http://localhost:3000/api/v2'
 
 export const handlers = [
-  // GET /api/v1/words - Get all words with filters and pagination
+  // GET /api/v2/words - Get all words with filters and pagination
   http.get(`${baseUrl}/words`, ({ request }) => {
     const url = new URL(request.url)
     const limit = Number.parseInt(url.searchParams.get('limit') || '10')
@@ -87,7 +87,7 @@ export const handlers = [
     })
   }),
 
-  // POST /api/v1/words - Create a new word
+  // POST /api/v2/words - Create a new word
   http.post(`${baseUrl}/words`, async ({ request }) => {
     const body = (await request.json()) as CreateWordRequest
 
@@ -136,7 +136,7 @@ export const handlers = [
     return HttpResponse.json(newWord, { status: 201 })
   }),
 
-  // GET /api/v1/words/search - Search words
+  // GET /api/v2/words/search - Search words
   http.get(`${baseUrl}/words/search`, ({ request }) => {
     const url = new URL(request.url)
     const query = url.searchParams.get('q')
@@ -175,7 +175,7 @@ export const handlers = [
     })
   }),
 
-  // GET /api/v1/words/random - Get random word
+  // GET /api/v2/words/random - Get random word
   http.get(`${baseUrl}/words/random`, ({ request }) => {
     const url = new URL(request.url)
     const category = url.searchParams.get('category')
@@ -195,7 +195,7 @@ export const handlers = [
     return HttpResponse.json(randomWord)
   }),
 
-  // GET /api/v1/words/:id - Get word by ID
+  // GET /api/v2/words/:id - Get word by ID
   http.get(`${baseUrl}/words/:id`, ({ params }) => {
     const { id } = params
     const word = mockWords.find((w) => w._id === id)
@@ -207,7 +207,7 @@ export const handlers = [
     return HttpResponse.json(word)
   }),
 
-  // PUT /api/v1/words/:id - Update word by ID
+  // PUT /api/v2/words/:id - Update word by ID
   http.put(`${baseUrl}/words/:id`, async ({ params, request }) => {
     const { id } = params
     const body = (await request.json()) as Partial<CreateWordRequest>
@@ -229,7 +229,7 @@ export const handlers = [
     return HttpResponse.json(mockWords[wordIndex])
   }),
 
-  // DELETE /api/v1/words/:id - Delete word by ID
+  // DELETE /api/v2/words/:id - Delete word by ID
   http.delete(`${baseUrl}/words/:id`, ({ params }) => {
     const { id } = params
     const wordIndex = mockWords.findIndex((w) => w._id === id)
@@ -244,20 +244,20 @@ export const handlers = [
     return HttpResponse.json(deletedWord)
   }),
 
-  // GET /api/v1/categories - Get all categories
+  // GET /api/v2/categories - Get all categories
   http.get(`${baseUrl}/categories`, () => {
     return HttpResponse.json(mockCategories)
   }),
 
-  // GET /api/v1/config - Get API configuration
+  // GET /api/v2/config - Get API configuration
   http.get(`${baseUrl}/config`, () => {
     return HttpResponse.json({
       version: '1.0.0',
       endpoints: {
-        words: '/api/v1/words',
-        categories: '/api/v1/categories',
-        search: '/api/v1/words/search',
-        random: '/api/v1/words/random',
+        words: '/api/v2/words',
+        categories: '/api/v2/categories',
+        search: '/api/v2/words/search',
+        random: '/api/v2/words/random',
       },
       limits: {
         maxWordsPerRequest: 100,

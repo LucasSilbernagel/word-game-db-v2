@@ -146,14 +146,14 @@ describe('HomePage', () => {
 
     // Should render GET endpoints
     expect(
-      screen.getByText('Endpoint Demo: GET /api/v1/categories')
+      screen.getByText('Endpoint Demo: GET /api/v2/categories')
     ).toBeVisible()
     expect(
-      screen.getByText('Endpoint Demo: GET /api/v1/words/random')
+      screen.getByText('Endpoint Demo: GET /api/v2/words/random')
     ).toBeVisible()
-    expect(screen.getByText('Endpoint Demo: GET /api/v1/words')).toBeVisible()
+    expect(screen.getByText('Endpoint Demo: GET /api/v2/words')).toBeVisible()
     expect(
-      screen.getByText('Endpoint Demo: GET /api/v1/words/search')
+      screen.getByText('Endpoint Demo: GET /api/v2/words/search')
     ).toBeVisible()
   })
 

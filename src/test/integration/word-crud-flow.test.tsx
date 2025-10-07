@@ -22,7 +22,7 @@ describe('Word CRUD Integration Flow', () => {
   it('should complete full word creation workflow', async () => {
     // Mock successful word creation
     server.use(
-      http.post('http://localhost:3000/api/v1/words', async ({ request }) => {
+      http.post('http://localhost:3000/api/v2/words', async ({ request }) => {
         const body = (await request.json()) as {
           word: string
           category: string
@@ -47,7 +47,7 @@ describe('Word CRUD Integration Flow', () => {
     render(
       <EndpointDemo
         method="POST"
-        path="/api/v1/words"
+        path="/api/v2/words"
         categories={mockCategories}
       />
     )
@@ -88,7 +88,7 @@ describe('Word CRUD Integration Flow', () => {
   it('should handle word creation error workflow', async () => {
     // Mock word creation error (duplicate word)
     server.use(
-      http.post('http://localhost:3000/api/v1/words', () => {
+      http.post('http://localhost:3000/api/v2/words', () => {
         return HttpResponse.json(
           { error: 'Word already exists' },
           { status: 409 }
@@ -99,7 +99,7 @@ describe('Word CRUD Integration Flow', () => {
     render(
       <EndpointDemo
         method="POST"
-        path="/api/v1/words"
+        path="/api/v2/words"
         categories={mockCategories}
       />
     )
@@ -120,7 +120,7 @@ describe('Word CRUD Integration Flow', () => {
   it('should complete word search flow', async () => {
     // Mock successful search
     server.use(
-      http.get('http://localhost:3000/api/v1/words/search', ({ request }) => {
+      http.get('http://localhost:3000/api/v2/words/search', ({ request }) => {
         const url = new URL(request.url)
         const query = url.searchParams.get('q')
 
@@ -151,7 +151,7 @@ describe('Word CRUD Integration Flow', () => {
     render(
       <EndpointDemo
         method="GET"
-        path="/api/v1/words/search"
+        path="/api/v2/words/search"
         categories={mockCategories}
       />
     )
@@ -173,7 +173,7 @@ describe('Word CRUD Integration Flow', () => {
     render(
       <EndpointDemo
         method="GET"
-        path="/api/v1/words/search"
+        path="/api/v2/words/search"
         categories={mockCategories}
       />
     )
@@ -190,7 +190,7 @@ describe('Word CRUD Integration Flow', () => {
   it('should complete word filtering flow', async () => {
     // Mock successful filtered results
     server.use(
-      http.get('http://localhost:3000/api/v1/words', ({ request }) => {
+      http.get('http://localhost:3000/api/v2/words', ({ request }) => {
         const url = new URL(request.url)
         const category = url.searchParams.get('category')
 
@@ -223,7 +223,7 @@ describe('Word CRUD Integration Flow', () => {
     render(
       <EndpointDemo
         method="GET"
-        path="/api/v1/words"
+        path="/api/v2/words"
         categories={mockCategories}
       />
     )
@@ -250,7 +250,7 @@ describe('Word CRUD Integration Flow', () => {
   it('should handle loading states during API calls', async () => {
     // Mock slow API response
     server.use(
-      http.get('http://localhost:3000/api/v1/words', async () => {
+      http.get('http://localhost:3000/api/v2/words', async () => {
         await new Promise((resolve) => setTimeout(resolve, 100))
         return HttpResponse.json({
           words: [],
@@ -267,7 +267,7 @@ describe('Word CRUD Integration Flow', () => {
     render(
       <EndpointDemo
         method="GET"
-        path="/api/v1/words"
+        path="/api/v2/words"
         categories={mockCategories}
       />
     )
@@ -292,7 +292,7 @@ describe('Word CRUD Integration Flow', () => {
   it('should reset form after successful submission', async () => {
     // Mock successful word creation
     server.use(
-      http.post('http://localhost:3000/api/v1/words', async ({ request }) => {
+      http.post('http://localhost:3000/api/v2/words', async ({ request }) => {
         const body = (await request.json()) as {
           word: string
           category: string
@@ -317,7 +317,7 @@ describe('Word CRUD Integration Flow', () => {
     render(
       <EndpointDemo
         method="POST"
-        path="/api/v1/words"
+        path="/api/v2/words"
         categories={mockCategories}
       />
     )

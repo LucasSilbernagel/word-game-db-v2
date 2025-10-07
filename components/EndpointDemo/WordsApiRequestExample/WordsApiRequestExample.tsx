@@ -28,7 +28,7 @@ export const WordsApiRequestExample = ({
       params.set('category', 'animal')
     }
 
-    return `/api/v1/words?${params.toString()}`
+    return `/api/v2/words?${params.toString()}`
   }
 
   const getDescription = () => {

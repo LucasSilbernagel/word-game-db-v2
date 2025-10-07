@@ -18,7 +18,7 @@ describe('WordsApiRequestExample', () => {
     render(<WordsApiRequestExample filters={defaultFilters} />)
 
     expect(screen.getByText('API Request Example:')).toBeVisible()
-    expect(screen.getByText('GET /api/v1/words?category=animal')).toBeVisible()
+    expect(screen.getByText('GET /api/v2/words?category=animal')).toBeVisible()
     expect(screen.getByText('Content-Type: application/json')).toBeVisible()
     expect(
       screen.getByText('Returns all words (no filters applied)')
@@ -34,7 +34,7 @@ describe('WordsApiRequestExample', () => {
     render(<WordsApiRequestExample filters={filtersWithId} />)
 
     expect(
-      screen.getByText('GET /api/v1/words?_id=5ffa1774c0831cbe1460e29c')
+      screen.getByText('GET /api/v2/words?_id=5ffa1774c0831cbe1460e29c')
     ).toBeVisible()
     expect(
       screen.getByText(
@@ -51,7 +51,7 @@ describe('WordsApiRequestExample', () => {
 
     render(<WordsApiRequestExample filters={filtersWithCategory} />)
 
-    expect(screen.getByText('GET /api/v1/words?category=fruit')).toBeVisible()
+    expect(screen.getByText('GET /api/v2/words?category=fruit')).toBeVisible()
     expect(
       screen.getByText('Returns words filtered by: category: "fruit"')
     ).toBeVisible()
@@ -67,7 +67,7 @@ describe('WordsApiRequestExample', () => {
     render(<WordsApiRequestExample filters={filtersWithLetterRange} />)
 
     expect(
-      screen.getByText('GET /api/v1/words?minLetters=4&maxLetters=6')
+      screen.getByText('GET /api/v2/words?minLetters=4&maxLetters=6')
     ).toBeVisible()
     expect(
       screen.getByText('Returns words filtered by: 4-6 letters')
@@ -84,7 +84,7 @@ describe('WordsApiRequestExample', () => {
     render(<WordsApiRequestExample filters={filtersWithSyllableRange} />)
 
     expect(
-      screen.getByText('GET /api/v1/words?minSyllables=1&maxSyllables=3')
+      screen.getByText('GET /api/v2/words?minSyllables=1&maxSyllables=3')
     ).toBeVisible()
     expect(
       screen.getByText('Returns words filtered by: 1-3 syllables')
@@ -108,7 +108,7 @@ describe('WordsApiRequestExample', () => {
 
     expect(
       screen.getByText(
-        'GET /api/v1/words?category=animal&_id=5ffa1774c0831cbe1460e29c&minLetters=4&maxLetters=6&minSyllables=1&maxSyllables=2&limit=20&offset=10'
+        'GET /api/v2/words?category=animal&_id=5ffa1774c0831cbe1460e29c&minLetters=4&maxLetters=6&minSyllables=1&maxSyllables=2&limit=20&offset=10'
       )
     ).toBeVisible()
     expect(
@@ -126,7 +126,7 @@ describe('WordsApiRequestExample', () => {
 
     render(<WordsApiRequestExample filters={filtersWithSingleMin} />)
 
-    expect(screen.getByText('GET /api/v1/words?minLetters=5')).toBeVisible()
+    expect(screen.getByText('GET /api/v2/words?minLetters=5')).toBeVisible()
     expect(
       screen.getByText('Returns words filtered by: 5+ letters')
     ).toBeVisible()
@@ -140,7 +140,7 @@ describe('WordsApiRequestExample', () => {
 
     render(<WordsApiRequestExample filters={filtersWithMaxOnly} />)
 
-    expect(screen.getByText('GET /api/v1/words?maxSyllables=3')).toBeVisible()
+    expect(screen.getByText('GET /api/v2/words?maxSyllables=3')).toBeVisible()
     expect(
       screen.getByText('Returns words filtered by: ≤3 syllables')
     ).toBeVisible()
@@ -156,7 +156,7 @@ describe('WordsApiRequestExample', () => {
 
     render(<WordsApiRequestExample filters={filtersWithDefaults} />)
 
-    expect(screen.getByText('GET /api/v1/words?category=test')).toBeVisible()
+    expect(screen.getByText('GET /api/v2/words?category=test')).toBeVisible()
     expect(screen.queryByText(/limit=10/)).not.toBeInTheDocument()
     expect(screen.queryByText(/offset=0/)).not.toBeInTheDocument()
   })
@@ -172,7 +172,7 @@ describe('WordsApiRequestExample', () => {
     render(<WordsApiRequestExample filters={filtersWithCustomPagination} />)
 
     expect(
-      screen.getByText('GET /api/v1/words?category=test&limit=25&offset=50')
+      screen.getByText('GET /api/v2/words?category=test&limit=25&offset=50')
     ).toBeVisible()
   })
 
@@ -204,7 +204,7 @@ describe('WordsApiRequestExample', () => {
     render(<WordsApiRequestExample filters={filtersWithSpecialId} />)
 
     expect(
-      screen.getByText('GET /api/v1/words?_id=507f1f77bcf86cd799439011')
+      screen.getByText('GET /api/v2/words?_id=507f1f77bcf86cd799439011')
     ).toBeVisible()
     expect(
       screen.getByText(
@@ -232,7 +232,7 @@ describe('WordsApiRequestExample', () => {
       'dark:bg-gray-800'
     )
 
-    const methodText = screen.getByText('GET /api/v1/words?category=animal')
+    const methodText = screen.getByText('GET /api/v2/words?category=animal')
     expect(methodText).toHaveClass(
       'font-semibold',
       'text-green-600',
@@ -272,7 +272,7 @@ describe('WordsApiRequestExample', () => {
     render(<WordsApiRequestExample filters={filtersWithEmptyStrings} />)
 
     expect(
-      screen.getByText('GET /api/v1/words?minLetters=5&maxSyllables=3')
+      screen.getByText('GET /api/v2/words?minLetters=5&maxSyllables=3')
     ).toBeVisible()
     expect(
       screen.getByText('Returns words filtered by: 5+ letters, ≤3 syllables')
@@ -290,7 +290,7 @@ describe('WordsApiRequestExample', () => {
 
     expect(
       screen.getByText(
-        'GET /api/v1/words?category=animal&_id=5ffa1774c0831cbe1460e29c'
+        'GET /api/v2/words?category=animal&_id=5ffa1774c0831cbe1460e29c'
       )
     ).toBeVisible()
     expect(

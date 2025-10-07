@@ -44,7 +44,7 @@ export const DeleteForm = ({
         />
         <p className="mt-1 text-xs text-gray-500 dark:text-gray-400">
           Enter the ID of the word you want to delete. You can find word IDs by
-          using the GET /api/v1/words endpoint.
+          using the GET /api/v2/words endpoint.
         </p>
       </div>
     </div>

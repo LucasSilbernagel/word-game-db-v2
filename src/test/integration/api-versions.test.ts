@@ -54,14 +54,14 @@ describe('API Versions Comparison', () => {
   describe('v1 API - Simple Array Format', () => {
     beforeEach(() => {
       server.use(
-        http.get('http://localhost:3000/api/v1/words', () => {
+        http.get('http://localhost:3000/api/v2/words', () => {
           return HttpResponse.json(mockWords)
         })
       )
     })
 
     it('should return a simple array of words', async () => {
-      const response = await fetch('http://localhost:3000/api/v1/words')
+      const response = await fetch('http://localhost:3000/api/v2/words')
       const data = await response.json()
 
       expect(Array.isArray(data)).toBe(true)
@@ -71,7 +71,7 @@ describe('API Versions Comparison', () => {
     })
 
     it('should work with direct array access for hangman games', async () => {
-      const response = await fetch('http://localhost:3000/api/v1/words')
+      const response = await fetch('http://localhost:3000/api/v2/words')
       const data = await response.json()
 
       // Simulate hangman game logic
@@ -84,7 +84,7 @@ describe('API Versions Comparison', () => {
 
     it('should support filtering parameters', async () => {
       server.use(
-        http.get('http://localhost:3000/api/v1/words', ({ request }) => {
+        http.get('http://localhost:3000/api/v2/words', ({ request }) => {
           const url = new URL(request.url)
           const numLetters = url.searchParams.get('numLetters')
 
@@ -100,7 +100,7 @@ describe('API Versions Comparison', () => {
       )
 
       const response = await fetch(
-        'http://localhost:3000/api/v1/words?numLetters=5'
+        'http://localhost:3000/api/v2/words?numLetters=5'
       )
       const data = await response.json()
 
@@ -201,12 +201,12 @@ describe('API Versions Comparison', () => {
   describe('API Version Compatibility', () => {
     it('should maintain backward compatibility for v1', async () => {
       server.use(
-        http.get('http://localhost:3000/api/v1/words', () => {
+        http.get('http://localhost:3000/api/v2/words', () => {
           return HttpResponse.json(mockWords)
         })
       )
 
-      const response = await fetch('http://localhost:3000/api/v1/words')
+      const response = await fetch('http://localhost:3000/api/v2/words')
       const data = await response.json()
 
       // Should work with existing hangman code

@@ -18,7 +18,7 @@ describe('UpdateApiRequestExample', () => {
     render(<UpdateApiRequestExample updateForm={defaultUpdateForm} />)
 
     expect(screen.getByText('API Request Example:')).toBeVisible()
-    expect(screen.getByText('PUT /api/v1/words/WORD_ID')).toBeVisible()
+    expect(screen.getByText('PUT /api/v2/words/WORD_ID')).toBeVisible()
     expect(screen.getByText('Content-Type: application/json')).toBeVisible()
   })
 
@@ -30,7 +30,7 @@ describe('UpdateApiRequestExample', () => {
 
     render(<UpdateApiRequestExample updateForm={updateFormWithId} />)
 
-    expect(screen.getByText('PUT /api/v1/words/test-id-123')).toBeVisible()
+    expect(screen.getByText('PUT /api/v2/words/test-id-123')).toBeVisible()
   })
 
   it('should render with word and hint fields', () => {
@@ -42,7 +42,7 @@ describe('UpdateApiRequestExample', () => {
 
     render(<UpdateApiRequestExample updateForm={updateFormWithWordAndHint} />)
 
-    expect(screen.getByText('PUT /api/v1/words/WORD_ID')).toBeVisible()
+    expect(screen.getByText('PUT /api/v2/words/WORD_ID')).toBeVisible()
     expect(screen.getByText(/"word": "elephant"/)).toBeVisible()
     expect(screen.getByText(/"hint": "Large mammal with trunk"/)).toBeVisible()
   })
@@ -100,7 +100,7 @@ describe('UpdateApiRequestExample', () => {
 
     render(<UpdateApiRequestExample updateForm={updateFormWithAllFields} />)
 
-    expect(screen.getByText('PUT /api/v1/words/test-id-456')).toBeVisible()
+    expect(screen.getByText('PUT /api/v2/words/test-id-456')).toBeVisible()
     expect(screen.getByText(/"word": "giraffe"/)).toBeVisible()
     expect(screen.getByText(/"category": "animal"/)).toBeVisible()
     expect(screen.getByText(/"numLetters": 7/)).toBeVisible()
@@ -154,7 +154,7 @@ describe('UpdateApiRequestExample', () => {
       'dark:bg-gray-800'
     )
 
-    const methodText = screen.getByText('PUT /api/v1/words/WORD_ID')
+    const methodText = screen.getByText('PUT /api/v2/words/WORD_ID')
     expect(methodText).toHaveClass(
       'font-semibold',
       'text-blue-600',

@@ -26,12 +26,12 @@ describe('API Integration Tests', () => {
       // Mock dynamic word storage
       server.use(
         // GET all words (v1 returns simple array)
-        http.get('http://localhost:3000/api/v1/words', () => {
+        http.get('http://localhost:3000/api/v2/words', () => {
           return HttpResponse.json(words)
         }),
 
         // POST create word
-        http.post('http://localhost:3000/api/v1/words', async ({ request }) => {
+        http.post('http://localhost:3000/api/v2/words', async ({ request }) => {
           const body = (await request.json()) as Partial<Word>
           const newWord: Word = {
             _id: `word_${Date.now()}`,
@@ -48,7 +48,7 @@ describe('API Integration Tests', () => {
         }),
 
         // GET word by ID
-        http.get('http://localhost:3000/api/v1/words/:id', ({ params }) => {
+        http.get('http://localhost:3000/api/v2/words/:id', ({ params }) => {
           const { id } = params
           const word = words.find((w) => w._id === id)
           if (!word) {
@@ -62,7 +62,7 @@ describe('API Integration Tests', () => {
 
         // PUT update word
         http.put(
-          'http://localhost:3000/api/v1/words/:id',
+          'http://localhost:3000/api/v2/words/:id',
           async ({ params, request }) => {
             const { id } = params
             const body = (await request.json()) as Partial<Word>
@@ -86,7 +86,7 @@ describe('API Integration Tests', () => {
         ),
 
         // DELETE word
-        http.delete('http://localhost:3000/api/v1/words/:id', ({ params }) => {
+        http.delete('http://localhost:3000/api/v2/words/:id', ({ params }) => {
           const { id } = params
           const wordIndex = words.findIndex((w) => w._id === id)
 
@@ -105,7 +105,7 @@ describe('API Integration Tests', () => {
       )
 
       // 1. Create a word
-      const createResponse = await fetch('http://localhost:3000/api/v1/words', {
+      const createResponse = await fetch('http://localhost:3000/api/v2/words', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
@@ -123,7 +123,7 @@ describe('API Integration Tests', () => {
       expect(createdWord.category).toBe('fruit')
 
       // 2. Get all words (should include the created word)
-      const getAllResponse = await fetch('http://localhost:3000/api/v1/words')
+      const getAllResponse = await fetch('http://localhost:3000/api/v2/words')
       expect(getAllResponse.status).toBe(200)
       const allWords = await getAllResponse.json()
       expect(allWords).toHaveLength(1)
@@ -131,7 +131,7 @@ describe('API Integration Tests', () => {
 
       // 3. Get specific word by ID
       const getByIdResponse = await fetch(
-        `http://localhost:3000/api/v1/words/${createdWord._id}`
+        `http://localhost:3000/api/v2/words/${createdWord._id}`
       )
       expect(getByIdResponse.status).toBe(200)
       const retrievedWord = await getByIdResponse.json()
@@ -139,7 +139,7 @@ describe('API Integration Tests', () => {
 
       // 4. Update the word
       const updateResponse = await fetch(
-        `http://localhost:3000/api/v1/words/${createdWord._id}`,
+        `http://localhost:3000/api/v2/words/${createdWord._id}`,
         {
           method: 'PUT',
           headers: { 'Content-Type': 'application/json' },
@@ -154,7 +154,7 @@ describe('API Integration Tests', () => {
 
       // 5. Delete the word
       const deleteResponse = await fetch(
-        `http://localhost:3000/api/v1/words/${createdWord._id}`,
+        `http://localhost:3000/api/v2/words/${createdWord._id}`,
         {
           method: 'DELETE',
         }
@@ -165,12 +165,12 @@ describe('API Integration Tests', () => {
 
       // 6. Verify word is deleted
       const getDeletedResponse = await fetch(
-        `http://localhost:3000/api/v1/words/${createdWord._id}`
+        `http://localhost:3000/api/v2/words/${createdWord._id}`
       )
       expect(getDeletedResponse.status).toBe(404)
 
       // 7. Verify no words remain
-      const getFinalResponse = await fetch('http://localhost:3000/api/v1/words')
+      const getFinalResponse = await fetch('http://localhost:3000/api/v2/words')
       expect(getFinalResponse.status).toBe(200)
       const finalWords = await getFinalResponse.json()
       expect(finalWords).toHaveLength(0)
@@ -211,7 +211,7 @@ describe('API Integration Tests', () => {
       ]
 
       server.use(
-        http.get('http://localhost:3000/api/v1/words/search', ({ request }) => {
+        http.get('http://localhost:3000/api/v2/words/search', ({ request }) => {
           const url = new URL(request.url)
           const query = url.searchParams.get('q')
           const limit = Number.parseInt(url.searchParams.get('limit') || '10')
@@ -245,7 +245,7 @@ describe('API Integration Tests', () => {
 
       // Test search for 'app' (should find 'apple')
       const searchResponse = await fetch(
-        'http://localhost:3000/api/v1/words/search?q=app'
+        'http://localhost:3000/api/v2/words/search?q=app'
       )
       expect(searchResponse.status).toBe(200)
       const searchResult = await searchResponse.json()
@@ -254,7 +254,7 @@ describe('API Integration Tests', () => {
 
       // Test search for 'fruit' words (should find none, searches in word field)
       const fruitSearchResponse = await fetch(
-        'http://localhost:3000/api/v1/words/search?q=fruit'
+        'http://localhost:3000/api/v2/words/search?q=fruit'
       )
       expect(fruitSearchResponse.status).toBe(200)
       const fruitSearchResult = await fruitSearchResponse.json()
@@ -262,7 +262,7 @@ describe('API Integration Tests', () => {
 
       // Test search with pagination
       const paginatedResponse = await fetch(
-        'http://localhost:3000/api/v1/words/search?q=ap&limit=1&offset=0'
+        'http://localhost:3000/api/v2/words/search?q=ap&limit=1&offset=0'
       )
       expect(paginatedResponse.status).toBe(200)
       const paginatedResult = await paginatedResponse.json()
@@ -271,7 +271,7 @@ describe('API Integration Tests', () => {
 
       // Test invalid search (too short)
       const invalidSearchResponse = await fetch(
-        'http://localhost:3000/api/v1/words/search?q=a'
+        'http://localhost:3000/api/v2/words/search?q=a'
       )
       expect(invalidSearchResponse.status).toBe(400)
     })
@@ -311,7 +311,7 @@ describe('API Integration Tests', () => {
       ]
 
       server.use(
-        http.get('http://localhost:3000/api/v1/words', ({ request }) => {
+        http.get('http://localhost:3000/api/v2/words', ({ request }) => {
           const url = new URL(request.url)
           const category = url.searchParams.get('category')
           const numLetters = url.searchParams.get('numLetters')
@@ -337,7 +337,7 @@ describe('API Integration Tests', () => {
 
       // Test category filtering
       const categoryResponse = await fetch(
-        'http://localhost:3000/api/v1/words?category=fruit'
+        'http://localhost:3000/api/v2/words?category=fruit'
       )
       expect(categoryResponse.status).toBe(200)
       const categoryResult = await categoryResponse.json()
@@ -348,7 +348,7 @@ describe('API Integration Tests', () => {
 
       // Test numLetters filtering
       const lettersResponse = await fetch(
-        'http://localhost:3000/api/v1/words?numLetters=5'
+        'http://localhost:3000/api/v2/words?numLetters=5'
       )
       expect(lettersResponse.status).toBe(200)
       const lettersResult = await lettersResponse.json()
@@ -357,7 +357,7 @@ describe('API Integration Tests', () => {
 
       // Test pagination (v1 ignores pagination parameters)
       const paginationResponse = await fetch(
-        'http://localhost:3000/api/v1/words?limit=2&offset=1'
+        'http://localhost:3000/api/v2/words?limit=2&offset=1'
       )
       expect(paginationResponse.status).toBe(200)
       const paginationResult = await paginationResponse.json()
@@ -366,7 +366,7 @@ describe('API Integration Tests', () => {
 
       // Test combined filters
       const combinedResponse = await fetch(
-        'http://localhost:3000/api/v1/words?category=fruit&numLetters=6'
+        'http://localhost:3000/api/v2/words?category=fruit&numLetters=6'
       )
       expect(combinedResponse.status).toBe(200)
       const combinedResult = await combinedResponse.json()
@@ -389,12 +389,12 @@ describe('API Integration Tests', () => {
       }
 
       server.use(
-        http.get('http://localhost:3000/api/v1/words/random', () => {
+        http.get('http://localhost:3000/api/v2/words/random', () => {
           return HttpResponse.json(mockRandomWord)
         })
       )
 
-      const response = await fetch('http://localhost:3000/api/v1/words/random')
+      const response = await fetch('http://localhost:3000/api/v2/words/random')
       expect(response.status).toBe(200)
       const randomWord = await response.json()
       expect(randomWord).toEqual(mockRandomWord)
@@ -413,7 +413,7 @@ describe('API Integration Tests', () => {
       }
 
       server.use(
-        http.get('http://localhost:3000/api/v1/words/random', ({ request }) => {
+        http.get('http://localhost:3000/api/v2/words/random', ({ request }) => {
           const url = new URL(request.url)
           const category = url.searchParams.get('category')
 
@@ -428,7 +428,7 @@ describe('API Integration Tests', () => {
       )
 
       const response = await fetch(
-        'http://localhost:3000/api/v1/words/random?category=fruit'
+        'http://localhost:3000/api/v2/words/random?category=fruit'
       )
       expect(response.status).toBe(200)
       const randomWord = await response.json()
@@ -437,7 +437,7 @@ describe('API Integration Tests', () => {
 
     it('should return 404 when no words found', async () => {
       server.use(
-        http.get('http://localhost:3000/api/v1/words/random', () => {
+        http.get('http://localhost:3000/api/v2/words/random', () => {
           return HttpResponse.json(
             { error: 'No words found in database' },
             { status: 404 }
@@ -445,7 +445,7 @@ describe('API Integration Tests', () => {
         })
       )
 
-      const response = await fetch('http://localhost:3000/api/v1/words/random')
+      const response = await fetch('http://localhost:3000/api/v2/words/random')
       expect(response.status).toBe(404)
       const error = await response.json()
       expect(error.error).toBe('No words found in database')
@@ -455,12 +455,12 @@ describe('API Integration Tests', () => {
   describe('Categories API Integration', () => {
     it('should return all available categories', async () => {
       server.use(
-        http.get('http://localhost:3000/api/v1/categories', () => {
+        http.get('http://localhost:3000/api/v2/categories', () => {
           return HttpResponse.json(['fruit', 'animal', 'color', 'food'])
         })
       )
 
-      const response = await fetch('http://localhost:3000/api/v1/categories')
+      const response = await fetch('http://localhost:3000/api/v2/categories')
       expect(response.status).toBe(200)
       const categories = await response.json()
       expect(categories).toEqual(['fruit', 'animal', 'color', 'food'])
@@ -468,12 +468,12 @@ describe('API Integration Tests', () => {
 
     it('should return empty array when no categories exist', async () => {
       server.use(
-        http.get('http://localhost:3000/api/v1/categories', () => {
+        http.get('http://localhost:3000/api/v2/categories', () => {
           return HttpResponse.json([])
         })
       )
 
-      const response = await fetch('http://localhost:3000/api/v1/categories')
+      const response = await fetch('http://localhost:3000/api/v2/categories')
       expect(response.status).toBe(200)
       const categories = await response.json()
       expect(categories).toEqual([])
@@ -483,7 +483,7 @@ describe('API Integration Tests', () => {
   describe('Validation and Edge Cases Integration', () => {
     it('should validate word creation requirements', async () => {
       server.use(
-        http.post('http://localhost:3000/api/v1/words', async ({ request }) => {
+        http.post('http://localhost:3000/api/v2/words', async ({ request }) => {
           const body = (await request.json()) as Partial<Word>
 
           if (!body.word) {
@@ -527,7 +527,7 @@ describe('API Integration Tests', () => {
 
       // Test missing word
       const missingWordResponse = await fetch(
-        'http://localhost:3000/api/v1/words',
+        'http://localhost:3000/api/v2/words',
         {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
@@ -543,7 +543,7 @@ describe('API Integration Tests', () => {
 
       // Test missing category
       const missingCategoryResponse = await fetch(
-        'http://localhost:3000/api/v1/words',
+        'http://localhost:3000/api/v2/words',
         {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
@@ -559,7 +559,7 @@ describe('API Integration Tests', () => {
 
       // Test invalid numLetters
       const invalidLettersResponse = await fetch(
-        'http://localhost:3000/api/v1/words',
+        'http://localhost:3000/api/v2/words',
         {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
@@ -577,7 +577,7 @@ describe('API Integration Tests', () => {
 
     it('should handle duplicate word creation', async () => {
       server.use(
-        http.post('http://localhost:3000/api/v1/words', async ({ request }) => {
+        http.post('http://localhost:3000/api/v2/words', async ({ request }) => {
           const body = (await request.json()) as Partial<Word>
 
           if (body.word === 'apple') {
@@ -591,7 +591,7 @@ describe('API Integration Tests', () => {
         })
       )
 
-      const response = await fetch('http://localhost:3000/api/v1/words', {
+      const response = await fetch('http://localhost:3000/api/v2/words', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
@@ -610,7 +610,7 @@ describe('API Integration Tests', () => {
 
     it('should transform word data to lowercase', async () => {
       server.use(
-        http.post('http://localhost:3000/api/v1/words', async ({ request }) => {
+        http.post('http://localhost:3000/api/v2/words', async ({ request }) => {
           const body = (await request.json()) as Partial<Word>
           const newWord: Word = {
             _id: `word_${Date.now()}`,
@@ -626,7 +626,7 @@ describe('API Integration Tests', () => {
         })
       )
 
-      const response = await fetch('http://localhost:3000/api/v1/words', {
+      const response = await fetch('http://localhost:3000/api/v2/words', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
@@ -646,7 +646,7 @@ describe('API Integration Tests', () => {
 
     it('should handle search validation requirements', async () => {
       server.use(
-        http.get('http://localhost:3000/api/v1/words/search', ({ request }) => {
+        http.get('http://localhost:3000/api/v2/words/search', ({ request }) => {
           const url = new URL(request.url)
           const query = url.searchParams.get('q')
 
@@ -674,20 +674,20 @@ describe('API Integration Tests', () => {
 
       // Test missing query
       const missingQueryResponse = await fetch(
-        'http://localhost:3000/api/v1/words/search'
+        'http://localhost:3000/api/v2/words/search'
       )
       expect(missingQueryResponse.status).toBe(400)
 
       // Test short query
       const shortQueryResponse = await fetch(
-        'http://localhost:3000/api/v1/words/search?q=a'
+        'http://localhost:3000/api/v2/words/search?q=a'
       )
       expect(shortQueryResponse.status).toBe(400)
     })
 
     it('should handle default pagination parameters', async () => {
       server.use(
-        http.get('http://localhost:3000/api/v1/words', ({ request }) => {
+        http.get('http://localhost:3000/api/v2/words', ({ request }) => {
           const url = new URL(request.url)
           const limit = url.searchParams.get('limit') || '10'
           const offset = url.searchParams.get('offset') || '0'
@@ -704,7 +704,7 @@ describe('API Integration Tests', () => {
         })
       )
 
-      const response = await fetch('http://localhost:3000/api/v1/words')
+      const response = await fetch('http://localhost:3000/api/v2/words')
       expect(response.status).toBe(200)
       const data = await response.json()
       expect(data.pagination.limit).toBe(10)
@@ -715,19 +715,19 @@ describe('API Integration Tests', () => {
   describe('Error Handling Integration', () => {
     it('should handle network errors gracefully', async () => {
       server.use(
-        http.get('http://localhost:3000/api/v1/words', () => {
+        http.get('http://localhost:3000/api/v2/words', () => {
           return HttpResponse.error()
         })
       )
 
       await expect(
-        fetch('http://localhost:3000/api/v1/words')
+        fetch('http://localhost:3000/api/v2/words')
       ).rejects.toThrow()
     })
 
     it('should handle database errors gracefully', async () => {
       server.use(
-        http.get('http://localhost:3000/api/v1/categories', () => {
+        http.get('http://localhost:3000/api/v2/categories', () => {
           return HttpResponse.json(
             { error: 'Database connection failed' },
             { status: 500 }
@@ -735,7 +735,7 @@ describe('API Integration Tests', () => {
         })
       )
 
-      const response = await fetch('http://localhost:3000/api/v1/categories')
+      const response = await fetch('http://localhost:3000/api/v2/categories')
       expect(response.status).toBe(500)
       const error = await response.json()
       expect(error.error).toBe('Database connection failed')
