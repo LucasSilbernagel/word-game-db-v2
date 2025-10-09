@@ -49,6 +49,7 @@ const EndpointDemo = ({
     setError,
     isDebouncing,
     setIsDebouncing,
+    clearResponse,
   } = useApiState()
 
   const isDestructiveEndpoint = ['POST', 'PUT', 'DELETE'].includes(method)
@@ -99,6 +100,11 @@ const EndpointDemo = ({
     return resetFilters
   }
 
+  const handleReset = () => {
+    getResetHandler()()
+    clearResponse()
+  }
+
   return (
     <Card className="mt-4">
       <CardContent className="pt-4">
@@ -110,7 +116,7 @@ const EndpointDemo = ({
                 isWordsSearchEndpoint ||
                 (isWordsWithIdEndpoint &&
                   (method === 'PUT' || method === 'DELETE'))) && (
-                <Button onClick={getResetHandler()} variant="outline" size="sm">
+                <Button onClick={handleReset} variant="outline" size="sm">
                   Reset
                 </Button>
               )}

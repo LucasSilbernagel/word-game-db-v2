@@ -4,6 +4,13 @@ import { render, screen } from '../../../src/test/utils/test-utils'
 
 // Mock the hooks
 
+const mockResetFilters = vi.fn()
+const mockResetWordForm = vi.fn()
+const mockResetUpdateForm = vi.fn()
+const mockResetDeleteForm = vi.fn()
+const mockResetSearchForm = vi.fn()
+const mockClearResponse = vi.fn()
+
 vi.mock('@/components/EndpointDemo/hooks/useFilters', () => ({
   useFilters: () => ({
     filters: {
@@ -17,7 +24,7 @@ vi.mock('@/components/EndpointDemo/hooks/useFilters', () => ({
       offset: '0',
     },
     updateFilter: vi.fn(),
-    resetFilters: vi.fn(),
+    resetFilters: mockResetFilters,
     buildQueryString: vi.fn(() => ''),
   }),
 }))
@@ -34,7 +41,7 @@ vi.mock('@/components/EndpointDemo/hooks/useWordForm', () => ({
       categoryMode: 'existing' as const,
     },
     updateWordForm: vi.fn(),
-    resetWordForm: vi.fn(),
+    resetWordForm: mockResetWordForm,
   }),
 }))
 
@@ -45,7 +52,7 @@ vi.mock('@/components/EndpointDemo/hooks/useUpdateForm', () => ({
       hint: '',
     },
     updateUpdateForm: vi.fn(),
-    resetUpdateForm: vi.fn(),
+    resetUpdateForm: mockResetUpdateForm,
   }),
 }))
 
@@ -55,7 +62,7 @@ vi.mock('@/components/EndpointDemo/hooks/useDeleteForm', () => ({
       id: '',
     },
     updateDeleteForm: vi.fn(),
-    resetDeleteForm: vi.fn(),
+    resetDeleteForm: mockResetDeleteForm,
   }),
 }))
 
@@ -67,7 +74,8 @@ vi.mock('@/components/EndpointDemo/hooks/useSearchForm', () => ({
       offset: '0',
     },
     updateSearchForm: vi.fn(),
-    resetSearchForm: vi.fn(),
+    resetSearchForm: mockResetSearchForm,
+    buildSearchQueryString: vi.fn(() => ''),
   }),
 }))
 
@@ -81,7 +89,7 @@ vi.mock('@/components/EndpointDemo/hooks/useApiState', () => ({
     setError: vi.fn(),
     isDebouncing: false,
     setIsDebouncing: vi.fn(),
-    clearResponse: vi.fn(),
+    clearResponse: mockClearResponse,
   })),
 }))
 
