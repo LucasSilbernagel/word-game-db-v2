@@ -128,32 +128,32 @@ const AboutPage = () => {
                 </CardDescription>
               </CardHeader>
               <CardContent>
-                <div className="grid grid-cols-2 gap-2">
-                  <div className="bg-muted rounded p-3">
+                <ul className="grid grid-cols-2 gap-2">
+                  <li className="bg-muted rounded p-3">
                     <h4 className="text-sm font-semibold">Frontend</h4>
                     <p className="text-muted-foreground text-xs">
                       Next.js 15, React 19, TypeScript, Tailwind CSS
                     </p>
-                  </div>
-                  <div className="bg-muted rounded p-3">
+                  </li>
+                  <li className="bg-muted rounded p-3">
                     <h4 className="text-sm font-semibold">Backend</h4>
                     <p className="text-muted-foreground text-xs">
                       Next.js API Routes, MongoDB, Mongoose
                     </p>
-                  </div>
-                  <div className="bg-muted rounded p-3">
+                  </li>
+                  <li className="bg-muted rounded p-3">
                     <h4 className="text-sm font-semibold">UI Components</h4>
                     <p className="text-muted-foreground text-xs">
                       Radix UI, Lucide Icons
                     </p>
-                  </div>
-                  <div className="bg-muted rounded p-3">
+                  </li>
+                  <li className="bg-muted rounded p-3">
                     <h4 className="text-sm font-semibold">Development</h4>
                     <p className="text-muted-foreground text-xs">
                       Cursor AI, ESLint, Prettier
                     </p>
-                  </div>
-                </div>
+                  </li>
+                </ul>
               </CardContent>
             </Card>
           </article>
@@ -167,32 +167,32 @@ const AboutPage = () => {
                 </CardDescription>
               </CardHeader>
               <CardContent>
-                <div className="grid gap-3">
-                  <div>
+                <ul className="grid gap-3">
+                  <li>
                     <h4 className="text-sm font-semibold">Word Games</h4>
                     <p className="text-muted-foreground text-xs">
                       Hangman, Wordle, crossword puzzles, and more
                     </p>
-                  </div>
-                  <div>
+                  </li>
+                  <li>
                     <h4 className="text-sm font-semibold">Educational Apps</h4>
                     <p className="text-muted-foreground text-xs">
                       Vocabulary builders, spelling games, language learning
                     </p>
-                  </div>
-                  <div>
+                  </li>
+                  <li>
                     <h4 className="text-sm font-semibold">Creative Projects</h4>
                     <p className="text-muted-foreground text-xs">
                       Poetry generators, word art, creative writing tools
                     </p>
-                  </div>
-                  <div>
+                  </li>
+                  <li>
                     <h4 className="text-sm font-semibold">Learning APIs</h4>
                     <p className="text-muted-foreground text-xs">
                       Practice building applications that consume REST APIs
                     </p>
-                  </div>
-                </div>
+                  </li>
+                </ul>
               </CardContent>
             </Card>
           </article>
