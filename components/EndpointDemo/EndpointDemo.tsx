@@ -209,7 +209,7 @@ const EndpointDemo = ({
           {response && (
             <div className="space-y-2">
               <div className="flex items-center gap-2">
-                <h5 className="text-sm font-medium text-green-600 dark:text-green-400">
+                <h5 className="text-sm font-medium text-green-700 dark:text-green-400">
                   Response:
                 </h5>
                 {isLoading && (
