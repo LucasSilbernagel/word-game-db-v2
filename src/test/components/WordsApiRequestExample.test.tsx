@@ -235,7 +235,8 @@ describe('WordsApiRequestExample', () => {
     const methodText = screen.getByText('GET /api/v2/words?category=animal')
     expect(methodText).toHaveClass(
       'font-semibold',
-      'text-green-600',
+      'break-all',
+      'text-green-700',
       'dark:text-green-400'
     )
 

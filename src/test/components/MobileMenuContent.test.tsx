@@ -1,5 +1,5 @@
 /* eslint-disable @next/next/no-html-link-for-pages */
-import { MobileMenuContent } from '@/components/Navigation/MobileMenuContent/MobileMenuContent'
+import { MobileMenuContent } from '@/components/Navigation/MobileMenu/MobileMenuContent/MobileMenuContent'
 import * as SheetPrimitive from '@radix-ui/react-dialog'
 import React from 'react'
 import { describe, expect, it, vi } from 'vitest'

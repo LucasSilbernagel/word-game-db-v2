@@ -1,14 +1,12 @@
 'use client'
 
 import { Button } from '@/components/ui/Button'
-import { Sheet, SheetClose, SheetTrigger } from '@/components/ui/Sheet'
 import { cn } from '@/lib/utils'
-import * as SheetPrimitive from '@radix-ui/react-dialog'
 import { Menu } from 'lucide-react'
 import Link from 'next/link'
 import { usePathname } from 'next/navigation'
 import { useEffect, useState } from 'react'
-import { MobileMenuContent } from './MobileMenuContent/MobileMenuContent'
+import { MobileMenu } from './MobileMenu/MobileMenu'
 
 const navigation = [
   { name: 'Home', href: '/' },
@@ -19,6 +17,12 @@ const navigation = [
 export const Navigation = () => {
   const pathname = usePathname()
   const [isOpen, setIsOpen] = useState(false)
+  const [isMounted, setIsMounted] = useState(false)
+
+  // Set mounted after hydration to avoid hydration mismatch
+  useEffect(() => {
+    setIsMounted(true)
+  }, [])
 
   // Close mobile menu when screen becomes desktop-sized
   useEffect(() => {
@@ -72,48 +76,26 @@ export const Navigation = () => {
             </ul>
           </div>
 
-          {/* Mobile menu */}
-          <Sheet open={isOpen} onOpenChange={setIsOpen}>
-            <SheetTrigger asChild>
-              <Button
-                variant="ghost"
-                size="icon"
-                className="md:hidden"
-                aria-label="Open mobile menu"
-              >
-                <Menu className="h-6 w-6" />
-              </Button>
-            </SheetTrigger>
-
-            <MobileMenuContent>
-              <SheetPrimitive.Title className="sr-only">
-                Mobile Navigation Menu
-              </SheetPrimitive.Title>
-              <nav className="flex flex-col items-center space-y-6 pt-8 pb-6">
-                {navigation.map((item, index) => (
-                  <SheetClose asChild key={item.name}>
-                    <Link
-                      href={item.href}
-                      className={cn(
-                        'mobile-menu-item transform py-2 text-xl font-medium transition-all duration-300 ease-out',
-                        'hover:scale-105 focus-visible:scale-105 active:scale-95',
-                        pathname === item.href
-                          ? 'text-foreground'
-                          : 'text-muted-foreground hover:text-foreground focus-visible:text-foreground'
-                      )}
-                      style={{
-                        animationDelay: `${index * 100}ms`,
-                        animationFillMode: 'both',
-                      }}
-                      aria-current={pathname === item.href ? 'page' : undefined}
-                    >
-                      {item.name}
-                    </Link>
-                  </SheetClose>
-                ))}
-              </nav>
-            </MobileMenuContent>
-          </Sheet>
+          {/* Mobile menu - only render after hydration to avoid mismatch */}
+          {isMounted ? (
+            <MobileMenu
+              isOpen={isOpen}
+              setIsOpen={setIsOpen}
+              navigation={navigation}
+              pathname={pathname}
+            />
+          ) : (
+            // Placeholder button during SSR to prevent layout shift
+            <Button
+              variant="ghost"
+              size="icon"
+              className="md:hidden"
+              aria-label="Open mobile menu"
+              disabled
+            >
+              <Menu className="h-6 w-6" />
+            </Button>
+          )}
         </div>
       </div>
     </nav>

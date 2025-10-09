@@ -119,7 +119,8 @@ describe('SearchApiRequestExample', () => {
     const methodText = screen.getByText('GET /api/v2/words/search?q=cat')
     expect(methodText).toHaveClass(
       'font-semibold',
-      'text-green-600',
+      'break-all',
+      'text-green-700',
       'dark:text-green-400'
     )
 
