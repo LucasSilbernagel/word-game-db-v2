@@ -1,6 +1,6 @@
 import { DEFAULTS } from '@/lib/constants'
 import { withGetWrapper } from '@/lib/utils/apiWrapper'
-import { extractPaginationParams } from '@/lib/utils/validation'
+import { escapeRegex, extractPaginationParams } from '@/lib/utils/validation'
 import Word from '@/models/word'
 import { NextRequest, NextResponse } from 'next/server'
 
@@ -26,10 +26,10 @@ export const GET = withGetWrapper(async (request: NextRequest) => {
     )
   }
 
-  // Build search filter
+  // Build search filter with sanitized regex to prevent ReDoS attacks
   const searchFilter = {
     word: {
-      $regex: query.toLowerCase(),
+      $regex: escapeRegex(query.toLowerCase()),
       $options: 'i', // case-insensitive
     },
   }

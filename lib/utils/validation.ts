@@ -1,4 +1,5 @@
 import { NextResponse } from 'next/server'
+import { Buffer } from 'node:buffer'
 
 /**
  * Validates required fields and returns an error response if any are missing
@@ -116,4 +117,36 @@ export const extractPaginationParams = (searchParams: URLSearchParams) => {
   const offset = Number.parseInt(searchParams.get('offset') || '0')
 
   return { limit, offset }
+}
+
+/**
+ * Escapes special regex characters to prevent ReDoS attacks
+ * This prevents malicious regex patterns from causing excessive backtracking
+ */
+export const escapeRegex = (string: string): string => {
+  return string.replaceAll(/[.*+?^${}()|[\]\\]/g, String.raw`\$&`)
+}
+
+/**
+ * Validates request body size
+ * @param body - The request body to validate
+ * @param maxSizeKB - Maximum allowed size in KB (default: 100KB)
+ * @returns Error response if body is too large, null otherwise
+ */
+export const validateRequestSize = (
+  body: string,
+  maxSizeKB = 100
+): NextResponse | null => {
+  const sizeInKB = Buffer.byteLength(body, 'utf8') / 1024
+
+  if (sizeInKB > maxSizeKB) {
+    return NextResponse.json(
+      {
+        error: `Request body too large. Maximum size is ${maxSizeKB}KB`,
+      },
+      { status: 413 }
+    )
+  }
+
+  return null
 }
