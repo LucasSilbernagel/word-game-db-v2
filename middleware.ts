@@ -1,3 +1,4 @@
+import { CORS_HEADERS } from '@/lib/constants/cors'
 import { NextRequest, NextResponse } from 'next/server'
 
 function middleware(request: NextRequest) {
@@ -40,17 +41,9 @@ function middleware(request: NextRequest) {
   // For API routes, add CORS headers to support cross-origin requests
   if (pathname.startsWith('/api/')) {
     // Add CORS headers for API requests
-    response.headers.set('Access-Control-Allow-Origin', '*')
-    response.headers.set(
-      'Access-Control-Allow-Methods',
-      'GET, POST, PUT, DELETE, OPTIONS'
-    )
-    response.headers.set(
-      'Access-Control-Allow-Headers',
-      'Origin, X-Requested-With, Content-Type, Accept, Authorization'
-    )
-    response.headers.set('Access-Control-Max-Age', '86400')
-    response.headers.set('Access-Control-Allow-Credentials', 'false')
+    for (const [key, value] of Object.entries(CORS_HEADERS)) {
+      response.headers.set(key, value)
+    }
   }
 
   return response

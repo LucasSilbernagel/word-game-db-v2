@@ -1,5 +1,31 @@
 import type { NextConfig } from 'next'
 
+// CORS configuration for API routes
+// Note: These are defined here instead of imported because next.config.ts
+// is compiled separately and has different module resolution
+const CORS_HEADERS = [
+  {
+    key: 'Access-Control-Allow-Origin',
+    value: '*',
+  },
+  {
+    key: 'Access-Control-Allow-Methods',
+    value: 'GET, POST, PUT, DELETE, OPTIONS',
+  },
+  {
+    key: 'Access-Control-Allow-Headers',
+    value: 'Origin, X-Requested-With, Content-Type, Accept, Authorization',
+  },
+  {
+    key: 'Access-Control-Max-Age',
+    value: '86400',
+  },
+  {
+    key: 'Access-Control-Allow-Credentials',
+    value: 'false',
+  },
+]
+
 const nextConfig: NextConfig = {
   // External packages that should be handled by the server
   serverExternalPackages: ['mongoose'],
@@ -14,29 +40,7 @@ const nextConfig: NextConfig = {
       // CORS headers for API routes
       {
         source: '/api/(.*)',
-        headers: [
-          {
-            key: 'Access-Control-Allow-Origin',
-            value: '*',
-          },
-          {
-            key: 'Access-Control-Allow-Methods',
-            value: 'GET, POST, PUT, DELETE, OPTIONS',
-          },
-          {
-            key: 'Access-Control-Allow-Headers',
-            value:
-              'Origin, X-Requested-With, Content-Type, Accept, Authorization',
-          },
-          {
-            key: 'Access-Control-Max-Age',
-            value: '86400',
-          },
-          {
-            key: 'Access-Control-Allow-Credentials',
-            value: 'false',
-          },
-        ],
+        headers: CORS_HEADERS,
       },
       {
         // Apply headers to all routes

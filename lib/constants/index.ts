@@ -1,3 +1,6 @@
+// Export CORS configuration
+export * from './cors'
+
 // API Constants
 export const API_ROUTES = {
   BASE: '/api/v2',
