@@ -450,6 +450,378 @@ describe('API Integration Tests', () => {
       const error = await response.json()
       expect(error.error).toBe('No words found in database')
     })
+
+    it('should return a random word with exact numLetters filter', async () => {
+      const mockWords = [
+        {
+          _id: '1',
+          word: 'apple',
+          category: 'fruit',
+          numLetters: 5,
+          numSyllables: 2,
+          hint: 'A red fruit',
+          createdAt: '2023-01-01T00:00:00.000Z',
+          updatedAt: '2023-01-01T00:00:00.000Z',
+        },
+        {
+          _id: '2',
+          word: 'banana',
+          category: 'fruit',
+          numLetters: 6,
+          numSyllables: 3,
+          hint: 'A yellow fruit',
+          createdAt: '2023-01-02T00:00:00.000Z',
+          updatedAt: '2023-01-02T00:00:00.000Z',
+        },
+      ]
+
+      server.use(
+        http.get('http://localhost:3000/api/v2/words/random', ({ request }) => {
+          const url = new URL(request.url)
+          const numLetters = url.searchParams.get('numLetters')
+
+          const filteredWords = mockWords.filter(
+            (word) => word.numLetters === Number.parseInt(numLetters || '0')
+          )
+
+          if (filteredWords.length === 0) {
+            return HttpResponse.json(
+              { error: 'No words found matching criteria' },
+              { status: 404 }
+            )
+          }
+
+          return HttpResponse.json(filteredWords[0])
+        })
+      )
+
+      const response = await fetch(
+        'http://localhost:3000/api/v2/words/random?numLetters=5'
+      )
+      expect(response.status).toBe(200)
+      const randomWord = await response.json()
+      expect(randomWord.numLetters).toBe(5)
+      expect(randomWord.word).toBe('apple')
+    })
+
+    it('should return a random word with minLetters and maxLetters range', async () => {
+      const mockWords = [
+        {
+          _id: '1',
+          word: 'cat',
+          category: 'animal',
+          numLetters: 3,
+          numSyllables: 1,
+          hint: 'A small pet',
+          createdAt: '2023-01-01T00:00:00.000Z',
+          updatedAt: '2023-01-01T00:00:00.000Z',
+        },
+        {
+          _id: '2',
+          word: 'apple',
+          category: 'fruit',
+          numLetters: 5,
+          numSyllables: 2,
+          hint: 'A red fruit',
+          createdAt: '2023-01-02T00:00:00.000Z',
+          updatedAt: '2023-01-02T00:00:00.000Z',
+        },
+        {
+          _id: '3',
+          word: 'elephant',
+          category: 'animal',
+          numLetters: 8,
+          numSyllables: 3,
+          hint: 'A large mammal',
+          createdAt: '2023-01-03T00:00:00.000Z',
+          updatedAt: '2023-01-03T00:00:00.000Z',
+        },
+      ]
+
+      server.use(
+        http.get('http://localhost:3000/api/v2/words/random', ({ request }) => {
+          const url = new URL(request.url)
+          const minLetters = url.searchParams.get('minLetters')
+          const maxLetters = url.searchParams.get('maxLetters')
+
+          let filteredWords = [...mockWords]
+
+          if (minLetters) {
+            filteredWords = filteredWords.filter(
+              (word) => word.numLetters >= Number.parseInt(minLetters)
+            )
+          }
+
+          if (maxLetters) {
+            filteredWords = filteredWords.filter(
+              (word) => word.numLetters <= Number.parseInt(maxLetters)
+            )
+          }
+
+          if (filteredWords.length === 0) {
+            return HttpResponse.json(
+              { error: 'No words found matching criteria' },
+              { status: 404 }
+            )
+          }
+
+          // Return first match for consistent testing
+          return HttpResponse.json(filteredWords[0])
+        })
+      )
+
+      const response = await fetch(
+        'http://localhost:3000/api/v2/words/random?minLetters=3&maxLetters=7'
+      )
+      expect(response.status).toBe(200)
+      const randomWord = await response.json()
+      expect(randomWord.numLetters).toBeGreaterThanOrEqual(3)
+      expect(randomWord.numLetters).toBeLessThanOrEqual(7)
+    })
+
+    it('should return a random word with exact numSyllables filter', async () => {
+      const mockWords = [
+        {
+          _id: '1',
+          word: 'cat',
+          category: 'animal',
+          numLetters: 3,
+          numSyllables: 1,
+          hint: 'A small pet',
+          createdAt: '2023-01-01T00:00:00.000Z',
+          updatedAt: '2023-01-01T00:00:00.000Z',
+        },
+        {
+          _id: '2',
+          word: 'apple',
+          category: 'fruit',
+          numLetters: 5,
+          numSyllables: 2,
+          hint: 'A red fruit',
+          createdAt: '2023-01-02T00:00:00.000Z',
+          updatedAt: '2023-01-02T00:00:00.000Z',
+        },
+      ]
+
+      server.use(
+        http.get('http://localhost:3000/api/v2/words/random', ({ request }) => {
+          const url = new URL(request.url)
+          const numSyllables = url.searchParams.get('numSyllables')
+
+          const filteredWords = mockWords.filter(
+            (word) => word.numSyllables === Number.parseInt(numSyllables || '0')
+          )
+
+          if (filteredWords.length === 0) {
+            return HttpResponse.json(
+              { error: 'No words found matching criteria' },
+              { status: 404 }
+            )
+          }
+
+          return HttpResponse.json(filteredWords[0])
+        })
+      )
+
+      const response = await fetch(
+        'http://localhost:3000/api/v2/words/random?numSyllables=2'
+      )
+      expect(response.status).toBe(200)
+      const randomWord = await response.json()
+      expect(randomWord.numSyllables).toBe(2)
+      expect(randomWord.word).toBe('apple')
+    })
+
+    it('should return a random word with minSyllables and maxSyllables range', async () => {
+      const mockWords = [
+        {
+          _id: '1',
+          word: 'cat',
+          category: 'animal',
+          numLetters: 3,
+          numSyllables: 1,
+          hint: 'A small pet',
+          createdAt: '2023-01-01T00:00:00.000Z',
+          updatedAt: '2023-01-01T00:00:00.000Z',
+        },
+        {
+          _id: '2',
+          word: 'apple',
+          category: 'fruit',
+          numLetters: 5,
+          numSyllables: 2,
+          hint: 'A red fruit',
+          createdAt: '2023-01-02T00:00:00.000Z',
+          updatedAt: '2023-01-02T00:00:00.000Z',
+        },
+        {
+          _id: '3',
+          word: 'banana',
+          category: 'fruit',
+          numLetters: 6,
+          numSyllables: 3,
+          hint: 'A yellow fruit',
+          createdAt: '2023-01-03T00:00:00.000Z',
+          updatedAt: '2023-01-03T00:00:00.000Z',
+        },
+      ]
+
+      server.use(
+        http.get('http://localhost:3000/api/v2/words/random', ({ request }) => {
+          const url = new URL(request.url)
+          const minSyllables = url.searchParams.get('minSyllables')
+          const maxSyllables = url.searchParams.get('maxSyllables')
+
+          let filteredWords = [...mockWords]
+
+          if (minSyllables) {
+            filteredWords = filteredWords.filter(
+              (word) => word.numSyllables >= Number.parseInt(minSyllables)
+            )
+          }
+
+          if (maxSyllables) {
+            filteredWords = filteredWords.filter(
+              (word) => word.numSyllables <= Number.parseInt(maxSyllables)
+            )
+          }
+
+          if (filteredWords.length === 0) {
+            return HttpResponse.json(
+              { error: 'No words found matching criteria' },
+              { status: 404 }
+            )
+          }
+
+          return HttpResponse.json(filteredWords[0])
+        })
+      )
+
+      const response = await fetch(
+        'http://localhost:3000/api/v2/words/random?minSyllables=2&maxSyllables=3'
+      )
+      expect(response.status).toBe(200)
+      const randomWord = await response.json()
+      expect(randomWord.numSyllables).toBeGreaterThanOrEqual(2)
+      expect(randomWord.numSyllables).toBeLessThanOrEqual(3)
+    })
+
+    it('should return a random word with combined filters', async () => {
+      const mockWords = [
+        {
+          _id: '1',
+          word: 'cat',
+          category: 'animal',
+          numLetters: 3,
+          numSyllables: 1,
+          hint: 'A small pet',
+          createdAt: '2023-01-01T00:00:00.000Z',
+          updatedAt: '2023-01-01T00:00:00.000Z',
+        },
+        {
+          _id: '2',
+          word: 'apple',
+          category: 'fruit',
+          numLetters: 5,
+          numSyllables: 2,
+          hint: 'A red fruit',
+          createdAt: '2023-01-02T00:00:00.000Z',
+          updatedAt: '2023-01-02T00:00:00.000Z',
+        },
+        {
+          _id: '3',
+          word: 'banana',
+          category: 'fruit',
+          numLetters: 6,
+          numSyllables: 3,
+          hint: 'A yellow fruit',
+          createdAt: '2023-01-03T00:00:00.000Z',
+          updatedAt: '2023-01-03T00:00:00.000Z',
+        },
+      ]
+
+      server.use(
+        http.get('http://localhost:3000/api/v2/words/random', ({ request }) => {
+          const url = new URL(request.url)
+          const category = url.searchParams.get('category')
+          const minLetters = url.searchParams.get('minLetters')
+          const maxLetters = url.searchParams.get('maxLetters')
+
+          let filteredWords = [...mockWords]
+
+          if (category) {
+            filteredWords = filteredWords.filter(
+              (word) => word.category === category
+            )
+          }
+
+          if (minLetters) {
+            filteredWords = filteredWords.filter(
+              (word) => word.numLetters >= Number.parseInt(minLetters)
+            )
+          }
+
+          if (maxLetters) {
+            filteredWords = filteredWords.filter(
+              (word) => word.numLetters <= Number.parseInt(maxLetters)
+            )
+          }
+
+          if (filteredWords.length === 0) {
+            return HttpResponse.json(
+              { error: 'No words found matching criteria' },
+              { status: 404 }
+            )
+          }
+
+          return HttpResponse.json(filteredWords[0])
+        })
+      )
+
+      const response = await fetch(
+        'http://localhost:3000/api/v2/words/random?category=fruit&minLetters=3&maxLetters=7'
+      )
+      expect(response.status).toBe(200)
+      const randomWord = await response.json()
+      expect(randomWord.category).toBe('fruit')
+      expect(randomWord.numLetters).toBeGreaterThanOrEqual(3)
+      expect(randomWord.numLetters).toBeLessThanOrEqual(7)
+    })
+
+    it('should return 404 when no words match filter criteria', async () => {
+      server.use(
+        http.get('http://localhost:3000/api/v2/words/random', ({ request }) => {
+          const url = new URL(request.url)
+          const numLetters = url.searchParams.get('numLetters')
+
+          // Simulate no words matching the criteria
+          if (numLetters === '99') {
+            return HttpResponse.json(
+              { error: 'No words found matching criteria' },
+              { status: 404 }
+            )
+          }
+
+          return HttpResponse.json({
+            _id: '1',
+            word: 'test',
+            category: 'test',
+            numLetters: 4,
+            numSyllables: 1,
+            hint: 'test',
+            createdAt: '2023-01-01T00:00:00.000Z',
+            updatedAt: '2023-01-01T00:00:00.000Z',
+          })
+        })
+      )
+
+      const response = await fetch(
+        'http://localhost:3000/api/v2/words/random?numLetters=99'
+      )
+      expect(response.status).toBe(404)
+      const error = await response.json()
+      expect(error.error).toBe('No words found matching criteria')
+    })
   })
 
   describe('Categories API Integration', () => {

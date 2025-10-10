@@ -175,18 +175,65 @@ export const handlers = [
     })
   }),
 
-  // GET /api/v2/words/random - Get random word
+  // GET /api/v2/words/random - Get random word with filters
   http.get(`${baseUrl}/words/random`, ({ request }) => {
     const url = new URL(request.url)
     const category = url.searchParams.get('category')
+    const numLetters = url.searchParams.get('numLetters')
+    const minLetters = url.searchParams.get('minLetters')
+    const maxLetters = url.searchParams.get('maxLetters')
+    const numSyllables = url.searchParams.get('numSyllables')
+    const minSyllables = url.searchParams.get('minSyllables')
+    const maxSyllables = url.searchParams.get('maxSyllables')
 
-    let availableWords = mockWords
+    let availableWords = [...mockWords]
+
+    // Apply filters
     if (category) {
-      availableWords = mockWords.filter((word) => word.category === category)
+      availableWords = availableWords.filter(
+        (word) => word.category === category
+      )
+    }
+
+    if (numLetters) {
+      availableWords = availableWords.filter(
+        (word) => word.numLetters === Number.parseInt(numLetters)
+      )
+    } else {
+      if (minLetters) {
+        availableWords = availableWords.filter(
+          (word) => word.numLetters >= Number.parseInt(minLetters)
+        )
+      }
+      if (maxLetters) {
+        availableWords = availableWords.filter(
+          (word) => word.numLetters <= Number.parseInt(maxLetters)
+        )
+      }
+    }
+
+    if (numSyllables) {
+      availableWords = availableWords.filter(
+        (word) => word.numSyllables === Number.parseInt(numSyllables)
+      )
+    } else {
+      if (minSyllables) {
+        availableWords = availableWords.filter(
+          (word) => word.numSyllables >= Number.parseInt(minSyllables)
+        )
+      }
+      if (maxSyllables) {
+        availableWords = availableWords.filter(
+          (word) => word.numSyllables <= Number.parseInt(maxSyllables)
+        )
+      }
     }
 
     if (availableWords.length === 0) {
-      return HttpResponse.json({ error: 'No words found' }, { status: 404 })
+      return HttpResponse.json(
+        { error: 'No words found matching criteria' },
+        { status: 404 }
+      )
     }
 
     const randomIndex = Math.floor(Math.random() * availableWords.length)

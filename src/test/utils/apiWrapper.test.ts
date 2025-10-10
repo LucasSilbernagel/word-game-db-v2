@@ -196,7 +196,11 @@ describe('apiWrapper', () => {
       const response = await wrappedHandler(mockRequest)
 
       expect(response.status).toBe(200)
-      expect(mockHandler).toHaveBeenCalledWith(mockRequest, undefined)
+      // The wrapper creates a new request after reading the body, so we check for any NextRequest
+      expect(mockHandler).toHaveBeenCalledWith(
+        expect.any(NextRequest),
+        undefined
+      )
     })
 
     it('should disable POST endpoint when destructive endpoints are disabled', async () => {
