@@ -9,22 +9,20 @@ import { NextRequest, NextResponse } from 'next/server'
 
 export const GET = withGetWrapper(async (request: NextRequest) => {
   const { searchParams } = new URL(request.url)
-  const filter = buildWordFilter(searchParams)
+  const mongoFilter = buildWordFilter(searchParams)
 
   // For v1 API, return all matching words as a simple array (backward compatibility)
-  // eslint-disable-next-line unicorn/no-array-callback-reference
-  const words = await Word.find(filter).lean()
+  // Sort at database level for better performance
+  // eslint-disable-next-line unicorn/no-array-callback-reference, unicorn/no-array-sort
+  const words = await Word.find(mongoFilter).sort({ createdAt: -1 }).lean()
 
-  // Sort the results array since Mongoose sort() is different from Array.sort()
-  // eslint-disable-next-line unicorn/no-array-sort
-  const sortedWords = [...words].sort((a, b) => {
-    const dateA = new Date(a.createdAt).getTime()
-    const dateB = new Date(b.createdAt).getTime()
-    return dateB - dateA
-  })
+  // Return simple array format for backward compatibility with v1 API
+  const response = NextResponse.json(words)
 
-  // Return simple array format for backward compatibility with hangman app
-  return NextResponse.json(sortedWords)
+  // Add cache headers for GET requests (cache for 5 minutes)
+  response.headers.set('Cache-Control', 'public, max-age=300, s-maxage=300')
+
+  return response
 })
 
 export const POST = withPostWrapper(async (request: NextRequest) => {
@@ -44,7 +42,7 @@ export const POST = withPostWrapper(async (request: NextRequest) => {
   const wordData = validateAndTransformWordData(body)
 
   // Check if word already exists
-  const existingWord = await Word.findOne({ word: wordData.word })
+  const existingWord = await Word.findOne({ word: wordData.word }).lean()
   if (existingWord) {
     return NextResponse.json({ error: 'Word already exists' }, { status: 409 })
   }

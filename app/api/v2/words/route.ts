@@ -11,23 +11,21 @@ import { NextRequest, NextResponse } from 'next/server'
 export const GET = withGetWrapper(async (request: NextRequest) => {
   const { searchParams } = new URL(request.url)
   const { limit, offset } = extractPaginationParams(searchParams)
-  const filter = buildWordFilter(searchParams)
+  const mongoFilter = buildWordFilter(searchParams)
 
+  // Sort at database level for better performance
   // eslint-disable-next-line unicorn/no-array-callback-reference
-  const words = await Word.find(filter).limit(limit).skip(offset).lean()
+  const words = await Word.find(mongoFilter)
+    // eslint-disable-next-line unicorn/no-array-sort
+    .sort({ createdAt: -1 })
+    .limit(limit)
+    .skip(offset)
+    .lean()
 
-  // Sort the results array since Mongoose sort() is different from Array.sort()
-  // eslint-disable-next-line unicorn/no-array-sort
-  const sortedWords = [...words].sort((a, b) => {
-    const dateA = new Date(a.createdAt).getTime()
-    const dateB = new Date(b.createdAt).getTime()
-    return dateB - dateA
-  })
+  const total = await Word.countDocuments(mongoFilter)
 
-  const total = await Word.countDocuments(filter)
-
-  return NextResponse.json({
-    words: sortedWords,
+  const response = NextResponse.json({
+    words,
     pagination: {
       total,
       limit,
@@ -35,6 +33,11 @@ export const GET = withGetWrapper(async (request: NextRequest) => {
       hasMore: offset + limit < total,
     },
   })
+
+  // Add cache headers for GET requests (cache for 5 minutes)
+  response.headers.set('Cache-Control', 'public, max-age=300, s-maxage=300')
+
+  return response
 })
 
 export const POST = withPostWrapper(async (request: NextRequest) => {
@@ -54,7 +57,7 @@ export const POST = withPostWrapper(async (request: NextRequest) => {
   const wordData = validateAndTransformWordData(body)
 
   // Check if word already exists
-  const existingWord = await Word.findOne({ word: wordData.word })
+  const existingWord = await Word.findOne({ word: wordData.word }).lean()
   if (existingWord) {
     return NextResponse.json({ error: 'Word already exists' }, { status: 409 })
   }

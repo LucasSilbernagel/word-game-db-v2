@@ -13,12 +13,17 @@ export const GET = withGetWrapper(
     { params }: { params: Promise<{ id: string }> }
   ) => {
     const { id } = await params
-    const word = await Word.findById(id)
+    const word = await Word.findById(id).lean()
     if (!word) {
       return NextResponse.json({ error: 'Word not found' }, { status: 404 })
     }
 
-    return NextResponse.json(word)
+    const response = NextResponse.json(word)
+
+    // Add cache headers - cache for 10 minutes since individual words change rarely
+    response.headers.set('Cache-Control', 'public, max-age=600, s-maxage=600')
+
+    return response
   }
 )
 

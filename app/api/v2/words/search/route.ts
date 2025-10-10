@@ -37,15 +37,15 @@ export const GET = withGetWrapper(async (request: NextRequest) => {
   // Execute search with pagination using regex for case-insensitive partial matching
   // eslint-disable-next-line unicorn/no-array-callback-reference
   const words = await Word.find(searchFilter)
-    .limit(limit)
-    .skip(offset)
     // eslint-disable-next-line unicorn/no-array-sort
     .sort({ word: 1 })
+    .limit(limit)
+    .skip(offset)
     .lean()
 
   const total = await Word.countDocuments(searchFilter)
 
-  return NextResponse.json({
+  const response = NextResponse.json({
     words,
     pagination: {
       total,
@@ -55,4 +55,9 @@ export const GET = withGetWrapper(async (request: NextRequest) => {
     },
     query,
   })
+
+  // Add cache headers - cache for 5 minutes
+  response.headers.set('Cache-Control', 'public, max-age=300, s-maxage=300')
+
+  return response
 })

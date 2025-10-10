@@ -70,18 +70,6 @@ describe('API Versions Comparison', () => {
       expect(data[0]).toHaveProperty('category', 'animal')
     })
 
-    it('should work with direct array access for hangman games', async () => {
-      const response = await fetch('http://localhost:3000/api/v2/words')
-      const data = await response.json()
-
-      // Simulate hangman game logic
-      const randomWord = data[Math.floor(Math.random() * data.length)]
-      expect(randomWord).toBeDefined()
-      expect(randomWord).toHaveProperty('word')
-      expect(randomWord).toHaveProperty('category')
-      expect(randomWord).toHaveProperty('numLetters')
-    })
-
     it('should support filtering parameters', async () => {
       server.use(
         http.get('http://localhost:3000/api/v2/words', ({ request }) => {
@@ -209,7 +197,6 @@ describe('API Versions Comparison', () => {
       const response = await fetch('http://localhost:3000/api/v2/words')
       const data = await response.json()
 
-      // Should work with existing hangman code
       expect(Array.isArray(data)).toBe(true)
       expect(data[0]).toHaveProperty('word')
       expect(data[0]).toHaveProperty('category')
