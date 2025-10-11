@@ -3,6 +3,7 @@ import nextPlugin from '@next/eslint-plugin-next'
 import typescript from '@typescript-eslint/eslint-plugin'
 import typescriptParser from '@typescript-eslint/parser'
 import jsxA11y from 'eslint-plugin-jsx-a11y'
+import reactCompiler from 'eslint-plugin-react-compiler'
 import unicorn from 'eslint-plugin-unicorn'
 
 export default [
@@ -42,6 +43,7 @@ export default [
       unicorn,
       'jsx-a11y': jsxA11y,
       '@next/next': nextPlugin,
+      'react-compiler': reactCompiler,
     },
     rules: {
       ...typescript.configs.recommended.rules,
@@ -49,6 +51,7 @@ export default [
       ...jsxA11y.configs.recommended.rules,
       ...nextPlugin.configs.recommended.rules,
       ...nextPlugin.configs['core-web-vitals'].rules,
+      'react-compiler/react-compiler': 'error',
       'unicorn/prevent-abbreviations': 'off',
       'unicorn/no-null': 'off',
       'unicorn/prefer-module': 'off',

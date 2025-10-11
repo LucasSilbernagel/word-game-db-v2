@@ -32,6 +32,7 @@ const nextConfig: NextConfig = {
 
   experimental: {
     optimizeCss: true,
+    reactCompiler: true,
   },
 
   // Configure security headers and performance optimizations
