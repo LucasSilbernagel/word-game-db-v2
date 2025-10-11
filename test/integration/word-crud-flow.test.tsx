@@ -1,12 +1,7 @@
 import EndpointDemo from '@/components/EndpointDemo/EndpointDemo'
 import { http, HttpResponse } from 'msw'
 import { beforeEach, describe, expect, it, vi } from 'vitest'
-import {
-  fireEvent,
-  render,
-  screen,
-  waitFor,
-} from '../../../src/test/utils/test-utils'
+import { fireEvent, render, screen, waitFor } from '../../test/utils/test-utils'
 import { server } from '../mocks/server'
 
 // For integration testing, we'll use real hook implementations

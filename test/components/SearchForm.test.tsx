@@ -1,6 +1,6 @@
 import { SearchForm } from '@/components/EndpointDemo/SearchForm/SearchForm'
 import { beforeEach, describe, expect, it, vi } from 'vitest'
-import { fireEvent, render, screen } from '../../../src/test/utils/test-utils'
+import { fireEvent, render, screen } from '../../test/utils/test-utils'
 
 const defaultSearchForm = {
   query: '',

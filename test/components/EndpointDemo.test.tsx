@@ -1,6 +1,6 @@
 import EndpointDemo from '@/components/EndpointDemo/EndpointDemo'
 import { beforeEach, describe, expect, it, vi } from 'vitest'
-import { render, screen } from '../../../src/test/utils/test-utils'
+import { render, screen } from '../../test/utils/test-utils'
 
 // Mock the hooks
 

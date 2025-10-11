@@ -3,7 +3,7 @@ import {
   type WordFormState,
 } from '@/components/EndpointDemo/WordForm/WordForm'
 import { beforeEach, describe, expect, it, vi } from 'vitest'
-import { fireEvent, render, screen } from '../../../src/test/utils/test-utils'
+import { fireEvent, render, screen } from '../../test/utils/test-utils'
 
 const mockCategories = ['fruit', 'animal', 'color', 'food']
 
