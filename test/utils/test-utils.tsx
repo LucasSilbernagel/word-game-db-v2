@@ -1,7 +1,7 @@
 import { render, RenderOptions } from '@testing-library/react'
-import React, { ReactElement } from 'react'
+import { ReactElement, ReactNode } from 'react'
 
-const AllTheProviders = ({ children }: { children: React.ReactNode }) => {
+const AllTheProviders = ({ children }: { children: ReactNode }) => {
   return <>{children}</>
 }
 

@@ -1,7 +1,7 @@
 /* eslint-disable @next/next/no-html-link-for-pages */
 import { MobileMenuContent } from '@/components/Navigation/MobileMenu/MobileMenuContent/MobileMenuContent'
 import * as SheetPrimitive from '@radix-ui/react-dialog'
-import React from 'react'
+import { ReactNode } from 'react'
 import { describe, expect, it, vi } from 'vitest'
 import { render, screen } from '../utils/test-utils'
 
@@ -17,7 +17,7 @@ Object.defineProperty(globalThis, 'clearTimeout', {
 })
 
 // Wrapper component to provide Dialog context
-const DialogWrapper = ({ children }: { children: React.ReactNode }) => (
+const DialogWrapper = ({ children }: { children: ReactNode }) => (
   <SheetPrimitive.Root open>
     <SheetPrimitive.Trigger asChild>
       <button>Open</button>

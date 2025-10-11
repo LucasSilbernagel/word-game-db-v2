@@ -1,5 +1,5 @@
 import About from '@/app/about/page'
-import React from 'react'
+import { createElement, ReactNode } from 'react'
 import { describe, expect, it, vi } from 'vitest'
 import { render, screen } from '../utils/test-utils'
 
@@ -10,11 +10,11 @@ vi.mock('next/link', () => ({
     href,
     ...props
   }: {
-    children: React.ReactNode
+    children: ReactNode
     href: string
     [key: string]: unknown
   }) => {
-    return React.createElement('a', { href, ...props }, children)
+    return createElement('a', { href, ...props }, children)
   },
 }))
 

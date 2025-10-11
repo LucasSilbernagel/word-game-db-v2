@@ -1,5 +1,5 @@
 import '@testing-library/jest-dom'
-import React from 'react'
+import React, { createElement } from 'react'
 import { afterAll, afterEach, beforeAll, vi } from 'vitest'
 import { server } from './mocks/server'
 globalThis.React = React
@@ -59,7 +59,7 @@ vi.mock('next/image', () => ({
     alt: string
     [key: string]: unknown
   }) => {
-    return React.createElement('img', { src, alt, ...props })
+    return createElement('img', { src, alt, ...props })
   },
 }))
 

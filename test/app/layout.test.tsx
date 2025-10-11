@@ -1,7 +1,7 @@
 import RootLayout from '@/app/layout'
 import Footer from '@/components/Footer/Footer'
 import { Navigation } from '@/components/Navigation/Navigation'
-import React from 'react'
+import { createElement, ReactNode } from 'react'
 import { describe, expect, it, vi } from 'vitest'
 import { render, screen } from '../utils/test-utils'
 
@@ -22,16 +22,16 @@ vi.mock('next/link', () => ({
     href,
     ...props
   }: {
-    children: React.ReactNode
+    children: ReactNode
     href: string
     [key: string]: unknown
   }) => {
-    return React.createElement('a', { href, ...props }, children)
+    return createElement('a', { href, ...props }, children)
   },
 }))
 
 // Create a test-safe layout component that doesn't include <html> or <head>
-const TestSafeLayout = ({ children }: { children: React.ReactNode }) => (
+const TestSafeLayout = ({ children }: { children: ReactNode }) => (
   <div className="--font-geist-mono --font-geist-sans antialiased">
     <header>
       <Navigation />

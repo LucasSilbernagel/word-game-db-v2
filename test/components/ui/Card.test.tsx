@@ -7,7 +7,7 @@ import {
   CardTitle,
 } from '@/components/ui/Card'
 import { render, screen } from '@testing-library/react'
-import React from 'react'
+import { createRef } from 'react'
 import { describe, expect, it } from 'vitest'
 
 describe('Card Components', () => {
@@ -33,7 +33,7 @@ describe('Card Components', () => {
     })
 
     it('should forward ref correctly', () => {
-      const ref = React.createRef<HTMLDivElement>()
+      const ref = createRef<HTMLDivElement>()
       render(<Card ref={ref}>Test content</Card>)
 
       expect(ref.current).toBeInTheDocument()

@@ -3,6 +3,7 @@ import { Navigation } from '@/components/Navigation/Navigation'
 import { APP_METADATA } from '@/lib/constants'
 import type { Metadata } from 'next'
 import { Geist, Geist_Mono } from 'next/font/google'
+import { ReactNode } from 'react'
 import './globals.css'
 
 const geistSans = Geist({
@@ -55,7 +56,7 @@ export const metadata: Metadata = {
 const RootLayout = ({
   children,
 }: Readonly<{
-  children: React.ReactNode
+  children: ReactNode
 }>) => {
   return (
     <html lang="en">

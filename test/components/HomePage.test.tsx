@@ -1,5 +1,5 @@
 import HomePage from '@/components/HomePage/HomePage'
-import React from 'react'
+import { createElement, ReactNode } from 'react'
 import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest'
 import { act, render, screen, waitFor } from '../utils/test-utils'
 
@@ -10,11 +10,11 @@ vi.mock('next/link', () => ({
     href,
     ...props
   }: {
-    children: React.ReactNode
+    children: ReactNode
     href: string
     [key: string]: unknown
   }) => {
-    return React.createElement('a', { href, ...props }, children)
+    return createElement('a', { href, ...props }, children)
   },
 }))
 
@@ -33,7 +33,7 @@ vi.mock('@/components/EndpointDemo/EndpointDemo', () => ({
     example?: string
     isDestructiveEnabled: boolean
   }) => {
-    return React.createElement(
+    return createElement(
       'div',
       {
         'data-testid': 'endpoint-demo',

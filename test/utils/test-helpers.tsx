@@ -1,8 +1,8 @@
 import { render, RenderOptions } from '@testing-library/react'
-import { ReactElement } from 'react'
+import { ReactElement, ReactNode } from 'react'
 
 // Custom render function with providers
-const AllTheProviders = ({ children }: { children: React.ReactNode }) => {
+const AllTheProviders = ({ children }: { children: ReactNode }) => {
   return <>{children}</>
 }
 
