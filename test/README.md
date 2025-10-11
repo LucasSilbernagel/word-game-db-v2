@@ -5,31 +5,60 @@ This directory contains a comprehensive test suite for the Word Game DB applicat
 ## Test Structure
 
 ```
-src/test/
+test/
+├── app/                    # App route tests
+│   ├── about.test.tsx
+│   ├── contact.test.tsx
+│   ├── error.test.tsx
+│   ├── layout.test.tsx
+│   ├── not-found.test.tsx
+│   └── page.test.tsx
 ├── components/             # React component tests (UI/UX focused)
+│   ├── AboutPage.test.tsx
+│   ├── ContactPage.test.tsx
+│   ├── DeleteForm.test.tsx
 │   ├── EndpointDemo.test.tsx
-│   ├── WordForm.test.tsx
+│   ├── ErrorPage.test.tsx
+│   ├── FilterForm.test.tsx
+│   ├── Footer.test.tsx
+│   ├── HomePage.test.tsx
+│   ├── MobileMenu.test.tsx
+│   ├── MobileMenuContent.test.tsx
+│   ├── Navigation.test.tsx
+│   ├── NotFoundPage.test.tsx
+│   ├── SearchApiRequestExample.test.tsx
 │   ├── SearchForm.test.tsx
-│   └── FilterForm.test.tsx
+│   ├── UpdateApiRequestExample.test.tsx
+│   ├── UpdateForm.test.tsx
+│   ├── WordForm.test.tsx
+│   ├── WordsApiRequestExample.test.tsx
+│   └── ui/                 # UI component tests
+│       ├── Button.test.tsx
+│       ├── Card.test.tsx
+│       ├── Input.test.tsx
+│       ├── Label.test.tsx
+│       ├── RadioGroup.test.tsx
+│       ├── Select.test.tsx
+│       ├── Sheet.test.tsx
+│       └── Textarea.test.tsx
 ├── hooks/                  # Custom hook tests
-│   ├── useFilters.test.ts
-│   └── useApiState.test.ts
+│   ├── useApiState.test.ts
+│   └── useFilters.test.ts
 ├── integration/            # Integration tests (comprehensive API coverage)
-│   ├── word-crud-flow.test.tsx  # User workflow tests
-│   └── api-integration.test.ts  # Complete API endpoint testing
-├── utils/                  # Utility function tests
-│   ├── validation.test.ts
-│   ├── apiWrapper.test.ts
-│   └── test-helpers.ts     # Test utilities
+│   ├── api-integration.test.ts  # Complete API endpoint testing
+│   ├── api-versions.test.ts     # API version compatibility tests
+│   └── word-crud-flow.test.tsx  # User workflow tests
 ├── mocks/                  # MSW mock handlers
-│   ├── server.ts
+│   ├── browser.ts
 │   ├── handlers.ts
-│   └── browser.ts
-├── utils/
+│   └── server.ts
+├── utils/                  # Test utilities
+│   ├── apiWrapper.test.ts
+│   ├── test-helpers.tsx    # Custom test utilities
 │   ├── test-utils.tsx      # Testing Library setup
-│   └── test-helpers.ts     # Custom test utilities
-├── setup.ts               # Global test setup
-└── README.md              # This file
+│   └── validation.test.ts
+├── setup.ts                # Global test setup
+└── README.md               # This file
 ```
 
 ## Running Tests
@@ -37,17 +66,14 @@ src/test/
 ### Available Scripts
 
 ```bash
-# Run tests in watch mode (development)
+# Run tests in watch mode (default)
 pnpm test
 
-# Run tests once
+# Run tests once (CI mode, no watch)
 pnpm test:run
 
-# Run tests with UI (browser-based)
+# Run tests with UI (browser-based interface)
 pnpm test:ui
-
-# Run tests in watch mode
-pnpm test:watch
 ```
 
 ### Test Configuration
@@ -55,15 +81,96 @@ pnpm test:watch
 The test configuration is defined in `vitest.config.ts`:
 
 - **Environment**: jsdom (for DOM testing)
-- **Setup**: `src/test/setup.ts` (global setup)
-- **Coverage**: v8 provider with HTML, JSON, and text reports
+- **Setup**: `test/setup.ts` (global setup)
+- **Globals**: true (enables global test APIs)
 - **Aliases**: `@` mapped to project root
 
 ## Test Categories
 
-### 1. Integration Tests (`src/test/integration/`)
+### 1. App Route Tests (`test/app/`)
 
-Comprehensive API endpoint testing including:
+Tests for Next.js app routes and pages:
+
+- **about.test.tsx**: About page rendering and content
+- **contact.test.tsx**: Contact page rendering and content
+- **error.test.tsx**: Error page handling and display
+- **layout.test.tsx**: Root layout component and metadata
+- **not-found.test.tsx**: 404 page rendering
+- **page.test.tsx**: Homepage rendering and content
+
+Tests verify:
+
+- Page rendering and structure
+- Metadata and SEO elements
+- Error boundaries
+- Layout components
+
+### 2. Component Tests (`test/components/`)
+
+UI/UX focused tests for React components using Testing Library:
+
+**Main Components:**
+
+- **AboutPage**: About page content and links
+- **ContactPage**: Contact information display
+- **EndpointDemo**: API demo component and state management
+- **ErrorPage**: Error page display
+- **Footer**: Footer content and links
+- **HomePage**: Homepage content and navigation
+- **Navigation**: Navigation bar and mobile menu
+- **NotFoundPage**: 404 page content
+
+**Form Components:**
+
+- **DeleteForm**: Delete form interactions
+- **FilterForm**: Filter form UI and dropdown interactions
+- **SearchForm**: Search form UI and input handling
+- **UpdateForm**: Update form validation and submission
+- **WordForm**: Word creation form and validation
+
+**API Request Examples:**
+
+- **SearchApiRequestExample**: Search API example display
+- **UpdateApiRequestExample**: Update API example display
+- **WordsApiRequestExample**: Words API example display
+
+**UI Components (`test/components/ui/`):**
+
+- **Button**: Button component variants and interactions
+- **Card**: Card component rendering
+- **Input**: Input field component
+- **Label**: Label component
+- **RadioGroup**: Radio button group component
+- **Select**: Select dropdown component
+- **Sheet**: Sheet/drawer component
+- **Textarea**: Textarea component
+
+Tests focus on:
+
+- Component rendering and accessibility
+- Form field interactions and validation
+- UI state display (loading, errors, responses)
+- User interface elements and attributes
+
+### 3. Hook Tests (`test/hooks/`)
+
+Tests for custom React hooks:
+
+- **useApiState**: API call state management (loading, error, success states)
+- **useFilters**: Filter state management (category, letters, syllables)
+
+Tests verify:
+
+- Initial state
+- State updates
+- Side effects
+- Cleanup
+
+### 4. Integration Tests (`test/integration/`)
+
+Comprehensive API endpoint and workflow testing:
+
+**API Integration (`api-integration.test.ts`):**
 
 - GET `/api/v2/words` - List words with filtering and pagination
 - POST `/api/v2/words` - Create new words
@@ -74,6 +181,18 @@ Comprehensive API endpoint testing including:
 - DELETE `/api/v2/words/[id]` - Delete word
 - GET `/api/v2/categories` - Get all categories
 
+**API Versions (`api-versions.test.ts`):**
+
+- v1 vs v2 API compatibility
+- Response format differences
+- Pagination behavior
+
+**User Workflows (`word-crud-flow.test.tsx`):**
+
+- Complete CRUD workflows
+- Search and filter flows
+- Cross-component interactions
+
 Each test includes:
 
 - Success scenarios
@@ -82,56 +201,12 @@ Each test includes:
 - Edge cases
 - Real HTTP request/response cycles
 
-### 2. Component Tests (`src/test/components/`)
-
-UI/UX focused tests for React components using Testing Library:
-
-- **EndpointDemo**: Main demo component rendering and state display
-- **WordForm**: Form field rendering, user interactions, and validation
-- **SearchForm**: Search form UI and input handling
-- **FilterForm**: Filter form UI and dropdown interactions
-
-Tests focus on:
-
-- Component rendering and accessibility
-- Form field interactions and validation
-- UI state display (loading, errors, responses)
-- User interface elements and attributes
-
-### 3. Hook Tests (`src/test/hooks/`)
-
-Tests for custom React hooks:
-
-- **useFilters**: Filter state management
-- **useApiState**: API call state management
-
-Tests verify:
-
-- Initial state
-- State updates
-- Side effects
-- Cleanup
-
-### 4. User Workflow Tests (`src/test/integration/word-crud-flow.test.tsx`)
-
-End-to-end user workflow tests:
-
-- **Word CRUD Flow**: Complete user workflows for create, read, update, delete operations
-- **Search and Filter Flows**: User interaction workflows with search and filtering
-
-Tests simulate:
-
-- Complete user workflows across components
-- Cross-component interactions
-- Real API integration scenarios
-- Error handling workflows
-
-### 5. Utility Tests (`src/test/utils/`)
+### 5. Utility Tests (`test/utils/`)
 
 Tests for utility functions:
 
-- **validation.ts**: Input validation and transformation
-- **apiWrapper.ts**: API route wrapper functionality
+- **apiWrapper.test.ts**: API route wrapper functionality and error handling
+- **validation.test.ts**: Input validation and data transformation
 
 ## Mocking Strategy
 
@@ -158,7 +233,7 @@ http.get('http://localhost:3000/api/v2/words', () => {
 
 ### Mock Data
 
-Test data is centralized in `src/test/mocks/handlers.ts`:
+Test data is centralized in `test/mocks/handlers.ts`:
 
 - Consistent mock data across tests
 - Easy to modify for different test scenarios
@@ -264,10 +339,15 @@ The test suite is designed to run in CI environments:
 When adding new tests:
 
 1. **Follow naming conventions**: `*.test.ts` or `*.test.tsx`
-2. **Add to appropriate directory**: Match the source file structure
-3. **Update this README**: Document new test patterns
+2. **Add to appropriate directory**:
+   - App routes → `test/app/`
+   - Components → `test/components/`
+   - Hooks → `test/hooks/`
+   - Integration tests → `test/integration/`
+   - Utility functions → `test/utils/`
+3. **Update this README**: Document new test patterns or categories
 4. **Maintain coverage**: Ensure new code is tested
-5. **Use helpers**: Leverage test utilities in `test-helpers.ts`
+5. **Use helpers**: Leverage test utilities in `test/utils/test-helpers.tsx`
 
 ## Troubleshooting
 

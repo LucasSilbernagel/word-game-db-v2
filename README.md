@@ -14,13 +14,16 @@ A modern, full-stack word game database built with Next.js 15, MongoDB, and Type
 - **Modern UI**: Beautiful interface built with Tailwind CSS 4 and Radix UI
 - **RESTful API**: Comprehensive API endpoints for word management
 - **CORS Support**: Full CORS headers for cross-origin requests
+- **Security Headers**: CSP, XSS protection, and other security headers
 - **Production Safety**: Destructive endpoints (POST, PUT, DELETE) are automatically disabled in production
+- **Comprehensive Testing**: Full test coverage with Vitest and Testing Library
 
 ## Tech Stack
 
 - **Frontend**: React 19, Next.js 15, Tailwind CSS 4, Radix UI, Lucide React
 - **Backend**: Next.js API Routes, MongoDB, Mongoose ODM
 - **Development**: TypeScript, ESLint, Prettier
+- **Testing**: Vitest, Testing Library, MSW (Mock Service Worker)
 
 ## Getting Started
 
@@ -104,9 +107,7 @@ Check out this example implementation using the API:
 
 ## API Versions
 
-### Version 1 (v1) - Simple Array Format
-
-**Best for:** Games like hangman, simple word selection, backward compatibility
+### Version 1 (v1) (Legacy) - Simple Array Format
 
 **Response Format:** Direct array of word objects
 
@@ -124,8 +125,6 @@ Check out this example implementation using the API:
 ```
 
 ### Version 2 (v2) - Paginated Format
-
-**Best for:** Word management apps, large datasets, advanced filtering
 
 **Response Format:** Object with words array and pagination metadata
 
@@ -150,8 +149,9 @@ Check out this example implementation using the API:
 - `GET /api/v1/words` - Retrieve all words with optional query filtering (returns simple array)
 - `GET /api/v1/words/search` - Search for words by name with partial matching
 - `GET /api/v1/words/random` - Get a random word from the database
-- `GET /api/v1/categories` - Get all distinct categories
 - `GET /api/v1/words/[id]` - Get a specific word by ID
+- `GET /api/v1/categories` - Get all distinct categories
+- `GET /api/v1/config` - Get API configuration (destructive endpoints status)
 - `POST /api/v1/words` - Create a new word entry _(requires ENABLE_DESTRUCTIVE_ENDPOINTS=true)_
 - `PUT /api/v1/words/[id]` - Update an existing word _(requires ENABLE_DESTRUCTIVE_ENDPOINTS=true)_
 - `DELETE /api/v1/words/[id]` - Delete a word from the database _(requires ENABLE_DESTRUCTIVE_ENDPOINTS=true)_
@@ -161,8 +161,9 @@ Check out this example implementation using the API:
 - `GET /api/v2/words` - Retrieve words with pagination and optional query filtering
 - `GET /api/v2/words/search` - Search for words by name with partial matching (paginated)
 - `GET /api/v2/words/random` - Get a random word from the database
-- `GET /api/v2/categories` - Get all distinct categories
 - `GET /api/v2/words/[id]` - Get a specific word by ID
+- `GET /api/v2/categories` - Get all distinct categories
+- `GET /api/v2/config` - Get API configuration (destructive endpoints status)
 - `POST /api/v2/words` - Create a new word entry _(requires ENABLE_DESTRUCTIVE_ENDPOINTS=true)_
 - `PUT /api/v2/words/[id]` - Update an existing word _(requires ENABLE_DESTRUCTIVE_ENDPOINTS=true)_
 - `DELETE /api/v2/words/[id]` - Delete a word from the database _(requires ENABLE_DESTRUCTIVE_ENDPOINTS=true)_
@@ -199,7 +200,7 @@ Check out this example implementation using the API:
 
 - v1: `/api/v1/words?numLetters=5` (returns all 5-letter words as array)
 - v2: `/api/v2/words?numLetters=5&limit=10` (returns paginated response)
-- Filter by ID: `/api/v1/words?_id=5ffa1774c0831cbe1460e29c` (returns specific word)
+- Get by ID: `/api/v1/words/5ffa1774c0831cbe1460e29c` (returns specific word)
 - Combined filters: `/api/v1/words?category=animal&minLetters=4&maxLetters=6`
 - Search: `/api/v1/words/search?q=cat&limit=5`
 
@@ -227,6 +228,8 @@ type Word = {
 - **ESLint**: Configured with Unicorn ruleset for best practices
 - **Prettier**: Consistent code formatting
 - **TypeScript**: Strict type checking
+- **Testing**: Comprehensive test suite with Vitest, Testing Library, and MSW
+- **Quality Checks**: Automated checks for linting, formatting, and testing
 
 ### Available Scripts
 
@@ -237,6 +240,12 @@ type Word = {
 - `pnpm lint:fix` - Fix ESLint issues
 - `pnpm format` - Format code with Prettier
 - `pnpm format:check` - Check code formatting
+- `pnpm test` - Run tests with Vitest
+- `pnpm test:ui` - Run tests with Vitest UI
+- `pnpm test:run` - Run tests once (CI mode)
+- `pnpm test:watch` - Run tests in watch mode
+- `pnpm check` - Run quality checks (lint, format, test)
+- `pnpm audit` - Run security audit
 
 ### Project Structure
 
@@ -264,7 +273,9 @@ type Word = {
 │   ├── globals.css        # Global styles
 │   ├── layout.tsx         # Root layout
 │   ├── not-found.tsx      # 404 page
-│   └── page.tsx           # Homepage
+│   ├── page.tsx           # Homepage
+│   ├── robots.ts          # Robots.txt configuration
+│   └── sitemap.ts         # Sitemap configuration
 ├── components/            # React components
 │   ├── AboutPage/         # About page component
 │   ├── ContactPage/       # Contact page component
@@ -275,9 +286,9 @@ type Word = {
 │   ├── Footer/            # Footer component
 │   ├── HomePage/          # Homepage component
 │   ├── Navigation/        # Navigation components
+│   │   └── MobileMenu/    # Mobile menu components
 │   ├── NotFoundPage/      # 404 page component
-│   ├── TestEndpointButton/ # API testing button
-│   └── ui/                # Reusable UI components (Button, Card, Sheet)
+│   └── ui/                # Reusable UI components
 ├── lib/                   # Utility functions and configuration
 │   ├── constants/         # Application constants
 │   ├── hooks/             # Shared custom hooks
@@ -289,13 +300,24 @@ type Word = {
 ├── models/                # Mongoose models
 │   └── word.ts            # Word model definition
 ├── public/                # Static assets
+│   ├── _headers           # Custom headers for hosting
 │   └── og-image.png       # Open Graph image
+├── scripts/               # Utility scripts
+│   └── check-quality.sh   # Quality check script
+├── test/                  # Test files
+│   ├── app/               # App route tests
+│   ├── components/        # Component tests
+│   ├── hooks/             # Hook tests
+│   ├── integration/       # Integration tests
+│   ├── mocks/             # MSW mocks
+│   └── utils/             # Test utilities
 ├── eslint.config.js       # ESLint configuration
 ├── middleware.ts          # Next.js middleware
 ├── next.config.ts         # Next.js configuration
 ├── package.json           # Project dependencies and scripts
 ├── postcss.config.mjs     # PostCSS configuration
 ├── tsconfig.json          # TypeScript configuration
+├── vitest.config.ts       # Vitest configuration
 └── README.md              # Project documentation
 ```
 
