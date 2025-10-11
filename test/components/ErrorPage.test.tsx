@@ -1,6 +1,6 @@
 import ErrorPage from '@/components/ErrorPage/ErrorPage'
+import { fireEvent, render, screen } from '@testing-library/react'
 import { afterAll, beforeEach, describe, expect, it, vi } from 'vitest'
-import { fireEvent, render, screen } from '../utils/test-utils'
 
 // Mock console.error to avoid noise in test output
 const mockConsoleError = vi.spyOn(console, 'error').mockImplementation(() => {})

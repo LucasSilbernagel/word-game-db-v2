@@ -1,6 +1,6 @@
 import { Textarea } from '@/components/ui/Textarea'
+import { fireEvent, render, screen } from '@testing-library/react'
 import { describe, expect, it, vi } from 'vitest'
-import { fireEvent, render, screen } from '../../utils/test-utils'
 
 describe('Textarea', () => {
   it('should render with default styling', () => {

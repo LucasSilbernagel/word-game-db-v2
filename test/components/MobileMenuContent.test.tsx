@@ -1,9 +1,9 @@
 /* eslint-disable @next/next/no-html-link-for-pages */
 import { MobileMenuContent } from '@/components/Navigation/MobileMenu/MobileMenuContent/MobileMenuContent'
 import * as SheetPrimitive from '@radix-ui/react-dialog'
+import { render, screen } from '@testing-library/react'
 import { ReactNode } from 'react'
 import { describe, expect, it, vi } from 'vitest'
-import { render, screen } from '../utils/test-utils'
 
 // Mock browser APIs that Radix UI needs
 Object.defineProperty(globalThis, 'setTimeout', {

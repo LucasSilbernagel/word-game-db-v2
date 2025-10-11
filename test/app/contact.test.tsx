@@ -1,6 +1,6 @@
 import Contact from '@/app/contact/page'
+import { render, screen } from '@testing-library/react'
 import { describe, expect, it } from 'vitest'
-import { render, screen } from '../utils/test-utils'
 
 describe('Contact Page', () => {
   it('should render the ContactPage component', () => {

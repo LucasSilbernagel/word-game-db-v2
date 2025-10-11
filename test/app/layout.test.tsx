@@ -1,9 +1,9 @@
 import RootLayout from '@/app/layout'
 import Footer from '@/components/Footer/Footer'
 import { Navigation } from '@/components/Navigation/Navigation'
+import { render, screen } from '@testing-library/react'
 import { createElement, ReactNode } from 'react'
 import { describe, expect, it, vi } from 'vitest'
-import { render, screen } from '../utils/test-utils'
 
 // Mock Next.js fonts
 vi.mock('next/font/google', () => ({

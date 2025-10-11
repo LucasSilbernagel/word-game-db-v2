@@ -1,7 +1,7 @@
 import Home from '@/app/page'
+import { act, render, screen, waitFor } from '@testing-library/react'
 import { createElement, ReactNode } from 'react'
 import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest'
-import { act, render, screen, waitFor } from '../utils/test-utils'
 
 // Mock Next.js Link component
 vi.mock('next/link', () => ({

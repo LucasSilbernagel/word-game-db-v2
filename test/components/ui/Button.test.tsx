@@ -1,6 +1,6 @@
 import { Button } from '@/components/ui/Button'
+import { fireEvent, render, screen } from '@testing-library/react'
 import { describe, expect, it, vi } from 'vitest'
-import { fireEvent, render, screen } from '../../utils/test-utils'
 
 describe('Button', () => {
   it('should render with default variant and size', () => {

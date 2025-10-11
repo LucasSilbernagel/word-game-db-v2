@@ -1,6 +1,6 @@
 import { SearchApiRequestExample } from '@/components/EndpointDemo/SearchApiRequestExample/SearchApiRequestExample'
+import { render, screen } from '@testing-library/react'
 import { describe, expect, it } from 'vitest'
-import { render, screen } from '../utils/test-utils'
 
 describe('SearchApiRequestExample', () => {
   const defaultSearchForm = {

@@ -1,6 +1,6 @@
 import { SearchForm } from '@/components/EndpointDemo/SearchForm/SearchForm'
+import { fireEvent, render, screen } from '@testing-library/react'
 import { beforeEach, describe, expect, it, vi } from 'vitest'
-import { fireEvent, render, screen } from '../../test/utils/test-utils'
 
 const defaultSearchForm = {
   query: '',

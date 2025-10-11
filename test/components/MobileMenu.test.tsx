@@ -1,7 +1,7 @@
 import { MobileMenu } from '@/components/Navigation/MobileMenu/MobileMenu'
+import { render, screen } from '@testing-library/react'
 import { createElement, ReactNode } from 'react'
 import { describe, expect, it, vi } from 'vitest'
-import { render, screen } from '../utils/test-utils'
 
 // Mock browser APIs that Radix UI needs
 Object.defineProperty(globalThis, 'setTimeout', {

@@ -8,8 +8,8 @@ import {
   SheetTitle,
   SheetTrigger,
 } from '@/components/ui/Sheet'
+import { fireEvent, render, screen, waitFor } from '@testing-library/react'
 import { describe, expect, it, vi } from 'vitest'
-import { fireEvent, render, screen, waitFor } from '../../utils/test-utils'
 
 describe('Sheet Components', () => {
   describe('Sheet', () => {

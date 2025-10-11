@@ -1,6 +1,6 @@
 import { RadioGroup, RadioGroupItem } from '@/components/ui/RadioGroup'
+import { fireEvent, render, screen } from '@testing-library/react'
 import { describe, expect, it, vi } from 'vitest'
-import { fireEvent, render, screen } from '../../utils/test-utils'
 
 describe('RadioGroup Components', () => {
   describe('RadioGroup', () => {

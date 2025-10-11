@@ -1,6 +1,6 @@
 import { WordsApiRequestExample } from '@/components/EndpointDemo/WordsApiRequestExample/WordsApiRequestExample'
+import { render, screen } from '@testing-library/react'
 import { describe, expect, it } from 'vitest'
-import { render, screen } from '../utils/test-utils'
 
 describe('WordsApiRequestExample', () => {
   const defaultFilters = {

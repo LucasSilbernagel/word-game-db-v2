@@ -1,6 +1,6 @@
 import { Label } from '@/components/ui/Label'
+import { render, screen } from '@testing-library/react'
 import { describe, expect, it, vi } from 'vitest'
-import { render, screen } from '../../utils/test-utils'
 
 describe('Label', () => {
   it('should render with default styling', () => {

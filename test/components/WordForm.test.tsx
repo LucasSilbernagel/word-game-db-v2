@@ -2,8 +2,8 @@ import {
   WordForm,
   type WordFormState,
 } from '@/components/EndpointDemo/WordForm/WordForm'
+import { fireEvent, render, screen } from '@testing-library/react'
 import { beforeEach, describe, expect, it, vi } from 'vitest'
-import { fireEvent, render, screen } from '../../test/utils/test-utils'
 
 const mockCategories = ['fruit', 'animal', 'color', 'food']
 

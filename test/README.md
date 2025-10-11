@@ -54,8 +54,6 @@ test/
 │   └── server.ts
 ├── utils/                  # Test utilities
 │   ├── apiWrapper.test.ts
-│   ├── test-helpers.tsx    # Custom test utilities
-│   ├── test-utils.tsx      # Testing Library setup
 │   └── validation.test.ts
 ├── setup.ts                # Global test setup
 └── README.md               # This file
@@ -347,7 +345,6 @@ When adding new tests:
    - Utility functions → `test/utils/`
 3. **Update this README**: Document new test patterns or categories
 4. **Maintain coverage**: Ensure new code is tested
-5. **Use helpers**: Leverage test utilities in `test/utils/test-helpers.tsx`
 
 ## Troubleshooting
 
