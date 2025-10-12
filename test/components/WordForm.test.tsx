@@ -33,12 +33,12 @@ describe('WordForm', () => {
       />
     )
 
-    expect(screen.getByLabelText(/word/i)).toBeVisible()
-    expect(screen.getByLabelText(/hint/i)).toBeVisible()
-    expect(screen.getByLabelText(/letters/i)).toBeVisible()
-    expect(screen.getByLabelText(/syllables/i)).toBeVisible()
-    expect(screen.getByText(/select existing category/i)).toBeVisible()
-    expect(screen.getByText(/create new category/i)).toBeVisible()
+    expect(screen.getByLabelText('Word: *')).toBeVisible()
+    expect(screen.getByLabelText('Hint: *')).toBeVisible()
+    expect(screen.getByLabelText('Number of Letters: *')).toBeVisible()
+    expect(screen.getByLabelText('Number of Syllables: *')).toBeVisible()
+    expect(screen.getByText('Select existing category')).toBeVisible()
+    expect(screen.getByText('Create new category')).toBeVisible()
   })
 
   it('should call updateWordForm when input values change', () => {
@@ -50,7 +50,7 @@ describe('WordForm', () => {
       />
     )
 
-    const wordInput = screen.getByLabelText(/word/i)
+    const wordInput = screen.getByLabelText('Word: *')
     fireEvent.change(wordInput, { target: { value: 'apple' } })
 
     expect(mockUpdateWordForm).toHaveBeenCalledWith('word', 'apple')
@@ -65,7 +65,7 @@ describe('WordForm', () => {
       />
     )
 
-    const hintInput = screen.getByLabelText(/hint/i)
+    const hintInput = screen.getByLabelText('Hint: *')
     fireEvent.change(hintInput, { target: { value: 'A red fruit' } })
 
     expect(mockUpdateWordForm).toHaveBeenCalledWith('hint', 'A red fruit')
@@ -80,12 +80,12 @@ describe('WordForm', () => {
       />
     )
 
-    const numLettersInput = screen.getByLabelText(/letters/i)
+    const numLettersInput = screen.getByLabelText('Number of Letters: *')
     fireEvent.change(numLettersInput, { target: { value: '5' } })
 
     expect(mockUpdateWordForm).toHaveBeenCalledWith('numLetters', '5')
 
-    const numSyllablesInput = screen.getByLabelText(/syllables/i)
+    const numSyllablesInput = screen.getByLabelText('Number of Syllables: *')
     fireEvent.change(numSyllablesInput, { target: { value: '2' } })
 
     expect(mockUpdateWordForm).toHaveBeenCalledWith('numSyllables', '2')
@@ -126,7 +126,7 @@ describe('WordForm', () => {
       />
     )
 
-    const newCategoryRadio = screen.getByLabelText(/create new category/i)
+    const newCategoryRadio = screen.getByLabelText('Create new category')
     fireEvent.click(newCategoryRadio)
 
     expect(mockUpdateWordForm).toHaveBeenCalledWith('categoryMode', 'new')
@@ -216,11 +216,11 @@ describe('WordForm', () => {
       />
     )
 
-    const numLettersInput = screen.getByLabelText(/letters/i)
+    const numLettersInput = screen.getByLabelText('Number of Letters: *')
     expect(numLettersInput).toHaveAttribute('type', 'number')
     expect(numLettersInput).toHaveAttribute('min', '1')
 
-    const numSyllablesInput = screen.getByLabelText(/syllables/i)
+    const numSyllablesInput = screen.getByLabelText('Number of Syllables: *')
     expect(numSyllablesInput).toHaveAttribute('type', 'number')
     expect(numSyllablesInput).toHaveAttribute('min', '1')
   })

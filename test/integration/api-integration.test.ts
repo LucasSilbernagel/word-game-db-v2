@@ -1,17 +1,7 @@
 import { http, HttpResponse } from 'msw'
 import { beforeEach, describe, expect, it } from 'vitest'
 import { server } from '../mocks/server'
-
-type Word = {
-  _id: string
-  word: string
-  category: string
-  numLetters: number
-  numSyllables: number
-  hint: string
-  createdAt: string
-  updatedAt: string
-}
+import { Word } from './api-versions.test'
 
 describe('API Integration Tests', () => {
   beforeEach(() => {

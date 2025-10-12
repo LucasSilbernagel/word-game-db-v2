@@ -2,7 +2,7 @@ import { http, HttpResponse } from 'msw'
 import { beforeEach, describe, expect, it } from 'vitest'
 import { server } from '../mocks/server'
 
-type Word = {
+export type Word = {
   _id: string
   word: string
   category: string

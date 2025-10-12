@@ -23,9 +23,9 @@ describe('SearchForm', () => {
       />
     )
 
-    expect(screen.getByLabelText(/search query/i)).toBeVisible()
-    expect(screen.getByLabelText(/limit/i)).toBeVisible()
-    expect(screen.getByLabelText(/offset/i)).toBeVisible()
+    expect(screen.getByLabelText('Search Query *')).toBeVisible()
+    expect(screen.getByLabelText('Limit')).toBeVisible()
+    expect(screen.getByLabelText('Offset')).toBeVisible()
   })
 
   it('should call updateSearchForm when query input changes', () => {
@@ -36,7 +36,7 @@ describe('SearchForm', () => {
       />
     )
 
-    const queryInput = screen.getByLabelText(/search query/i)
+    const queryInput = screen.getByLabelText('Search Query *')
     fireEvent.change(queryInput, { target: { value: 'apple' } })
 
     expect(mockUpdateSearchForm).toHaveBeenCalledWith('query', 'apple')
@@ -50,7 +50,7 @@ describe('SearchForm', () => {
       />
     )
 
-    const limitInput = screen.getByLabelText(/limit/i)
+    const limitInput = screen.getByLabelText('Limit')
     fireEvent.change(limitInput, { target: { value: '20' } })
 
     expect(mockUpdateSearchForm).toHaveBeenCalledWith('limit', '20')
@@ -64,7 +64,7 @@ describe('SearchForm', () => {
       />
     )
 
-    const offsetInput = screen.getByLabelText(/offset/i)
+    const offsetInput = screen.getByLabelText('Offset')
     fireEvent.change(offsetInput, { target: { value: '10' } })
 
     expect(mockUpdateSearchForm).toHaveBeenCalledWith('offset', '10')
@@ -97,11 +97,11 @@ describe('SearchForm', () => {
       />
     )
 
-    const limitInput = screen.getByLabelText(/limit/i)
+    const limitInput = screen.getByLabelText('Limit')
     expect(limitInput).toHaveAttribute('type', 'number')
     expect(limitInput).toHaveAttribute('min', '1')
 
-    const offsetInput = screen.getByLabelText(/offset/i)
+    const offsetInput = screen.getByLabelText('Offset')
     expect(offsetInput).toHaveAttribute('type', 'number')
     expect(offsetInput).toHaveAttribute('min', '0')
   })
@@ -114,13 +114,13 @@ describe('SearchForm', () => {
       />
     )
 
-    const queryInput = screen.getByLabelText(/search query/i)
+    const queryInput = screen.getByLabelText('Search Query *')
     expect(queryInput).toHaveAttribute('placeholder')
 
-    const limitInput = screen.getByLabelText(/limit/i)
+    const limitInput = screen.getByLabelText('Limit')
     expect(limitInput).toHaveAttribute('placeholder')
 
-    const offsetInput = screen.getByLabelText(/offset/i)
+    const offsetInput = screen.getByLabelText('Offset')
     expect(offsetInput).toHaveAttribute('placeholder')
   })
 })

@@ -4,9 +4,6 @@ import { http, HttpResponse } from 'msw'
 import { beforeEach, describe, expect, it, vi } from 'vitest'
 import { server } from '../mocks/server'
 
-// For integration testing, we'll use real hook implementations
-// Only mock the external dependencies
-
 describe('Word CRUD Integration Flow', () => {
   const mockCategories = ['fruit', 'animal', 'color']
 
@@ -48,22 +45,22 @@ describe('Word CRUD Integration Flow', () => {
     )
 
     // Verify form is rendered and can be interacted with
-    expect(screen.getByLabelText(/word/i)).toBeVisible()
-    expect(screen.getByLabelText(/hint/i)).toBeVisible()
+    expect(screen.getByLabelText('Word: *')).toBeVisible()
+    expect(screen.getByLabelText('Hint: *')).toBeVisible()
     expect(screen.getByRole('combobox')).toBeVisible()
     expect(screen.getByText('Test Endpoint')).toBeVisible()
 
     // Fill form and submit (focusing on workflow, not detailed interactions)
-    const wordInput = screen.getByLabelText(/word/i)
+    const wordInput = screen.getByLabelText('Word: *')
     fireEvent.change(wordInput, { target: { value: 'apple' } })
 
-    const hintInput = screen.getByLabelText(/hint/i)
+    const hintInput = screen.getByLabelText('Hint: *')
     fireEvent.change(hintInput, { target: { value: 'A red fruit' } })
 
-    const numLettersInput = screen.getByLabelText(/letters/i)
+    const numLettersInput = screen.getByLabelText('Number of Letters: *')
     fireEvent.change(numLettersInput, { target: { value: '5' } })
 
-    const numSyllablesInput = screen.getByLabelText(/syllables/i)
+    const numSyllablesInput = screen.getByLabelText('Number of Syllables: *')
     fireEvent.change(numSyllablesInput, { target: { value: '2' } })
 
     const categorySelect = screen.getByRole('combobox')
@@ -100,7 +97,7 @@ describe('Word CRUD Integration Flow', () => {
     )
 
     // Fill form with existing word and submit
-    const wordInput = screen.getByLabelText(/word/i)
+    const wordInput = screen.getByLabelText('Word: *')
     fireEvent.change(wordInput, { target: { value: 'apple' } })
 
     const testButton = screen.getByText('Test Endpoint')
@@ -152,7 +149,7 @@ describe('Word CRUD Integration Flow', () => {
     )
 
     // Fill in search query
-    const queryInput = screen.getByLabelText(/search query/i)
+    const queryInput = screen.getByLabelText('Search Query *')
     fireEvent.change(queryInput, { target: { value: 'apple' } })
 
     // Submit search
@@ -318,10 +315,10 @@ describe('Word CRUD Integration Flow', () => {
     )
 
     // Fill in the form
-    const wordInput = screen.getByLabelText(/word/i)
-    const hintInput = screen.getByLabelText(/hint/i)
-    const numLettersInput = screen.getByLabelText(/letters/i)
-    const numSyllablesInput = screen.getByLabelText(/syllables/i)
+    const wordInput = screen.getByLabelText('Word: *')
+    const hintInput = screen.getByLabelText('Hint: *')
+    const numLettersInput = screen.getByLabelText('Number of Letters: *')
+    const numSyllablesInput = screen.getByLabelText('Number of Syllables: *')
 
     fireEvent.change(wordInput, { target: { value: 'banana' } })
     fireEvent.change(hintInput, { target: { value: 'A yellow fruit' } })
