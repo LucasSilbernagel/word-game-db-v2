@@ -15,10 +15,7 @@ import { NextRequest, NextResponse } from 'next/server'
  */
 export const getCategoriesHandler = async () => {
   const categories = await Word.distinct('category')
-  const response = NextResponse.json(categories)
-  // Cache for 15 minutes since categories change infrequently
-  response.headers.set('Cache-Control', 'public, max-age=900, s-maxage=900')
-  return response
+  return NextResponse.json(categories)
 }
 
 /**
@@ -44,10 +41,7 @@ export const getWordsV1Handler = async (request: NextRequest) => {
   // eslint-disable-next-line unicorn/no-array-callback-reference, unicorn/no-array-sort
   const words = await Word.find(mongoFilter).sort({ createdAt: -1 }).lean()
 
-  const response = NextResponse.json(words)
-  // Cache for 5 minutes
-  response.headers.set('Cache-Control', 'public, max-age=300, s-maxage=300')
-  return response
+  return NextResponse.json(words)
 }
 
 /**
@@ -70,7 +64,7 @@ export const getWordsV2Handler = async (request: NextRequest) => {
 
   const total = await Word.countDocuments(mongoFilter)
 
-  const response = NextResponse.json({
+  return NextResponse.json({
     words,
     pagination: {
       total,
@@ -79,10 +73,6 @@ export const getWordsV2Handler = async (request: NextRequest) => {
       hasMore: offset + limit < total,
     },
   })
-
-  // Cache for 5 minutes
-  response.headers.set('Cache-Control', 'public, max-age=300, s-maxage=300')
-  return response
 }
 
 /**
@@ -128,10 +118,7 @@ export const getWordByIdHandler = async (id: string) => {
     return NextResponse.json({ error: 'Word not found' }, { status: 404 })
   }
 
-  const response = NextResponse.json(word)
-  // Cache for 10 minutes since individual words change rarely
-  response.headers.set('Cache-Control', 'public, max-age=600, s-maxage=600')
-  return response
+  return NextResponse.json(word)
 }
 
 /**
@@ -254,7 +241,7 @@ export const searchWordsHandler = async (request: NextRequest) => {
 
   const total = await Word.countDocuments(searchFilter)
 
-  const response = NextResponse.json({
+  return NextResponse.json({
     words,
     pagination: {
       total,
@@ -264,8 +251,4 @@ export const searchWordsHandler = async (request: NextRequest) => {
     },
     query,
   })
-
-  // Cache for 5 minutes
-  response.headers.set('Cache-Control', 'public, max-age=300, s-maxage=300')
-  return response
 }
