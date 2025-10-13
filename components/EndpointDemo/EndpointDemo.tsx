@@ -3,22 +3,22 @@
 import { Button } from '@/components/ui/Button'
 import { Card, CardContent } from '@/components/ui/Card'
 import { API_ROUTES } from '@/lib/constants/app'
-import { DeleteForm } from './DeleteForm/DeleteForm'
-import { FilterForm } from './FilterForm/FilterForm'
+import { DeleteForm } from './DeleteForm'
+import { FilterForm } from './FilterForm'
 import { useApiState } from './hooks/useApiState'
 import { useDeleteForm } from './hooks/useDeleteForm'
 import { useFilters } from './hooks/useFilters'
 import { useSearchForm, type SearchFormState } from './hooks/useSearchForm'
 import { useUpdateForm } from './hooks/useUpdateForm'
 import { useWordForm } from './hooks/useWordForm'
-import { SearchApiRequestExample } from './SearchApiRequestExample/SearchApiRequestExample'
-import { SearchForm } from './SearchForm/SearchForm'
-import { UpdateApiRequestExample } from './UpdateApiRequestExample/UpdateApiRequestExample'
-import { UpdateForm } from './UpdateForm/UpdateForm'
+import { SearchApiRequestExample } from './SearchApiRequestExample'
+import { SearchForm } from './SearchForm'
+import { UpdateApiRequestExample } from './UpdateApiRequestExample'
+import { UpdateForm } from './UpdateForm'
 import { buildApiRequest } from './utils/buildApiRequest'
 import { handleApiResponse } from './utils/handleApiResponse'
-import { WordForm } from './WordForm/WordForm'
-import { WordsApiRequestExample } from './WordsApiRequestExample/WordsApiRequestExample'
+import { WordForm } from './WordForm'
+import { WordsApiRequestExample } from './WordsApiRequestExample'
 
 type EndpointDemoProps = {
   method: string
@@ -109,9 +109,9 @@ const EndpointDemo = ({
     <Card className="mt-4">
       <CardContent className="pt-4">
         <div className="space-y-6">
-          <div className="flex flex-col items-center justify-between gap-2 sm:flex-row sm:gap-0">
-            <h3 className="hidden text-sm font-semibold sm:block">Live Demo</h3>
-            <div className="flex flex-wrap gap-2 sm:flex-nowrap">
+          <div className="flex sm:flex-row flex-col justify-between items-center gap-2 sm:gap-0">
+            <h3 className="hidden sm:block font-semibold text-sm">Live Demo</h3>
+            <div className="flex flex-wrap sm:flex-nowrap gap-2">
               {(isWordsEndpoint ||
                 isWordsSearchEndpoint ||
                 (isWordsWithIdEndpoint &&
@@ -129,7 +129,7 @@ const EndpointDemo = ({
               >
                 {isLoading ? (
                   <div className="flex items-center gap-2">
-                    <div className="h-4 w-4 animate-spin rounded-full border-2 border-current border-t-transparent" />
+                    <div className="border-2 border-current border-t-transparent rounded-full w-4 h-4 animate-spin" />
                     <span>Loading...</span>
                   </div>
                 ) : (
@@ -194,17 +194,19 @@ const EndpointDemo = ({
           {isWordsEndpoint && method === 'GET' && (
             <FilterForm
               filters={filters}
-              updateFilter={updateFilter}
+              updateFilter={(key, value) =>
+                updateFilter(key as keyof typeof filters, value)
+              }
               categories={categories}
             />
           )}
 
           {isDestructiveEndpoint && !isDestructiveEnabled && (
-            <div className="rounded-md border border-yellow-200 bg-yellow-50 p-3 dark:border-yellow-800 dark:bg-yellow-900/20">
-              <p className="text-sm text-yellow-800 dark:text-yellow-200">
+            <div className="bg-yellow-50 dark:bg-yellow-900/20 p-3 border border-yellow-200 dark:border-yellow-800 rounded-md">
+              <p className="text-yellow-800 dark:text-yellow-200 text-sm">
                 <strong>Note:</strong> This endpoint is disabled. To test it,
                 set{' '}
-                <code className="rounded bg-yellow-100 px-1 text-xs dark:bg-yellow-900">
+                <code className="bg-yellow-100 dark:bg-yellow-900 px-1 rounded text-xs">
                   ENABLE_DESTRUCTIVE_ENDPOINTS=true
                 </code>{' '}
                 in your environment variables.
@@ -215,17 +217,17 @@ const EndpointDemo = ({
           {response && (
             <div className="space-y-2">
               <div className="flex items-center gap-2">
-                <h5 className="text-sm font-medium text-green-700 dark:text-green-400">
+                <h5 className="font-medium text-green-700 dark:text-green-400 text-sm">
                   Response:
                 </h5>
                 {isLoading && (
-                  <div className="text-muted-foreground flex items-center gap-1 text-xs">
-                    <div className="border-primary h-3 w-3 animate-spin rounded-full border-2 border-t-transparent" />
+                  <div className="flex items-center gap-1 text-muted-foreground text-xs">
+                    <div className="border-2 border-primary border-t-transparent rounded-full w-3 h-3 animate-spin" />
                     <span>Loading new data...</span>
                   </div>
                 )}
               </div>
-              <pre className="bg-muted overflow-x-auto rounded p-3 text-xs">
+              <pre className="bg-muted p-3 rounded overflow-x-auto text-xs">
                 {response}
               </pre>
             </div>
@@ -233,10 +235,10 @@ const EndpointDemo = ({
 
           {error && (
             <div className="space-y-2">
-              <h5 className="text-sm font-medium text-red-600 dark:text-red-400">
+              <h5 className="font-medium text-red-600 dark:text-red-400 text-sm">
                 Error:
               </h5>
-              <pre className="rounded bg-red-50 p-3 text-xs text-wrap text-red-800 dark:bg-red-900/20 dark:text-red-200">
+              <pre className="bg-red-50 dark:bg-red-900/20 p-3 rounded text-red-800 dark:text-red-200 text-xs text-wrap">
                 {error}
               </pre>
             </div>

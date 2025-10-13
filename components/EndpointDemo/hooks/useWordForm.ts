@@ -1,5 +1,5 @@
 import { useGenericForm } from '@/lib/hooks/useGenericForm'
-import { WordFormState } from '../WordForm/WordForm'
+import { WordFormState } from '../WordForm'
 
 export const useWordForm = () => {
   const {

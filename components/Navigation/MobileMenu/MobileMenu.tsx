@@ -6,7 +6,7 @@ import { cn } from '@/lib/utils'
 import * as SheetPrimitive from '@radix-ui/react-dialog'
 import { Menu } from 'lucide-react'
 import Link from 'next/link'
-import { MobileMenuContent } from './MobileMenuContent/MobileMenuContent'
+import { MobileMenuContent } from './MobileMenuContent'
 
 export type MobileMenuProps = {
   isOpen: boolean
@@ -34,7 +34,7 @@ export const MobileMenu = ({
           className="md:hidden"
           aria-label="Open mobile menu"
         >
-          <Menu className="h-6 w-6" />
+          <Menu className="w-6 h-6" />
         </Button>
       </SheetTrigger>
 
@@ -48,7 +48,7 @@ export const MobileMenu = ({
               <Link
                 href={item.href}
                 className={cn(
-                  'mobile-menu-item transform py-2 text-xl font-medium transition-all duration-300 ease-out',
+                  'py-2 font-medium text-xl transition-all duration-300 ease-out mobile-menu-item transform',
                   'hover:scale-105 focus-visible:scale-105 active:scale-95',
                   pathname === item.href
                     ? 'text-foreground'

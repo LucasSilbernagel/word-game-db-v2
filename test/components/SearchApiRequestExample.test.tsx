@@ -1,4 +1,4 @@
-import { SearchApiRequestExample } from '@/components/EndpointDemo/SearchApiRequestExample/SearchApiRequestExample'
+import { SearchApiRequestExample } from '@/components/EndpointDemo/SearchApiRequestExample'
 import { render, screen } from '@testing-library/react'
 import { describe, expect, it } from 'vitest'
 

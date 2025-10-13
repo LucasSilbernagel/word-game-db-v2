@@ -1,5 +1,5 @@
 /* eslint-disable @next/next/no-html-link-for-pages */
-import { MobileMenuContent } from '@/components/Navigation/MobileMenu/MobileMenuContent/MobileMenuContent'
+import { MobileMenuContent } from '@/components/Navigation/MobileMenu/MobileMenuContent'
 import * as SheetPrimitive from '@radix-ui/react-dialog'
 import { render, screen } from '@testing-library/react'
 import { ReactNode } from 'react'

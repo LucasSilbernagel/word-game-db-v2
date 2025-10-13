@@ -1,4 +1,4 @@
-import ContactPage from '@/components/ContactPage/ContactPage'
+import ContactPage from '@/components/ContactPage'
 import { render, screen } from '@testing-library/react'
 import { describe, expect, it } from 'vitest'
 

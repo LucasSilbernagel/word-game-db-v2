@@ -1,4 +1,4 @@
-import { UpdateForm } from '@/components/EndpointDemo/UpdateForm/UpdateForm'
+import { UpdateForm } from '@/components/EndpointDemo/UpdateForm'
 import { fireEvent, render, screen, waitFor } from '@testing-library/react'
 import { beforeEach, describe, expect, it, vi } from 'vitest'
 

@@ -1,5 +1,5 @@
 import { useGenericForm } from '@/lib/hooks/useGenericForm'
-import { UpdateFormState } from '../UpdateForm/UpdateForm'
+import { UpdateFormState } from '../UpdateForm'
 
 export const useUpdateForm = () => {
   const {

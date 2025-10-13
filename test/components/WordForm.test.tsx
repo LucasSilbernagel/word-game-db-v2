@@ -1,7 +1,7 @@
 import {
   WordForm,
   type WordFormState,
-} from '@/components/EndpointDemo/WordForm/WordForm'
+} from '@/components/EndpointDemo/WordForm'
 import { fireEvent, render, screen } from '@testing-library/react'
 import { beforeEach, describe, expect, it, vi } from 'vitest'
 

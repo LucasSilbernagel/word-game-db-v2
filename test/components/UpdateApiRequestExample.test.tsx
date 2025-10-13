@@ -1,4 +1,4 @@
-import { UpdateApiRequestExample } from '@/components/EndpointDemo/UpdateApiRequestExample/UpdateApiRequestExample'
+import { UpdateApiRequestExample } from '@/components/EndpointDemo/UpdateApiRequestExample'
 import { render, screen } from '@testing-library/react'
 import { describe, expect, it } from 'vitest'
 

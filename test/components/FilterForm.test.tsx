@@ -1,4 +1,4 @@
-import { FilterForm } from '@/components/EndpointDemo/FilterForm/FilterForm'
+import { FilterForm } from '@/components/EndpointDemo/FilterForm'
 import { fireEvent, render, screen } from '@testing-library/react'
 import { beforeEach, describe, expect, it, vi } from 'vitest'
 

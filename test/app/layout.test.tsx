@@ -1,5 +1,5 @@
 import RootLayout from '@/app/layout'
-import Footer from '@/components/Footer/Footer'
+import Footer from '@/components/Footer'
 import { Navigation } from '@/components/Navigation/Navigation'
 import { render, screen } from '@testing-library/react'
 import { ReactNode } from 'react'

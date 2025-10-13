@@ -1,4 +1,4 @@
-import HomePage from '@/components/HomePage/HomePage'
+import HomePage from '@/components/HomePage'
 import { act, render, screen, waitFor } from '@testing-library/react'
 import { createElement } from 'react'
 import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest'

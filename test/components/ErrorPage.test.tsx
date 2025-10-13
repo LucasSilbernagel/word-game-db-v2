@@ -1,4 +1,4 @@
-import ErrorPage from '@/components/ErrorPage/ErrorPage'
+import ErrorPage from '@/components/ErrorPage'
 import { fireEvent, render, screen } from '@testing-library/react'
 import { afterAll, beforeEach, describe, expect, it, vi } from 'vitest'
 

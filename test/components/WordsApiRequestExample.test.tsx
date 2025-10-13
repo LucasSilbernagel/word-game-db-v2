@@ -1,4 +1,4 @@
-import { WordsApiRequestExample } from '@/components/EndpointDemo/WordsApiRequestExample/WordsApiRequestExample'
+import { WordsApiRequestExample } from '@/components/EndpointDemo/WordsApiRequestExample'
 import { render, screen } from '@testing-library/react'
 import { describe, expect, it } from 'vitest'
 

@@ -1,5 +1,5 @@
 import { useGenericForm } from '@/lib/hooks/useGenericForm'
-import { DeleteFormState } from '../DeleteForm/DeleteForm'
+import { DeleteFormState } from '../DeleteForm'
 
 export const useDeleteForm = () => {
   const {

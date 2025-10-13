@@ -1,8 +1,8 @@
 import { API_ROUTES, DEMO_DATA, TEXT_CONTENT } from '@/lib/constants/app'
-import { DeleteFormState } from '../DeleteForm/DeleteForm'
+import { DeleteFormState } from '../DeleteForm'
 import { SearchFormState } from '../hooks/useSearchForm'
-import { UpdateFormState } from '../UpdateForm/UpdateForm'
-import { WordFormState } from '../WordForm/WordForm'
+import { UpdateFormState } from '../UpdateForm'
+import { WordFormState } from '../WordForm'
 
 export const buildApiRequest = (
   method: string,
