@@ -23,12 +23,8 @@ export const WordsApiRequestExample = ({
     if (filters.offset && filters.offset !== '0')
       params.set('offset', filters.offset)
 
-    // If no filters are set, show a basic example
-    if (params.toString() === '') {
-      params.set('category', 'animal')
-    }
-
-    return `/api/v2/words?${params.toString()}`
+    const queryString = params.toString()
+    return `/api/v2/words${queryString ? `?${queryString}` : ''}`
   }
 
   const getDescription = () => {

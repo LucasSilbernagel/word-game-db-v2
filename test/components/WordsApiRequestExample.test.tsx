@@ -18,7 +18,7 @@ describe('WordsApiRequestExample', () => {
     render(<WordsApiRequestExample filters={defaultFilters} />)
 
     expect(screen.getByText('API Request Example:')).toBeVisible()
-    expect(screen.getByText('GET /api/v2/words?category=animal')).toBeVisible()
+    expect(screen.getByText('GET /api/v2/words')).toBeVisible()
     expect(screen.getByText('Content-Type: application/json')).toBeVisible()
     expect(
       screen.getByText('Returns all words (no filters applied)')
@@ -232,7 +232,7 @@ describe('WordsApiRequestExample', () => {
       'dark:bg-gray-800'
     )
 
-    const methodText = screen.getByText('GET /api/v2/words?category=animal')
+    const methodText = screen.getByText('GET /api/v2/words')
     expect(methodText).toHaveClass(
       'font-semibold',
       'break-all',
