@@ -240,10 +240,9 @@ type Word = {
 - `pnpm lint:fix` - Fix ESLint issues
 - `pnpm format` - Format code with Prettier
 - `pnpm format:check` - Check code formatting
-- `pnpm test` - Run tests with Vitest
+- `pnpm test` - Run tests in watch mode with Vitest
 - `pnpm test:ui` - Run tests with Vitest UI
 - `pnpm test:run` - Run tests once (CI mode)
-- `pnpm test:watch` - Run tests in watch mode
 - `pnpm check` - Run quality checks (lint, format, test)
 - `pnpm audit` - Run security audit
 
@@ -277,17 +276,27 @@ type Word = {
 │   ├── robots.ts          # Robots.txt configuration
 │   └── sitemap.ts         # Sitemap configuration
 ├── components/            # React components
-│   ├── AboutPage/         # About page component
-│   ├── ContactPage/       # Contact page component
+│   ├── AboutPage.tsx      # About page component
+│   ├── ContactPage.tsx    # Contact page component
 │   ├── EndpointDemo/      # API testing components
 │   │   ├── hooks/         # Custom hooks for API interactions
-│   │   └── utils/         # Utility functions
-│   ├── ErrorPage/         # Error page component
-│   ├── Footer/            # Footer component
-│   ├── HomePage/          # Homepage component
+│   │   ├── utils/         # Utility functions
+│   │   ├── DeleteForm.tsx
+│   │   ├── EndpointDemo.tsx
+│   │   ├── FilterForm.tsx
+│   │   ├── SearchApiRequestExample.tsx
+│   │   ├── SearchForm.tsx
+│   │   ├── UpdateApiRequestExample.tsx
+│   │   ├── UpdateForm.tsx
+│   │   ├── WordForm.tsx
+│   │   └── WordsApiRequestExample.tsx
+│   ├── ErrorPage.tsx      # Error page component
+│   ├── Footer.tsx         # Footer component
+│   ├── HomePage.tsx       # Homepage component
 │   ├── Navigation/        # Navigation components
-│   │   └── MobileMenu/    # Mobile menu components
-│   ├── NotFoundPage/      # 404 page component
+│   │   ├── MobileMenu/    # Mobile menu components
+│   │   └── Navigation.tsx
+│   ├── NotFoundPage.tsx   # 404 page component
 │   └── ui/                # Reusable UI components
 ├── lib/                   # Utility functions and configuration
 │   ├── constants/         # Application constants
