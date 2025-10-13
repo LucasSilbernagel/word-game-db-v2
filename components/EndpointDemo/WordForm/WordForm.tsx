@@ -8,7 +8,7 @@ import {
   SelectTrigger,
   SelectValue,
 } from '@/components/ui/Select'
-import { TEXT_CONTENT } from '@/lib/constants'
+import { TEXT_CONTENT } from '@/lib/constants/app'
 
 export type WordFormState = {
   word: string

@@ -1,4 +1,4 @@
-import { DEFAULTS } from '@/lib/constants'
+import { DEFAULTS } from '@/lib/constants/app'
 import {
   buildWordFilter,
   escapeRegex,

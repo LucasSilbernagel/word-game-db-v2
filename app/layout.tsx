@@ -1,6 +1,6 @@
 import Footer from '@/components/Footer/Footer'
 import { Navigation } from '@/components/Navigation/Navigation'
-import { APP_METADATA } from '@/lib/constants'
+import { APP_METADATA } from '@/lib/constants/app'
 import type { Metadata } from 'next'
 import { Geist, Geist_Mono } from 'next/font/google'
 import { ReactNode } from 'react'

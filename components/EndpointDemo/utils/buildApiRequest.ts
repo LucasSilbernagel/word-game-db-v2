@@ -1,4 +1,4 @@
-import { API_ROUTES, DEMO_DATA, TEXT_CONTENT } from '@/lib/constants'
+import { API_ROUTES, DEMO_DATA, TEXT_CONTENT } from '@/lib/constants/app'
 import { DeleteFormState } from '../DeleteForm/DeleteForm'
 import { SearchFormState } from '../hooks/useSearchForm'
 import { UpdateFormState } from '../UpdateForm/UpdateForm'

@@ -2,7 +2,7 @@
 
 import { Button } from '@/components/ui/Button'
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/Card'
-import { API_ROUTES, DEMO_DATA } from '@/lib/constants'
+import { API_ROUTES, DEMO_DATA } from '@/lib/constants/app'
 import Link from 'next/link'
 import { lazy, Suspense, useEffect, useState } from 'react'
 const EndpointDemo = lazy(

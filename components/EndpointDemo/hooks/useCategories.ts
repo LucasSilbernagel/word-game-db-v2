@@ -1,4 +1,4 @@
-import { API_ROUTES } from '@/lib/constants'
+import { API_ROUTES } from '@/lib/constants/app'
 import { useEffect, useState } from 'react'
 
 export const useCategories = () => {

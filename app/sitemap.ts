@@ -1,4 +1,4 @@
-import { APP_METADATA } from '@/lib/constants'
+import { APP_METADATA } from '@/lib/constants/app'
 import { MetadataRoute } from 'next'
 
 export default function sitemap(): MetadataRoute.Sitemap {

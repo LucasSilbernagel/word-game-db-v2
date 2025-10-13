@@ -2,7 +2,7 @@
 
 import { Button } from '@/components/ui/Button'
 import { Card, CardContent } from '@/components/ui/Card'
-import { API_ROUTES } from '@/lib/constants'
+import { API_ROUTES } from '@/lib/constants/app'
 import { DeleteForm } from './DeleteForm/DeleteForm'
 import { FilterForm } from './FilterForm/FilterForm'
 import { useApiState } from './hooks/useApiState'
