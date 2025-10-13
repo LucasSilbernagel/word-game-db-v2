@@ -1,36 +1,47 @@
-import { forwardRef, HTMLAttributes } from 'react'
+import { HTMLAttributes, Ref } from 'react'
 
 import { cn } from '@/lib/utils'
 
-const Card = forwardRef<HTMLDivElement, HTMLAttributes<HTMLDivElement>>(
-  ({ className, ...props }, ref) => (
-    <div
-      ref={ref}
-      className={cn(
-        'bg-card text-card-foreground rounded-lg border shadow-sm',
-        className
-      )}
-      {...props}
-    />
-  )
+const Card = ({
+  className,
+  ref,
+  ...props
+}: HTMLAttributes<HTMLDivElement> & {
+  ref?: Ref<HTMLDivElement>
+}) => (
+  <div
+    ref={ref}
+    className={cn(
+      'bg-card text-card-foreground rounded-lg border shadow-sm',
+      className
+    )}
+    {...props}
+  />
 )
 Card.displayName = 'Card'
 
-const CardHeader = forwardRef<HTMLDivElement, HTMLAttributes<HTMLDivElement>>(
-  ({ className, ...props }, ref) => (
-    <div
-      ref={ref}
-      className={cn('flex flex-col space-y-1.5 p-6', className)}
-      {...props}
-    />
-  )
+const CardHeader = ({
+  className,
+  ref,
+  ...props
+}: HTMLAttributes<HTMLDivElement> & {
+  ref?: Ref<HTMLDivElement>
+}) => (
+  <div
+    ref={ref}
+    className={cn('flex flex-col space-y-1.5 p-6', className)}
+    {...props}
+  />
 )
 CardHeader.displayName = 'CardHeader'
 
-const CardTitle = forwardRef<
-  HTMLParagraphElement,
-  HTMLAttributes<HTMLHeadingElement>
->(({ className, ...props }, ref) => (
+const CardTitle = ({
+  className,
+  ref,
+  ...props
+}: HTMLAttributes<HTMLHeadingElement> & {
+  ref?: Ref<HTMLParagraphElement>
+}) => (
   // eslint-disable-next-line jsx-a11y/heading-has-content
   <h3
     ref={ref}
@@ -40,36 +51,45 @@ const CardTitle = forwardRef<
     )}
     {...props}
   />
-))
+)
 CardTitle.displayName = 'CardTitle'
 
-const CardDescription = forwardRef<
-  HTMLParagraphElement,
-  HTMLAttributes<HTMLParagraphElement>
->(({ className, ...props }, ref) => (
+const CardDescription = ({
+  className,
+  ref,
+  ...props
+}: HTMLAttributes<HTMLParagraphElement> & {
+  ref?: Ref<HTMLParagraphElement>
+}) => (
   <p
     ref={ref}
     className={cn('text-muted-foreground text-sm', className)}
     {...props}
   />
-))
+)
 CardDescription.displayName = 'CardDescription'
 
-const CardContent = forwardRef<HTMLDivElement, HTMLAttributes<HTMLDivElement>>(
-  ({ className, ...props }, ref) => (
-    <div ref={ref} className={cn('p-6 pt-0', className)} {...props} />
-  )
-)
+const CardContent = ({
+  className,
+  ref,
+  ...props
+}: HTMLAttributes<HTMLDivElement> & {
+  ref?: Ref<HTMLDivElement>
+}) => <div ref={ref} className={cn('p-6 pt-0', className)} {...props} />
 CardContent.displayName = 'CardContent'
 
-const CardFooter = forwardRef<HTMLDivElement, HTMLAttributes<HTMLDivElement>>(
-  ({ className, ...props }, ref) => (
-    <div
-      ref={ref}
-      className={cn('flex items-center p-6 pt-0', className)}
-      {...props}
-    />
-  )
+const CardFooter = ({
+  className,
+  ref,
+  ...props
+}: HTMLAttributes<HTMLDivElement> & {
+  ref?: Ref<HTMLDivElement>
+}) => (
+  <div
+    ref={ref}
+    className={cn('flex items-center p-6 pt-0', className)}
+    {...props}
+  />
 )
 CardFooter.displayName = 'CardFooter'
 
