@@ -1,6 +1,5 @@
 import { MobileMenu } from '@/components/Navigation/MobileMenu/MobileMenu'
 import { render, screen } from '@testing-library/react'
-import { createElement, ReactNode } from 'react'
 import { describe, expect, it, vi } from 'vitest'
 
 // Mock browser APIs that Radix UI needs
@@ -13,21 +12,6 @@ Object.defineProperty(globalThis, 'clearTimeout', {
   value: vi.fn(),
   writable: true,
 })
-
-// Mock Next.js Link component
-vi.mock('next/link', () => ({
-  default: ({
-    children,
-    href,
-    ...props
-  }: {
-    children: ReactNode
-    href: string
-    [key: string]: unknown
-  }) => {
-    return createElement('a', { href, ...props }, children)
-  },
-}))
 
 const mockNavigation = [
   { name: 'Home', href: '/' },

@@ -1,22 +1,7 @@
 import HomePage from '@/components/HomePage/HomePage'
 import { act, render, screen, waitFor } from '@testing-library/react'
-import { createElement, ReactNode } from 'react'
+import { createElement } from 'react'
 import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest'
-
-// Mock Next.js Link component
-vi.mock('next/link', () => ({
-  default: ({
-    children,
-    href,
-    ...props
-  }: {
-    children: ReactNode
-    href: string
-    [key: string]: unknown
-  }) => {
-    return createElement('a', { href, ...props }, children)
-  },
-}))
 
 // Mock the EndpointDemo component
 vi.mock('@/components/EndpointDemo/EndpointDemo', () => ({
@@ -96,9 +81,7 @@ describe('HomePage', () => {
   it('should render the about section', () => {
     render(<HomePage />)
 
-    // Use a more flexible text matcher that can handle text split across elements
-    // Find the first occurrence (the actual about section content)
-    const aboutElements = screen.getAllByText((content, element) => {
+    const aboutElements = screen.getAllByText((_content, element) => {
       return (
         element?.textContent?.includes(
           'Word Game DB is designed for educational purposes'
@@ -114,7 +97,7 @@ describe('HomePage', () => {
       )
     })
     expect(skillElements[0]).toBeVisible()
-    const hintElements = screen.getAllByText((content, element) => {
+    const hintElements = screen.getAllByText((_content, element) => {
       return (
         element?.textContent?.includes(
           'Each word comes with a category, letter count, syllable count, and helpful hint'
@@ -123,7 +106,7 @@ describe('HomePage', () => {
     })
     expect(hintElements[0]).toBeVisible()
 
-    const perfectElements = screen.getAllByText((content, element) => {
+    const perfectElements = screen.getAllByText((_content, element) => {
       return (
         element?.textContent?.includes(
           'Perfect for building hangman games, word puzzles, vocabulary apps'
@@ -230,7 +213,6 @@ describe('HomePage', () => {
   it('should have proper styling classes', () => {
     render(<HomePage />)
 
-    // Check container styling - the component doesn't have a main role, so we need to find the container differently
     const container = screen
       .getByRole('heading', { level: 1 })
       .closest('.container')
@@ -270,7 +252,7 @@ describe('HomePage', () => {
   it('should render endpoint cards with proper structure', () => {
     render(<HomePage />)
 
-    // Check that endpoint cards are rendered - they don't have complementary role, so we'll check by testid
+    // Check that endpoint cards are rendered
     const cards = screen.getAllByTestId('endpoint-demo')
     expect(cards.length).toBeGreaterThan(0)
 

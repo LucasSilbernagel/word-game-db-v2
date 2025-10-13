@@ -1,22 +1,6 @@
 import AboutPage from '@/components/AboutPage/AboutPage'
 import { render, screen } from '@testing-library/react'
-import { createElement, ReactNode } from 'react'
-import { describe, expect, it, vi } from 'vitest'
-
-// Mock Next.js Link component
-vi.mock('next/link', () => ({
-  default: ({
-    children,
-    href,
-    ...props
-  }: {
-    children: ReactNode
-    href: string
-    [key: string]: unknown
-  }) => {
-    return createElement('a', { href, ...props }, children)
-  },
-}))
+import { describe, expect, it } from 'vitest'
 
 describe('AboutPage', () => {
   it('should render the main heading and description', () => {

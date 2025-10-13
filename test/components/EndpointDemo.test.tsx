@@ -2,8 +2,6 @@ import EndpointDemo from '@/components/EndpointDemo/EndpointDemo'
 import { render, screen } from '@testing-library/react'
 import { beforeEach, describe, expect, it, vi } from 'vitest'
 
-// Mock the hooks
-
 const mockResetFilters = vi.fn()
 const mockResetWordForm = vi.fn()
 const mockResetUpdateForm = vi.fn()

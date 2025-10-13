@@ -1,5 +1,5 @@
 import '@testing-library/jest-dom'
-import React, { createElement } from 'react'
+import React, { createElement, ReactNode } from 'react'
 import { afterAll, afterEach, beforeAll, vi } from 'vitest'
 import { server } from './mocks/server'
 globalThis.React = React
@@ -25,6 +25,21 @@ afterAll(() => {
   server.close()
 })
 
+// Mock Next.js Link component
+vi.mock('next/link', () => ({
+  default: ({
+    children,
+    href,
+    ...props
+  }: {
+    children: ReactNode
+    href: string
+    [key: string]: unknown
+  }) => {
+    return createElement('a', { href, ...props }, children)
+  },
+}))
+
 // Mock Next.js router
 vi.mock('next/navigation', () => ({
   useRouter: () => ({
@@ -45,7 +60,7 @@ vi.mock('next/navigation', () => ({
     forEach: vi.fn(),
     toString: vi.fn(),
   }),
-  usePathname: () => '/',
+  usePathname: vi.fn(() => '/'),
 }))
 
 // Mock Next.js image component

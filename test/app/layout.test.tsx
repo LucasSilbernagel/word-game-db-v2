@@ -2,7 +2,7 @@ import RootLayout from '@/app/layout'
 import Footer from '@/components/Footer/Footer'
 import { Navigation } from '@/components/Navigation/Navigation'
 import { render, screen } from '@testing-library/react'
-import { createElement, ReactNode } from 'react'
+import { ReactNode } from 'react'
 import { describe, expect, it, vi } from 'vitest'
 
 // Mock Next.js fonts
@@ -13,21 +13,6 @@ vi.mock('next/font/google', () => ({
   Geist_Mono: () => ({
     variable: '--font-geist-mono',
   }),
-}))
-
-// Mock Next.js Link component
-vi.mock('next/link', () => ({
-  default: ({
-    children,
-    href,
-    ...props
-  }: {
-    children: ReactNode
-    href: string
-    [key: string]: unknown
-  }) => {
-    return createElement('a', { href, ...props }, children)
-  },
 }))
 
 // Create a test-safe layout component that doesn't include <html> or <head>
@@ -188,7 +173,6 @@ describe('Root Layout', () => {
 
   it('should render preload link for OG image', () => {
     // Test that the layout component is properly defined
-    // We'll test the metadata export instead to avoid HTML structure issues
     expect(RootLayout).toBeDefined()
 
     // Test the body content structure instead of full HTML

@@ -1,22 +1,7 @@
 import Home from '@/app/page'
 import { act, render, screen, waitFor } from '@testing-library/react'
-import { createElement, ReactNode } from 'react'
+import { createElement } from 'react'
 import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest'
-
-// Mock Next.js Link component
-vi.mock('next/link', () => ({
-  default: ({
-    children,
-    href,
-    ...props
-  }: {
-    children: ReactNode
-    href: string
-    [key: string]: unknown
-  }) => {
-    return createElement('a', { href, ...props }, children)
-  },
-}))
 
 // Mock the EndpointDemo component
 vi.mock('@/components/EndpointDemo/EndpointDemo', () => ({

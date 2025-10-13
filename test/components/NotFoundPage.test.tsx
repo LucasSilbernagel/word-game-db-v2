@@ -1,22 +1,6 @@
 import NotFoundPage from '@/components/NotFoundPage/NotFoundPage'
 import { render, screen } from '@testing-library/react'
-import { createElement, ReactNode } from 'react'
-import { describe, expect, it, vi } from 'vitest'
-
-// Mock Next.js Link component
-vi.mock('next/link', () => ({
-  default: ({
-    children,
-    href,
-    ...props
-  }: {
-    children: ReactNode
-    href: string
-    [key: string]: unknown
-  }) => {
-    return createElement('a', { href, ...props }, children)
-  },
-}))
+import { describe, expect, it } from 'vitest'
 
 describe('NotFoundPage', () => {
   it('should render the 404 heading and error message', () => {
