@@ -1,5 +1,5 @@
 /* eslint-disable unicorn/no-nested-ternary */
-import { FilterState } from '../hooks/useFilters'
+import { FilterState } from './hooks/useFilters'
 
 type WordsApiRequestExampleProps = {
   filters: FilterState
@@ -64,16 +64,16 @@ export const WordsApiRequestExample = ({
 
   return (
     <div>
-      <p className="text-muted-foreground mb-2 text-sm">API Request Example:</p>
-      <div className="rounded border bg-gray-50 p-3 dark:bg-gray-800">
+      <p className="mb-2 text-muted-foreground text-sm">API Request Example:</p>
+      <div className="bg-gray-50 dark:bg-gray-800 p-3 border rounded">
         <div className="font-mono text-sm">
-          <div className="font-semibold break-all text-green-700 dark:text-green-400">
+          <div className="font-semibold text-green-700 dark:text-green-400 break-all">
             GET {buildExampleUrl()}
           </div>
           <div className="mt-2 text-gray-600 dark:text-gray-300">
             Content-Type: application/json
           </div>
-          <div className="mt-2 text-xs text-gray-500 dark:text-gray-400">
+          <div className="mt-2 text-gray-500 dark:text-gray-400 text-xs">
             {getDescription()}
           </div>
         </div>

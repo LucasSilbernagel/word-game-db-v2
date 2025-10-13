@@ -1,4 +1,4 @@
-import { UpdateFormState } from '../UpdateForm/UpdateForm'
+import { UpdateFormState } from './UpdateForm'
 
 type UpdateApiRequestExampleProps = {
   updateForm: UpdateFormState
@@ -28,10 +28,10 @@ export const UpdateApiRequestExample = ({
 
   return (
     <div>
-      <p className="text-muted-foreground mb-2 text-sm">API Request Example:</p>
-      <div className="rounded border bg-gray-50 p-3 dark:bg-gray-800">
+      <p className="mb-2 text-muted-foreground text-sm">API Request Example:</p>
+      <div className="bg-gray-50 dark:bg-gray-800 p-3 border rounded">
         <div className="font-mono text-sm">
-          <div className="font-semibold break-all text-blue-600 dark:text-blue-400">
+          <div className="font-semibold text-blue-600 dark:text-blue-400 break-all">
             PUT /api/v2/words/{updateForm.id || 'WORD_ID'}
           </div>
           <div className="mt-2 text-gray-600 dark:text-gray-300">
