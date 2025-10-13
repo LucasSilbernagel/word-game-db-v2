@@ -23,11 +23,11 @@ export const FilterForm = ({
   return (
     <div className="space-y-4">
       {/* General filters */}
-      <div className="gap-4 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3">
+      <div className="grid grid-cols-1 gap-4 md:grid-cols-2 lg:grid-cols-3">
         <div>
           <Label
             htmlFor="category"
-            className="font-medium text-gray-600 dark:text-gray-400 text-xs"
+            className="text-xs font-medium text-gray-600 dark:text-gray-400"
           >
             Category:
           </Label>
@@ -51,7 +51,7 @@ export const FilterForm = ({
         <div>
           <Label
             htmlFor="_id"
-            className="font-medium text-gray-600 dark:text-gray-400 text-xs"
+            className="text-xs font-medium text-gray-600 dark:text-gray-400"
           >
             Word ID:
           </Label>
@@ -68,7 +68,7 @@ export const FilterForm = ({
         <div>
           <Label
             htmlFor="min-letters"
-            className="font-medium text-gray-600 dark:text-gray-400 text-xs"
+            className="text-xs font-medium text-gray-600 dark:text-gray-400"
           >
             Min Letters:
           </Label>
@@ -86,7 +86,7 @@ export const FilterForm = ({
         <div>
           <Label
             htmlFor="max-letters"
-            className="font-medium text-gray-600 dark:text-gray-400 text-xs"
+            className="text-xs font-medium text-gray-600 dark:text-gray-400"
           >
             Max Letters:
           </Label>
@@ -104,7 +104,7 @@ export const FilterForm = ({
         <div>
           <Label
             htmlFor="min-syllables"
-            className="font-medium text-gray-600 dark:text-gray-400 text-xs"
+            className="text-xs font-medium text-gray-600 dark:text-gray-400"
           >
             Min Syllables:
           </Label>
@@ -122,7 +122,7 @@ export const FilterForm = ({
         <div>
           <Label
             htmlFor="max-syllables"
-            className="font-medium text-gray-600 dark:text-gray-400 text-xs"
+            className="text-xs font-medium text-gray-600 dark:text-gray-400"
           >
             Max Syllables:
           </Label>
@@ -139,15 +139,15 @@ export const FilterForm = ({
       </div>
 
       {/* Pagination Controls */}
-      <div className="pt-4 border-t">
-        <h4 className="mb-3 font-medium text-gray-700 dark:text-gray-300 text-sm">
+      <div className="border-t pt-4">
+        <h4 className="mb-3 text-sm font-medium text-gray-700 dark:text-gray-300">
           Pagination
         </h4>
-        <div className="gap-4 grid grid-cols-1 md:grid-cols-2">
+        <div className="grid grid-cols-1 gap-4 md:grid-cols-2">
           <div>
             <Label
               htmlFor="limit"
-              className="font-medium text-gray-600 dark:text-gray-400 text-xs"
+              className="text-xs font-medium text-gray-600 dark:text-gray-400"
             >
               Limit (items per page):
             </Label>
@@ -166,7 +166,7 @@ export const FilterForm = ({
           <div>
             <Label
               htmlFor="offset"
-              className="font-medium text-gray-600 dark:text-gray-400 text-xs"
+              className="text-xs font-medium text-gray-600 dark:text-gray-400"
             >
               Offset (skip items):
             </Label>
@@ -181,12 +181,12 @@ export const FilterForm = ({
             />
           </div>
         </div>
-        <p className="mt-2 text-gray-500 dark:text-gray-400 text-xs">
+        <p className="mt-2 text-xs text-gray-500 dark:text-gray-400">
           Use limit and offset to paginate through results. Default: limit=10,
           offset=0
         </p>
-        <div className="bg-blue-50 dark:bg-blue-900/20 mt-3 p-3 border border-blue-200 dark:border-blue-800 rounded-md">
-          <p className="text-blue-800 dark:text-blue-200 text-xs">
+        <div className="mt-3 rounded-md border border-blue-200 bg-blue-50 p-3 dark:border-blue-800 dark:bg-blue-900/20">
+          <p className="text-xs text-blue-800 dark:text-blue-200">
             The API returns a pagination object with total count, current
             limit/offset, and hasMore flag to help you implement pagination in
             your app.

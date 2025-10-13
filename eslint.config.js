@@ -27,6 +27,8 @@ export default [
         URL: 'readonly',
         URLSearchParams: 'readonly',
         setTimeout: 'readonly',
+        clearTimeout: 'readonly',
+        AbortController: 'readonly',
         HTMLButtonElement: 'readonly',
         HTMLDivElement: 'readonly',
         HTMLParagraphElement: 'readonly',

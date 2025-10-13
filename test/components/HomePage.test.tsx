@@ -1,5 +1,5 @@
 import HomePage from '@/components/HomePage'
-import { act, render, screen, waitFor } from '@testing-library/react'
+import { act, render, screen } from '@testing-library/react'
 import { createElement } from 'react'
 import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest'
 
@@ -51,9 +51,14 @@ describe('HomePage', () => {
     vi.clearAllTimers()
   })
 
+  const defaultProps = {
+    initialCategories: ['animal', 'food', 'technology'],
+    initialConfig: { destructiveEndpointsEnabled: false },
+  }
+
   it('should render the main heading and description', async () => {
     await act(async () => {
-      render(<HomePage />)
+      render(<HomePage {...defaultProps} />)
     })
 
     expect(
@@ -67,7 +72,7 @@ describe('HomePage', () => {
   })
 
   it('should render navigation buttons', () => {
-    render(<HomePage />)
+    render(<HomePage {...defaultProps} />)
 
     const learnMoreButton = screen.getByRole('link', {
       name: 'Learn More About Word Game DB',
@@ -79,7 +84,7 @@ describe('HomePage', () => {
   })
 
   it('should render the about section', () => {
-    render(<HomePage />)
+    render(<HomePage {...defaultProps} />)
 
     const aboutElements = screen.getAllByText((_content, element) => {
       return (
@@ -117,7 +122,7 @@ describe('HomePage', () => {
   })
 
   it('should render the API endpoints section', () => {
-    render(<HomePage />)
+    render(<HomePage {...defaultProps} />)
 
     expect(
       screen.getByRole('heading', { level: 2, name: 'API Endpoints' })
@@ -125,7 +130,7 @@ describe('HomePage', () => {
   })
 
   it('should render all non-destructive endpoints by default', () => {
-    render(<HomePage />)
+    render(<HomePage {...defaultProps} />)
 
     // Should render GET endpoints
     expect(
@@ -140,44 +145,51 @@ describe('HomePage', () => {
     ).toBeVisible()
   })
 
-  it('should show loading state for additional endpoints', async () => {
-    render(<HomePage />)
+  it('should render destructive endpoints when enabled', () => {
+    const propsWithDestructive = {
+      initialCategories: ['animal', 'food'],
+      initialConfig: { destructiveEndpointsEnabled: true },
+    }
 
-    // Wait for the component to mount and the loading text to appear
-    await waitFor(() => {
-      expect(screen.getByText('Loading additional endpoints...')).toBeVisible()
-    })
+    render(<HomePage {...propsWithDestructive} />)
 
-    // The component should render without crashing
+    // Should render GET endpoints
     expect(
-      screen.getByRole('heading', { level: 1, name: 'Word Game DB' })
+      screen.getByText('Endpoint Demo: GET /api/v2/categories')
+    ).toBeVisible()
+
+    // Should also render destructive endpoints
+    expect(screen.getByText('Endpoint Demo: POST /api/v2/words')).toBeVisible()
+    expect(
+      screen.getByText('Endpoint Demo: PUT /api/v2/words/[id]')
+    ).toBeVisible()
+    expect(
+      screen.getByText('Endpoint Demo: DELETE /api/v2/words/[id]')
     ).toBeVisible()
   })
 
-  it('should render page without crashing when config fetch fails', async () => {
-    mockFetch.mockRejectedValueOnce(new Error('Network error'))
+  it('should not render destructive endpoints when disabled', () => {
+    render(<HomePage {...defaultProps} />)
 
-    render(<HomePage />)
-
-    // Wait for the component to mount and the loading text to appear
-    await waitFor(() => {
-      expect(screen.getByText('Loading additional endpoints...')).toBeVisible()
-    })
-
-    // Should still render the page without crashing
+    // Should render GET endpoints
     expect(
-      screen.getByRole('heading', { level: 1, name: 'Word Game DB' })
+      screen.getByText('Endpoint Demo: GET /api/v2/categories')
     ).toBeVisible()
-  })
 
-  it('should show loading state for additional endpoints', () => {
-    render(<HomePage />)
-
-    expect(screen.getByText('Loading additional endpoints...')).toBeVisible()
+    // Should NOT render destructive endpoints
+    expect(
+      screen.queryByText('Endpoint Demo: POST /api/v2/words')
+    ).not.toBeInTheDocument()
+    expect(
+      screen.queryByText('Endpoint Demo: PUT /api/v2/words/[id]')
+    ).not.toBeInTheDocument()
+    expect(
+      screen.queryByText('Endpoint Demo: DELETE /api/v2/words/[id]')
+    ).not.toBeInTheDocument()
   })
 
   it('should render endpoint demos with correct props', () => {
-    render(<HomePage />)
+    render(<HomePage {...defaultProps} />)
 
     const endpointDemos = screen.getAllByTestId('endpoint-demo')
 
@@ -194,7 +206,7 @@ describe('HomePage', () => {
   })
 
   it('should have proper accessibility attributes', () => {
-    render(<HomePage />)
+    render(<HomePage {...defaultProps} />)
 
     // Check for proper heading hierarchy
     expect(screen.getByRole('heading', { level: 1 })).toBeVisible()
@@ -211,7 +223,7 @@ describe('HomePage', () => {
   })
 
   it('should have proper styling classes', () => {
-    render(<HomePage />)
+    render(<HomePage {...defaultProps} />)
 
     const container = screen
       .getByRole('heading', { level: 1 })
@@ -236,21 +248,8 @@ describe('HomePage', () => {
     )
   })
 
-  it('should log debug information in development mode', () => {
-    vi.stubEnv('NODE_ENV', 'development')
-
-    render(<HomePage />)
-
-    // Wait for the component to mount and potentially log
-    waitFor(() => {
-      expect(mockConsoleLog).toHaveBeenCalled()
-    })
-
-    vi.unstubAllEnvs()
-  })
-
   it('should render endpoint cards with proper structure', () => {
-    render(<HomePage />)
+    render(<HomePage {...defaultProps} />)
 
     // Check that endpoint cards are rendered
     const cards = screen.getAllByTestId('endpoint-demo')
@@ -275,16 +274,30 @@ describe('HomePage', () => {
   })
 
   it('should handle client-side hydration', async () => {
-    render(<HomePage />)
+    render(<HomePage {...defaultProps} />)
 
     // The component should render without errors
     expect(
       screen.getByRole('heading', { level: 1, name: 'Word Game DB' })
     ).toBeVisible()
 
-    // Wait for client-side effects to complete
-    await waitFor(() => {
-      expect(screen.getByText('Loading additional endpoints...')).toBeVisible()
-    })
+    // Should immediately show endpoints without loading state
+    expect(
+      screen.getByText('Endpoint Demo: GET /api/v2/categories')
+    ).toBeVisible()
+  })
+
+  it('should pass categories to endpoint demos', () => {
+    const categories = ['test-category-1', 'test-category-2']
+    const props = {
+      initialCategories: categories,
+      initialConfig: { destructiveEndpointsEnabled: false },
+    }
+
+    render(<HomePage {...props} />)
+
+    // The component should render and pass categories down
+    const endpointDemos = screen.getAllByTestId('endpoint-demo')
+    expect(endpointDemos.length).toBeGreaterThan(0)
   })
 })

@@ -78,11 +78,28 @@ const EndpointDemo = ({
         isDestructiveEnabled
       )
 
-      const res = await fetch(url, options)
+      // Use modern fetch with signal for cancellation support
+      const controller = new AbortController()
+      const timeoutId = setTimeout(() => controller.abort(), 30_000) // 30s timeout
+
+      const res = await fetch(url, {
+        ...options,
+        signal: controller.signal,
+      })
+
+      clearTimeout(timeoutId)
       const responseData = await handleApiResponse(res)
       setResponse(responseData)
     } catch (error_) {
-      setError(error_ instanceof Error ? error_.message : 'An error occurred')
+      if (error_ instanceof Error) {
+        if (error_.name === 'AbortError') {
+          setError('Request timed out after 30 seconds')
+        } else {
+          setError(error_.message)
+        }
+      } else {
+        setError('An unexpected error occurred')
+      }
     } finally {
       setIsLoading(false)
       // Add a small delay before allowing another request
@@ -109,9 +126,9 @@ const EndpointDemo = ({
     <Card className="mt-4">
       <CardContent className="pt-4">
         <div className="space-y-6">
-          <div className="flex sm:flex-row flex-col justify-between items-center gap-2 sm:gap-0">
-            <h3 className="hidden sm:block font-semibold text-sm">Live Demo</h3>
-            <div className="flex flex-wrap sm:flex-nowrap gap-2">
+          <div className="flex flex-col items-center justify-between gap-2 sm:flex-row sm:gap-0">
+            <h3 className="hidden text-sm font-semibold sm:block">Live Demo</h3>
+            <div className="flex flex-wrap gap-2 sm:flex-nowrap">
               {(isWordsEndpoint ||
                 isWordsSearchEndpoint ||
                 (isWordsWithIdEndpoint &&
@@ -129,7 +146,7 @@ const EndpointDemo = ({
               >
                 {isLoading ? (
                   <div className="flex items-center gap-2">
-                    <div className="border-2 border-current border-t-transparent rounded-full w-4 h-4 animate-spin" />
+                    <div className="h-4 w-4 animate-spin rounded-full border-2 border-current border-t-transparent" />
                     <span>Loading...</span>
                   </div>
                 ) : (
@@ -202,11 +219,11 @@ const EndpointDemo = ({
           )}
 
           {isDestructiveEndpoint && !isDestructiveEnabled && (
-            <div className="bg-yellow-50 dark:bg-yellow-900/20 p-3 border border-yellow-200 dark:border-yellow-800 rounded-md">
-              <p className="text-yellow-800 dark:text-yellow-200 text-sm">
+            <div className="rounded-md border border-yellow-200 bg-yellow-50 p-3 dark:border-yellow-800 dark:bg-yellow-900/20">
+              <p className="text-sm text-yellow-800 dark:text-yellow-200">
                 <strong>Note:</strong> This endpoint is disabled. To test it,
                 set{' '}
-                <code className="bg-yellow-100 dark:bg-yellow-900 px-1 rounded text-xs">
+                <code className="rounded bg-yellow-100 px-1 text-xs dark:bg-yellow-900">
                   ENABLE_DESTRUCTIVE_ENDPOINTS=true
                 </code>{' '}
                 in your environment variables.
@@ -217,17 +234,17 @@ const EndpointDemo = ({
           {response && (
             <div className="space-y-2">
               <div className="flex items-center gap-2">
-                <h5 className="font-medium text-green-700 dark:text-green-400 text-sm">
+                <h5 className="text-sm font-medium text-green-700 dark:text-green-400">
                   Response:
                 </h5>
                 {isLoading && (
-                  <div className="flex items-center gap-1 text-muted-foreground text-xs">
-                    <div className="border-2 border-primary border-t-transparent rounded-full w-3 h-3 animate-spin" />
+                  <div className="text-muted-foreground flex items-center gap-1 text-xs">
+                    <div className="border-primary h-3 w-3 animate-spin rounded-full border-2 border-t-transparent" />
                     <span>Loading new data...</span>
                   </div>
                 )}
               </div>
-              <pre className="bg-muted p-3 rounded overflow-x-auto text-xs">
+              <pre className="bg-muted overflow-x-auto rounded p-3 text-xs">
                 {response}
               </pre>
             </div>
@@ -235,10 +252,10 @@ const EndpointDemo = ({
 
           {error && (
             <div className="space-y-2">
-              <h5 className="font-medium text-red-600 dark:text-red-400 text-sm">
+              <h5 className="text-sm font-medium text-red-600 dark:text-red-400">
                 Error:
               </h5>
-              <pre className="bg-red-50 dark:bg-red-900/20 p-3 rounded text-red-800 dark:text-red-200 text-xs text-wrap">
+              <pre className="rounded bg-red-50 p-3 text-xs text-wrap text-red-800 dark:bg-red-900/20 dark:text-red-200">
                 {error}
               </pre>
             </div>

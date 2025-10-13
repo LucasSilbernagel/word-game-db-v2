@@ -1,17 +1,21 @@
-export const handleApiResponse = async (response: globalThis.Response) => {
-  // Check if response is JSON before parsing
+/**
+ * Modern response handler with better error handling
+ * Properly checks content type and formats response
+ */
+export const handleApiResponse = async (
+  response: globalThis.Response
+): Promise<string> => {
+  // Check content type before parsing
   const contentType = response.headers.get('content-type')
-  let data
 
-  if (contentType && contentType.includes('application/json')) {
-    data = await response.json()
-  } else {
-    // If not JSON, get text response
+  if (!contentType?.includes('application/json')) {
     const textData = await response.text()
     throw new Error(
-      `Server returned non-JSON response: ${textData.slice(0, 200)}...`
+      `Server returned non-JSON response: ${textData.slice(0, 200)}${textData.length > 200 ? '...' : ''}`
     )
   }
+
+  const data = await response.json()
 
   if (!response.ok) {
     throw new Error(

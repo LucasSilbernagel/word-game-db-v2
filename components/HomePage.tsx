@@ -4,10 +4,15 @@ import { Button } from '@/components/ui/Button'
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/Card'
 import { API_ROUTES, DEMO_DATA } from '@/lib/constants/app'
 import Link from 'next/link'
-import { lazy, Suspense, useEffect, useState } from 'react'
+import { lazy, Suspense } from 'react'
 const EndpointDemo = lazy(
   () => import('@/components/EndpointDemo/EndpointDemo')
 )
+
+type HomePageProps = {
+  initialCategories: string[]
+  initialConfig: { destructiveEndpointsEnabled: boolean }
+}
 
 const allApiEndpoints = [
   {
@@ -59,87 +64,12 @@ const allApiEndpoints = [
   },
 ]
 
-const HomePage = () => {
-  const [isClient, setIsClient] = useState(false)
-  const [isDestructiveEnabled, setIsDestructiveEnabled] = useState(false)
-  const [isLoadingConfig, setIsLoadingConfig] = useState(true)
-  const [categories, setCategories] = useState<string[]>([])
-
-  // Ensure hydration consistency
-  useEffect(() => {
-    setIsClient(true)
-  }, [])
-
-  // Fetch destructive endpoints status from API
-  useEffect(() => {
-    const fetchConfig = async () => {
-      try {
-        const res = await fetch(API_ROUTES.CONFIG, {
-          // Add cache headers for better performance
-          headers: {
-            'Cache-Control': 'max-age=300', // Cache for 5 minutes
-          },
-        })
-        if (res.ok) {
-          const data = await res.json()
-          setIsDestructiveEnabled(data.destructiveEndpointsEnabled)
-        }
-      } catch (error) {
-        console.error('Failed to fetch config:', error)
-      } finally {
-        setIsLoadingConfig(false)
-      }
-    }
-
-    if (isClient) {
-      fetchConfig()
-    }
-  }, [isClient])
-
-  // Fetch categories once for all EndpointDemo components
-  useEffect(() => {
-    const fetchCategories = async () => {
-      try {
-        const res = await fetch(API_ROUTES.CATEGORIES, {
-          // Add cache headers for better performance
-          headers: {
-            'Cache-Control': 'max-age=3600', // Cache for 1 hour
-          },
-        })
-        if (res.ok) {
-          const data = await res.json()
-          setCategories(data)
-        }
-      } catch (error) {
-        console.error('Failed to fetch categories:', error)
-      }
-    }
-
-    if (isClient) {
-      fetchCategories()
-    }
-  }, [isClient])
-
-  // Always show all endpoints during SSR and initial client render
-  // Only filter after config is loaded on client
-  const apiEndpoints =
-    !isClient || !isLoadingConfig
-      ? allApiEndpoints.filter(
-          (endpoint) => !endpoint.isDestructive || isDestructiveEnabled
-        )
-      : allApiEndpoints.filter((endpoint) => !endpoint.isDestructive)
-
-  // Debug information (remove in production)
-  useEffect(() => {
-    if (process.env.NODE_ENV === 'development') {
-      console.log('Environment check:', {
-        isDestructiveEnabled,
-        totalEndpoints: allApiEndpoints.length,
-        filteredEndpoints: apiEndpoints.length,
-        isLoadingConfig,
-      })
-    }
-  }, [isDestructiveEnabled, apiEndpoints.length, isLoadingConfig])
+const HomePage = ({ initialCategories, initialConfig }: HomePageProps) => {
+  // Filter endpoints based on destructive status
+  const apiEndpoints = allApiEndpoints.filter(
+    (endpoint) =>
+      !endpoint.isDestructive || initialConfig.destructiveEndpointsEnabled
+  )
 
   return (
     <div className="container mx-auto px-4 py-8">
@@ -314,31 +244,16 @@ const HomePage = () => {
                         path={endpoint.path}
                         description={endpoint.description}
                         example={endpoint.example}
-                        isDestructiveEnabled={isDestructiveEnabled}
-                        categories={categories}
+                        isDestructiveEnabled={
+                          initialConfig.destructiveEndpointsEnabled
+                        }
+                        categories={initialCategories}
                       />
                     </Suspense>
                   </CardContent>
                 </Card>
               </li>
             ))}
-            {isClient && isLoadingConfig && (
-              <li>
-                <Card>
-                  <CardContent className="pt-6">
-                    <div className="flex items-center justify-center py-4">
-                      <div
-                        className="border-primary h-6 w-6 animate-spin rounded-full border-2 border-t-transparent"
-                        aria-hidden="true"
-                      />
-                      <span className="text-muted-foreground ml-2 text-sm">
-                        Loading additional endpoints...
-                      </span>
-                    </div>
-                  </CardContent>
-                </Card>
-              </li>
-            )}
           </ul>
         </section>
       </div>

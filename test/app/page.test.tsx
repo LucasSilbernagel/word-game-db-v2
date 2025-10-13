@@ -1,5 +1,5 @@
 import Home from '@/app/page'
-import { act, render, screen, waitFor } from '@testing-library/react'
+import { act, render, screen } from '@testing-library/react'
 import { createElement } from 'react'
 import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest'
 
@@ -33,6 +33,12 @@ vi.mock('@/components/EndpointDemo/EndpointDemo', () => ({
   },
 }))
 
+// Mock the server fetch utilities
+vi.mock('@/lib/utils/serverFetch', () => ({
+  getCategories: vi.fn().mockResolvedValue(['animal', 'food', 'technology']),
+  getConfig: vi.fn().mockResolvedValue({ destructiveEndpointsEnabled: false }),
+}))
+
 // Mock fetch globally
 const mockFetch = vi.fn()
 globalThis.fetch = mockFetch
@@ -52,8 +58,11 @@ describe('Home Page', () => {
   })
 
   it('should render the HomePage component', async () => {
+    // Await the server component
+    const component = await Home()
+
     await act(async () => {
-      render(<Home />)
+      render(component)
     })
 
     expect(
@@ -66,8 +75,9 @@ describe('Home Page', () => {
     ).toBeVisible()
   })
 
-  it('should render navigation buttons', () => {
-    render(<Home />)
+  it('should render navigation buttons', async () => {
+    const component = await Home()
+    render(component)
 
     const learnMoreButton = screen.getByRole('link', {
       name: 'Learn More About Word Game DB',
@@ -78,8 +88,9 @@ describe('Home Page', () => {
     expect(contactButton).toHaveAttribute('href', '/contact')
   })
 
-  it('should render the about section', () => {
-    render(<Home />)
+  it('should render the about section', async () => {
+    const component = await Home()
+    render(component)
 
     // Use getAllByText to handle multiple matches and check the first one
     const aboutTexts = screen.getAllByText((content, element) => {
@@ -105,16 +116,18 @@ describe('Home Page', () => {
     expect(hintTexts[0]).toBeVisible()
   })
 
-  it('should render the API endpoints section', () => {
-    render(<Home />)
+  it('should render the API endpoints section', async () => {
+    const component = await Home()
+    render(component)
 
     expect(
       screen.getByRole('heading', { level: 2, name: 'API Endpoints' })
     ).toBeVisible()
   })
 
-  it('should render all non-destructive endpoints by default', () => {
-    render(<Home />)
+  it('should render all non-destructive endpoints by default', async () => {
+    const component = await Home()
+    render(component)
 
     // Should render GET endpoints
     expect(
@@ -129,14 +142,22 @@ describe('Home Page', () => {
     ).toBeVisible()
   })
 
-  it('should show loading state for additional endpoints', () => {
-    render(<Home />)
+  it('should fetch data on the server and pass to HomePage', async () => {
+    const component = await Home()
+    render(component)
 
-    expect(screen.getByText('Loading additional endpoints...')).toBeVisible()
+    // Should immediately render all endpoints without loading state
+    expect(
+      screen.getByText('Endpoint Demo: GET /api/v2/categories')
+    ).toBeVisible()
+    expect(
+      screen.queryByText('Loading additional endpoints...')
+    ).not.toBeInTheDocument()
   })
 
-  it('should render endpoint demos with correct props', () => {
-    render(<Home />)
+  it('should render endpoint demos with correct props', async () => {
+    const component = await Home()
+    render(component)
 
     const endpointDemos = screen.getAllByTestId('endpoint-demo')
 
@@ -152,8 +173,9 @@ describe('Home Page', () => {
     }
   })
 
-  it('should have proper accessibility attributes', () => {
-    render(<Home />)
+  it('should have proper accessibility attributes', async () => {
+    const component = await Home()
+    render(component)
 
     // Check for proper heading hierarchy
     expect(screen.getByRole('heading', { level: 1 })).toBeVisible()
@@ -173,8 +195,9 @@ describe('Home Page', () => {
     ).toBeVisible()
   })
 
-  it('should have proper styling classes', () => {
-    render(<Home />)
+  it('should have proper styling classes', async () => {
+    const component = await Home()
+    render(component)
 
     // Check container styling - the main content is in a div, not a main element
     const container = screen
@@ -200,8 +223,9 @@ describe('Home Page', () => {
     )
   })
 
-  it('should render endpoint cards with proper structure', () => {
-    render(<Home />)
+  it('should render endpoint cards with proper structure', async () => {
+    const component = await Home()
+    render(component)
 
     // Check that endpoint cards are rendered - they are divs with card classes
     const cards = screen.getAllByTestId('endpoint-demo')
@@ -221,17 +245,18 @@ describe('Home Page', () => {
     }
   })
 
-  it('should handle client-side hydration', async () => {
-    render(<Home />)
+  it('should handle server-side data fetching and client-side hydration', async () => {
+    const component = await Home()
+    render(component)
 
     // The component should render without errors
     expect(
       screen.getByRole('heading', { level: 1, name: 'Word Game DB' })
     ).toBeVisible()
 
-    // Wait for client-side effects to complete
-    await waitFor(() => {
-      expect(screen.getByText('Loading additional endpoints...')).toBeVisible()
-    })
+    // Should immediately show endpoints without loading state (data fetched on server)
+    expect(
+      screen.getByText('Endpoint Demo: GET /api/v2/categories')
+    ).toBeVisible()
   })
 })

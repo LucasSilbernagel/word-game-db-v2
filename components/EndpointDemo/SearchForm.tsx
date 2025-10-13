@@ -16,7 +16,7 @@ export const SearchForm = ({
   return (
     <div className="space-y-4">
       <div className="space-y-2">
-        <Label htmlFor="search-query" className="font-medium text-sm">
+        <Label htmlFor="search-query" className="text-sm font-medium">
           Search Query *
         </Label>
         <Input
@@ -26,14 +26,14 @@ export const SearchForm = ({
           value={searchForm.query}
           onChange={(e) => updateSearchForm('query', e.target.value)}
         />
-        <p className="text-gray-500 dark:text-gray-400 text-xs">
+        <p className="text-xs text-gray-500 dark:text-gray-400">
           Search for words by name (minimum 2 characters)
         </p>
       </div>
 
-      <div className="gap-4 grid grid-cols-2">
+      <div className="grid grid-cols-2 gap-4">
         <div className="space-y-2">
-          <Label htmlFor="search-limit" className="font-medium text-sm">
+          <Label htmlFor="search-limit" className="text-sm font-medium">
             Limit
           </Label>
           <Input
@@ -48,7 +48,7 @@ export const SearchForm = ({
         </div>
 
         <div className="space-y-2">
-          <Label htmlFor="search-offset" className="font-medium text-sm">
+          <Label htmlFor="search-offset" className="text-sm font-medium">
             Offset
           </Label>
           <Input
