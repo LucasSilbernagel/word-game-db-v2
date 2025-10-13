@@ -51,11 +51,24 @@ export const createRangeFilter = (
   const filter: { $gte?: number; $lte?: number } = {}
 
   if (minValue) {
-    filter.$gte = Number.parseInt(minValue)
+    const parsedMin = Number.parseInt(minValue, 10)
+    // Only add the filter if the parsed value is a valid number
+    if (!Number.isNaN(parsedMin)) {
+      filter.$gte = parsedMin
+    }
   }
 
   if (maxValue) {
-    filter.$lte = Number.parseInt(maxValue)
+    const parsedMax = Number.parseInt(maxValue, 10)
+    // Only add the filter if the parsed value is a valid number
+    if (!Number.isNaN(parsedMax)) {
+      filter.$lte = parsedMax
+    }
+  }
+
+  // Return undefined if no valid filters were added
+  if (Object.keys(filter).length === 0) {
+    return undefined
   }
 
   return filter
@@ -67,26 +80,31 @@ export const createRangeFilter = (
 export const buildWordFilter = (searchParams: URLSearchParams) => {
   const filter: Record<string, unknown> = {}
 
-  const category = searchParams.get('category')
+  const category = searchParams.get('category')?.trim()
   const numLetters = searchParams.get('numLetters')
   const minLetters = searchParams.get('minLetters')
   const maxLetters = searchParams.get('maxLetters')
   const numSyllables = searchParams.get('numSyllables')
   const minSyllables = searchParams.get('minSyllables')
   const maxSyllables = searchParams.get('maxSyllables')
-  const _id = searchParams.get('_id')
+  const _id = searchParams.get('_id')?.trim()
 
-  if (category) {
-    filter.category = category
+  // Only add category filter if it's a non-empty string
+  if (category && category.length > 0) {
+    filter.category = category.toLowerCase()
   }
 
-  if (_id) {
+  // Only add _id filter if it's a non-empty string
+  if (_id && _id.length > 0) {
     filter._id = _id
   }
 
   // Handle direct numLetters filter
   if (numLetters) {
-    filter.numLetters = Number.parseInt(numLetters)
+    const parsedLetters = Number.parseInt(numLetters, 10)
+    if (!Number.isNaN(parsedLetters) && parsedLetters > 0) {
+      filter.numLetters = parsedLetters
+    }
   } else {
     // Handle range filters for letters
     const lettersFilter = createRangeFilter(minLetters, maxLetters)
@@ -97,7 +115,10 @@ export const buildWordFilter = (searchParams: URLSearchParams) => {
 
   // Handle direct numSyllables filter
   if (numSyllables) {
-    filter.numSyllables = Number.parseInt(numSyllables)
+    const parsedSyllables = Number.parseInt(numSyllables, 10)
+    if (!Number.isNaN(parsedSyllables) && parsedSyllables > 0) {
+      filter.numSyllables = parsedSyllables
+    }
   } else {
     // Handle range filters for syllables
     const syllablesFilter = createRangeFilter(minSyllables, maxSyllables)

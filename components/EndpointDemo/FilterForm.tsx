@@ -32,13 +32,16 @@ export const FilterForm = ({
             Category:
           </Label>
           <Select
-            value={filters.category}
-            onValueChange={(value) => updateFilter('category', value)}
+            value={filters.category || 'all'}
+            onValueChange={(value) =>
+              updateFilter('category', value === 'all' ? '' : value)
+            }
           >
             <SelectTrigger className="mt-1" aria-label="Category filter">
               <SelectValue placeholder="Any Category" />
             </SelectTrigger>
             <SelectContent>
+              <SelectItem value="all">All Categories</SelectItem>
               {categories.map((cat) => (
                 <SelectItem key={cat} value={cat}>
                   {cat}

@@ -191,6 +191,18 @@ describe('validation utils', () => {
 
       expect(result).toEqual({ $lte: 10 })
     })
+
+    it('should return undefined for invalid number strings', () => {
+      const result = createRangeFilter('invalid', 'also-invalid')
+
+      expect(result).toBeUndefined()
+    })
+
+    it('should ignore invalid values and only use valid ones', () => {
+      const result = createRangeFilter('invalid', '10')
+
+      expect(result).toEqual({ $lte: 10 })
+    })
   })
 
   describe('buildWordFilter', () => {
@@ -208,6 +220,22 @@ describe('validation utils', () => {
       const result = buildWordFilter(searchParams)
 
       expect(result).toEqual({ category: 'fruit' })
+    })
+
+    it('should trim and lowercase category values', () => {
+      const searchParams = new URLSearchParams('category=%20FRUIT%20')
+
+      const result = buildWordFilter(searchParams)
+
+      expect(result).toEqual({ category: 'fruit' })
+    })
+
+    it('should ignore empty category values', () => {
+      const searchParams = new URLSearchParams('category=')
+
+      const result = buildWordFilter(searchParams)
+
+      expect(result).toEqual({})
     })
 
     it('should build filter with letter range', () => {
@@ -320,6 +348,7 @@ describe('validation utils', () => {
 
       const result = extractPaginationParams(searchParams)
 
+      // extractPaginationParams doesn't validate, so it returns NaN for invalid strings
       expect(result).toEqual({ limit: Number.NaN, offset: Number.NaN })
     })
   })

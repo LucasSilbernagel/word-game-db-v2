@@ -174,7 +174,27 @@ describe('FilterForm', () => {
     const categorySelect = screen.getByRole('combobox')
     fireEvent.click(categorySelect)
 
-    expect(screen.getByText('Any Category')).toBeVisible()
+    const allCategoriesOptions = screen.getAllByText('All Categories')
+    expect(allCategoriesOptions.length).toBeGreaterThan(0)
+    expect(allCategoriesOptions[0]).toBeVisible()
+  })
+
+  it('should call updateFilter with empty string when "All Categories" is selected', () => {
+    render(
+      <FilterForm
+        filters={{ ...defaultFilters, category: 'fruit' }}
+        updateFilter={mockUpdateFilter}
+        categories={mockCategories}
+      />
+    )
+
+    const categorySelect = screen.getByRole('combobox')
+    fireEvent.click(categorySelect)
+
+    const allCategoriesOption = screen.getByText('All Categories')
+    fireEvent.click(allCategoriesOption)
+
+    expect(mockUpdateFilter).toHaveBeenCalledWith('category', '')
   })
 
   it('should call updateFilter when _id changes', () => {
