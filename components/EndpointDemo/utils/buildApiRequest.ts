@@ -37,11 +37,12 @@ export const buildApiRequest = (
       }
       case API_ROUTES.WORDS_SEARCH: {
         // Use search form to build query string
-        if (!searchForm.query) {
+        const trimmedQuery = searchForm.query.trim()
+        if (!trimmedQuery) {
           throw new Error(TEXT_CONTENT.ERRORS.ENTER_SEARCH_QUERY)
         }
         const searchParams = new URLSearchParams()
-        searchParams.set('q', searchForm.query)
+        searchParams.set('q', trimmedQuery)
         if (searchForm.limit) searchParams.set('limit', searchForm.limit)
         if (searchForm.offset) searchParams.set('offset', searchForm.offset)
         url = `${API_ROUTES.WORDS_SEARCH}?${searchParams.toString()}`

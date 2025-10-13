@@ -212,18 +212,21 @@ export const getRandomWordHandler = async (request: NextRequest) => {
  */
 export const searchWordsHandler = async (request: NextRequest) => {
   const { searchParams } = new URL(request.url)
-  const query = searchParams.get('q')
+  const rawQuery = searchParams.get('q')
   const { limit, offset } = extractPaginationParams(searchParams)
 
   // Validate query parameter
-  if (!query) {
+  if (!rawQuery) {
     return NextResponse.json(
       { error: 'Query parameter "q" is required' },
       { status: 400 }
     )
   }
 
-  if (query.length < DEFAULTS.SEARCH_MIN_LENGTH) {
+  // Trim whitespace from query
+  const query = rawQuery.trim()
+
+  if (!query || query.length < DEFAULTS.SEARCH_MIN_LENGTH) {
     return NextResponse.json(
       {
         error: `Query must be at least ${DEFAULTS.SEARCH_MIN_LENGTH} characters long`,

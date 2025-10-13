@@ -21,7 +21,8 @@ export const useSearchForm = () => {
   const buildSearchQueryString = useCallback(() => {
     const params = new URLSearchParams()
 
-    if (searchForm.query) params.set('q', searchForm.query)
+    const trimmedQuery = searchForm.query.trim()
+    if (trimmedQuery) params.set('q', trimmedQuery)
     if (searchForm.limit) params.set('limit', searchForm.limit)
     if (searchForm.offset) params.set('offset', searchForm.offset)
 

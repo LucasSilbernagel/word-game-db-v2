@@ -1047,6 +1047,78 @@ describe('API Integration Tests', () => {
       expect(shortQueryResponse.status).toBe(400)
     })
 
+    it('should trim whitespace from search queries', async () => {
+      const testWords = [
+        {
+          _id: '1',
+          word: 'ivy',
+          category: 'plant',
+          numLetters: 3,
+          numSyllables: 2,
+          hint: 'Climbing plant',
+          createdAt: '2023-01-01T00:00:00.000Z',
+          updatedAt: '2023-01-01T00:00:00.000Z',
+        },
+      ]
+
+      server.use(
+        http.get('http://localhost:3000/api/v2/words/search', ({ request }) => {
+          const url = new URL(request.url)
+          const rawQuery = url.searchParams.get('q')
+
+          if (!rawQuery) {
+            return HttpResponse.json(
+              { error: 'Query parameter "q" is required' },
+              { status: 400 }
+            )
+          }
+
+          // Trim whitespace (matching server behavior)
+          const query = rawQuery.trim()
+
+          if (query.length < 2) {
+            return HttpResponse.json(
+              {
+                error: 'Query must be at least 2 characters long',
+              },
+              { status: 400 }
+            )
+          }
+
+          const filteredWords = testWords.filter((word) =>
+            word.word.toLowerCase().includes(query.toLowerCase())
+          )
+
+          return HttpResponse.json({
+            words: filteredWords,
+            pagination: {
+              total: filteredWords.length,
+              limit: 10,
+              offset: 0,
+              hasMore: false,
+            },
+            query,
+          })
+        })
+      )
+
+      // Test query with leading and trailing whitespace
+      const response = await fetch(
+        'http://localhost:3000/api/v2/words/search?q=%20ivy%20'
+      )
+      expect(response.status).toBe(200)
+      const result = await response.json()
+      expect(result.query).toBe('ivy') // Should be trimmed
+      expect(result.words).toHaveLength(1)
+      expect(result.words[0].word).toBe('ivy')
+
+      // Test query with only whitespace (should fail validation)
+      const whitespaceResponse = await fetch(
+        'http://localhost:3000/api/v2/words/search?q=%20%20%20'
+      )
+      expect(whitespaceResponse.status).toBe(400)
+    })
+
     it('should handle default pagination parameters', async () => {
       server.use(
         http.get('http://localhost:3000/api/v2/words', ({ request }) => {
