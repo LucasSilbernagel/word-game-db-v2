@@ -1,6 +1,6 @@
 # Word Game DB v2
 
-A modern, full-stack word game database built with Next.js 15, MongoDB, and TypeScript. This application provides a comprehensive API for word games, puzzles, and vocabulary management.
+A read-only REST API for building word games and puzzles. While the original Word Game DB was a MERN stack application, this v2 update uses modern Next.js for both the frontend and backend. New functionality and endpoints have also been added.
 
 ## 🚀 Live Demo
 
