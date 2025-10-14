@@ -3,6 +3,7 @@
 import { Button } from '@/components/ui/Button'
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/Card'
 import { API_ROUTES, DEMO_DATA } from '@/lib/constants/app'
+import clsx from 'clsx'
 import Link from 'next/link'
 import { lazy, Suspense } from 'react'
 const EndpointDemo = lazy(
@@ -191,18 +192,16 @@ const HomePage = ({ initialCategories, initialConfig }: HomePageProps) => {
                   <CardHeader>
                     <div className="flex flex-col items-center gap-3 sm:flex-row">
                       <span
-                        className={`rounded px-2 py-1 font-mono text-xs ${(() => {
-                          if (endpoint.method === 'GET') {
-                            return 'bg-green-100 text-green-800 dark:bg-green-900 dark:text-green-200'
-                          }
-                          if (endpoint.method === 'POST') {
-                            return 'bg-blue-100 text-blue-800 dark:bg-blue-900 dark:text-blue-200'
-                          }
-                          if (endpoint.method === 'PUT') {
-                            return 'bg-yellow-100 text-yellow-800 dark:bg-yellow-900 dark:text-yellow-200'
-                          }
-                          return 'bg-red-100 text-red-800 dark:bg-red-900 dark:text-red-200'
-                        })()}`}
+                        className={clsx('rounded px-2 py-1 font-mono text-xs', {
+                          'bg-green-100 text-green-800 dark:bg-green-900 dark:text-green-200':
+                            endpoint.method === 'GET',
+                          'bg-blue-100 text-blue-800 dark:bg-blue-900 dark:text-blue-200':
+                            endpoint.method === 'POST',
+                          'bg-yellow-100 text-yellow-800 dark:bg-yellow-900 dark:text-yellow-200':
+                            endpoint.method === 'PUT',
+                          'bg-red-100 text-red-800 dark:bg-red-900 dark:text-red-200':
+                            endpoint.method === 'DELETE',
+                        })}
                         aria-label={`HTTP method: ${endpoint.method}`}
                       >
                         {endpoint.method}
