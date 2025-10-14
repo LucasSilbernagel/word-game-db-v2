@@ -12,7 +12,7 @@ import { NextRequest } from 'next/server'
 
 export const GET = withGetWrapper(
   async (
-    request: NextRequest,
+    _request: NextRequest,
     { params }: { params: Promise<{ id: string }> }
   ) => {
     const { id } = await params
@@ -32,7 +32,7 @@ export const PUT = withPutWrapper(
 
 export const DELETE = withDeleteWrapper(
   async (
-    request: NextRequest,
+    _request: NextRequest,
     { params }: { params: Promise<{ id: string }> }
   ) => {
     const { id } = await params

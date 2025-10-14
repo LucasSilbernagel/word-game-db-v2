@@ -1,11 +1,6 @@
-/**
- * Modern response handler with better error handling
- * Properly checks content type and formats response
- */
 export const handleApiResponse = async (
   response: globalThis.Response
 ): Promise<string> => {
-  // Check content type before parsing
   const contentType = response.headers.get('content-type')
 
   if (!contentType?.includes('application/json')) {
