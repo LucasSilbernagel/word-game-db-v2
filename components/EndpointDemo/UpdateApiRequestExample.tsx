@@ -1,7 +1,7 @@
-import { UpdateFormState } from './UpdateForm'
+import { WordDataFormState } from './WordDataForm'
 
 type UpdateApiRequestExampleProps = {
-  updateForm: UpdateFormState
+  updateForm: WordDataFormState
 }
 
 export const UpdateApiRequestExample = ({

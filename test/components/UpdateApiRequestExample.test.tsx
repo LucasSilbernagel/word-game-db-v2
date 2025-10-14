@@ -1,9 +1,10 @@
 import { UpdateApiRequestExample } from '@/components/EndpointDemo/UpdateApiRequestExample'
+import { type WordDataFormState } from '@/components/EndpointDemo/WordDataForm'
 import { render, screen } from '@testing-library/react'
 import { describe, expect, it } from 'vitest'
 
 describe('UpdateApiRequestExample', () => {
-  const defaultUpdateForm = {
+  const defaultUpdateForm: WordDataFormState = {
     id: '',
     word: '',
     category: '',

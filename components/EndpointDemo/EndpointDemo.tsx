@@ -9,15 +9,13 @@ import { useApiState } from './hooks/useApiState'
 import { useDeleteForm } from './hooks/useDeleteForm'
 import { useFilters } from './hooks/useFilters'
 import { useSearchForm, type SearchFormState } from './hooks/useSearchForm'
-import { useUpdateForm } from './hooks/useUpdateForm'
-import { useWordForm } from './hooks/useWordForm'
+import { useWordDataForm } from './hooks/useWordDataForm'
 import { SearchApiRequestExample } from './SearchApiRequestExample'
 import { SearchForm } from './SearchForm'
 import { UpdateApiRequestExample } from './UpdateApiRequestExample'
-import { UpdateForm } from './UpdateForm'
 import { buildApiRequest } from './utils/buildApiRequest'
 import { handleApiResponse } from './utils/handleApiResponse'
-import { WordForm } from './WordForm'
+import { WordDataForm } from './WordDataForm'
 import { WordsApiRequestExample } from './WordsApiRequestExample'
 
 type EndpointDemoProps = {
@@ -36,8 +34,16 @@ const EndpointDemo = ({
   categories,
 }: EndpointDemoProps) => {
   const { filters, updateFilter, resetFilters, buildQueryString } = useFilters()
-  const { wordForm, updateWordForm, resetWordForm } = useWordForm()
-  const { updateForm, updateUpdateForm, resetUpdateForm } = useUpdateForm()
+  const {
+    formState: createFormState,
+    updateFormField: updateCreateForm,
+    resetForm: resetCreateForm,
+  } = useWordDataForm({ mode: 'create' })
+  const {
+    formState: updateFormState,
+    updateFormField: updateUpdateForm,
+    resetForm: resetUpdateForm,
+  } = useWordDataForm({ mode: 'update' })
   const { deleteForm, updateDeleteForm, resetDeleteForm } = useDeleteForm()
   const { searchForm, updateSearchForm, resetSearchForm } = useSearchForm()
   const {
@@ -71,8 +77,8 @@ const EndpointDemo = ({
         method,
         path,
         buildQueryString(),
-        wordForm,
-        updateForm,
+        createFormState,
+        updateFormState,
         deleteForm,
         searchForm,
         isDestructiveEnabled
@@ -110,7 +116,7 @@ const EndpointDemo = ({
   }
 
   const getResetHandler = () => {
-    if (method === 'POST') return resetWordForm
+    if (method === 'POST') return resetCreateForm
     if (method === 'PUT') return resetUpdateForm
     if (method === 'DELETE') return resetDeleteForm
     if (isWordsSearchEndpoint) return resetSearchForm
@@ -158,7 +164,7 @@ const EndpointDemo = ({
 
           {/* Dynamic Example URL for PUT endpoint */}
           {isWordsWithIdEndpoint && method === 'PUT' && (
-            <UpdateApiRequestExample updateForm={updateForm} />
+            <UpdateApiRequestExample updateForm={updateFormState} />
           )}
 
           {/* Dynamic Example URL for Search endpoint */}
@@ -173,9 +179,10 @@ const EndpointDemo = ({
 
           {/* Word Update Form */}
           {isWordsWithIdEndpoint && method === 'PUT' && (
-            <UpdateForm
-              updateForm={updateForm}
-              updateUpdateForm={updateUpdateForm}
+            <WordDataForm
+              mode="update"
+              formState={updateFormState}
+              updateFormField={updateUpdateForm}
               categories={categories}
             />
           )}
@@ -190,9 +197,10 @@ const EndpointDemo = ({
 
           {/* Word Creation Form */}
           {isWordsEndpoint && method === 'POST' && (
-            <WordForm
-              wordForm={wordForm}
-              updateWordForm={updateWordForm}
+            <WordDataForm
+              mode="create"
+              formState={createFormState}
+              updateFormField={updateCreateForm}
               categories={categories}
             />
           )}

@@ -3,7 +3,7 @@ import { render, screen } from '@testing-library/react'
 import { beforeEach, describe, expect, it, vi } from 'vitest'
 
 const mockResetFilters = vi.fn()
-const mockResetWordForm = vi.fn()
+const mockResetCreateForm = vi.fn()
 const mockResetUpdateForm = vi.fn()
 const mockResetDeleteForm = vi.fn()
 const mockResetSearchForm = vi.fn()
@@ -27,9 +27,10 @@ vi.mock('@/components/EndpointDemo/hooks/useFilters', () => ({
   }),
 }))
 
-vi.mock('@/components/EndpointDemo/hooks/useWordForm', () => ({
-  useWordForm: () => ({
-    wordForm: {
+vi.mock('@/components/EndpointDemo/hooks/useWordDataForm', () => ({
+  useWordDataForm: ({ mode }: { mode: 'create' | 'update' }) => ({
+    formState: {
+      ...(mode === 'update' && { id: '' }),
       word: '',
       category: '',
       newCategory: '',
@@ -38,19 +39,8 @@ vi.mock('@/components/EndpointDemo/hooks/useWordForm', () => ({
       hint: '',
       categoryMode: 'existing' as const,
     },
-    updateWordForm: vi.fn(),
-    resetWordForm: mockResetWordForm,
-  }),
-}))
-
-vi.mock('@/components/EndpointDemo/hooks/useUpdateForm', () => ({
-  useUpdateForm: () => ({
-    updateForm: {
-      word: '',
-      hint: '',
-    },
-    updateUpdateForm: vi.fn(),
-    resetUpdateForm: mockResetUpdateForm,
+    updateFormField: vi.fn(),
+    resetForm: mode === 'create' ? mockResetCreateForm : mockResetUpdateForm,
   }),
 }))
 

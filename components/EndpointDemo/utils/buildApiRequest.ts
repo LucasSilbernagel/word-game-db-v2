@@ -1,15 +1,14 @@
 import { API_ROUTES, DEMO_DATA, TEXT_CONTENT } from '@/lib/constants/app'
 import { DeleteFormState } from '../DeleteForm'
 import { SearchFormState } from '../hooks/useSearchForm'
-import { UpdateFormState } from '../UpdateForm'
-import { WordFormState } from '../WordForm'
+import { WordDataFormState } from '../WordDataForm'
 
 export const buildApiRequest = (
   method: string,
   path: string,
   queryString: string,
-  wordForm: WordFormState,
-  updateForm: UpdateFormState,
+  createForm: WordDataFormState,
+  updateForm: WordDataFormState,
   deleteForm: DeleteFormState,
   searchForm: SearchFormState,
   isDestructiveEnabled: boolean
@@ -52,26 +51,26 @@ export const buildApiRequest = (
   } else if (method === 'POST' && path === API_ROUTES.WORDS) {
     // Handle word creation with form data
     const selectedCategory =
-      wordForm.categoryMode === 'existing'
-        ? wordForm.category
-        : wordForm.newCategory
+      createForm.categoryMode === 'existing'
+        ? createForm.category
+        : createForm.newCategory
 
     if (
-      !wordForm.word ||
+      !createForm.word ||
       !selectedCategory ||
-      !wordForm.numLetters ||
-      !wordForm.numSyllables ||
-      !wordForm.hint
+      !createForm.numLetters ||
+      !createForm.numSyllables ||
+      !createForm.hint
     ) {
       throw new Error(TEXT_CONTENT.ERRORS.FILL_REQUIRED_FIELDS)
     }
 
     options.body = JSON.stringify({
-      word: wordForm.word,
+      word: createForm.word,
       category: selectedCategory,
-      numLetters: Number.parseInt(wordForm.numLetters),
-      numSyllables: Number.parseInt(wordForm.numSyllables),
-      hint: wordForm.hint,
+      numLetters: Number.parseInt(createForm.numLetters),
+      numSyllables: Number.parseInt(createForm.numSyllables),
+      hint: createForm.hint,
     })
   } else if (method === 'PUT' && path === API_ROUTES.WORDS_WITH_ID) {
     // Handle word update with form data
