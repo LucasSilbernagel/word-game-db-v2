@@ -2,6 +2,8 @@
 
 A read-only REST API for building word games and puzzles. While the original Word Game DB was a MERN stack application, this v2 update uses modern Next.js for both the frontend and backend. New functionality and endpoints have also been added.
 
+<img width="3000" height="1800" alt="Screen Shot 2025-10-14 at 19 27 39" src="https://github.com/user-attachments/assets/edce7933-0548-4f88-8072-74f5fc0fd56b" />
+
 ## 🚀 Live Demo
 
 **Production API**: [https://www.wordgamedb.com](https://www.wordgamedb.com) (Read-only endpoints)
