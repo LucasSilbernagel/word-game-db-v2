@@ -59,6 +59,13 @@ MONGODB_URI=mongodb://localhost:27017/word-game-db
 
 # Enable destructive endpoints (POST, PUT, DELETE) for development
 ENABLE_DESTRUCTIVE_ENDPOINTS=true
+
+# Optional: MongoDB connection pool configuration
+# For serverless environments (Vercel, AWS Lambda), use smaller pools (10-20)
+# For traditional servers, you can use larger pools (50-100)
+# Default: maxPoolSize=10, minPoolSize=1
+# MONGODB_MAX_POOL_SIZE=10
+# MONGODB_MIN_POOL_SIZE=1
 ```
 
 4. Start the development server:
@@ -84,6 +91,11 @@ The `ENABLE_DESTRUCTIVE_ENDPOINTS` environment variable controls API endpoint av
 ```env
 MONGODB_URI=your_production_mongodb_connection_string
 # Do NOT set ENABLE_DESTRUCTIVE_ENDPOINTS in production
+
+# Connection pool configuration (recommended for serverless)
+# Limits connections per instance to prevent exhausting MongoDB Atlas limits
+MONGODB_MAX_POOL_SIZE=10
+MONGODB_MIN_POOL_SIZE=1
 ```
 
 **For Development:**
@@ -91,7 +103,25 @@ MONGODB_URI=your_production_mongodb_connection_string
 ```env
 MONGODB_URI=mongodb://localhost:27017/word-game-db
 ENABLE_DESTRUCTIVE_ENDPOINTS=true
+
+# Optional: Adjust pool size for local development
+# MONGODB_MAX_POOL_SIZE=50
+# MONGODB_MIN_POOL_SIZE=5
 ```
+
+#### MongoDB Connection Pool Configuration
+
+To prevent connection exhaustion on MongoDB Atlas (especially important if you're seeing "Connections % of configured limit has gone above 80%" alerts):
+
+- **Serverless environments** (Vercel, AWS Lambda, etc.): Use `MONGODB_MAX_POOL_SIZE=10-20`
+  - Each serverless function instance gets its own connection pool
+  - With many concurrent requests, you can have many instances
+  - Smaller pools per instance = more instances can run without exhausting Atlas limits
+
+- **Traditional servers**: Use `MONGODB_MAX_POOL_SIZE=50-100`
+  - Fewer instances, so each can have a larger pool
+
+**Default values**: `maxPoolSize=10`, `minPoolSize=1` (optimized for serverless)
 
 ### Production Behavior
 
