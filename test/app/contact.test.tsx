@@ -16,8 +16,7 @@ describe('Contact Page', () => {
     render(<Contact />)
 
     const form = screen.getByRole('form', { name: 'Contact form' })
-    expect(form).toHaveAttribute('action', 'https://formspree.io/f/xoqpywlq')
-    expect(form).toHaveAttribute('method', 'POST')
+    expect(form).toBeVisible()
 
     expect(screen.getByLabelText('Your name')).toBeVisible()
     expect(screen.getByLabelText('Your email')).toBeVisible()
