@@ -2,12 +2,6 @@ import mongoose from 'mongoose'
 
 const MONGODB_URI = process.env.MONGODB_URI || process.env.DB
 
-if (!MONGODB_URI) {
-  throw new Error(
-    'Please define the MONGODB_URI or DB environment variable inside .env.local'
-  )
-}
-
 /**
  * Global is used here to maintain a cached connection across hot reloads
  * in development. This prevents connections growing exponentially
@@ -20,6 +14,16 @@ if (!cached) {
 }
 
 const connectDB = async () => {
+  if (!MONGODB_URI) {
+    // Defer this error to request time (instead of module load) so API routes
+    // still load and can return a clean JSON error instead of crashing.
+    const error = new Error(
+      'The MONGODB_URI (or DB) environment variable is not defined. Add your MongoDB connection string in Project Settings → Vars.'
+    )
+    error.name = 'DatabaseConfigError'
+    throw error
+  }
+
   if (cached.conn) {
     return cached.conn
   }
