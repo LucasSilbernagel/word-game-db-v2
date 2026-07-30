@@ -3,6 +3,7 @@
 import { Button } from '@/components/ui/Button'
 import { Card, CardContent } from '@/components/ui/Card'
 import { API_ROUTES } from '@/lib/constants/app'
+import { DatabaseZap } from 'lucide-react'
 import { DeleteForm } from './DeleteForm'
 import { FilterForm } from './FilterForm'
 import { useApiState } from './hooks/useApiState'
@@ -14,7 +15,7 @@ import { SearchApiRequestExample } from './SearchApiRequestExample'
 import { SearchForm } from './SearchForm'
 import { UpdateApiRequestExample } from './UpdateApiRequestExample'
 import { buildApiRequest } from './utils/buildApiRequest'
-import { handleApiResponse } from './utils/handleApiResponse'
+import { ApiError, handleApiResponse } from './utils/handleApiResponse'
 import { WordDataForm } from './WordDataForm'
 import { WordsApiRequestExample } from './WordsApiRequestExample'
 
@@ -53,6 +54,8 @@ const EndpointDemo = ({
     setResponse,
     error,
     setError,
+    errorCode,
+    setErrorCode,
     isDebouncing,
     setIsDebouncing,
     clearResponse,
@@ -71,6 +74,7 @@ const EndpointDemo = ({
     setIsLoading(true)
     // Only clear errors, keep previous response visible during loading
     setError(null)
+    setErrorCode(null)
 
     try {
       const { url, options } = buildApiRequest(
@@ -97,9 +101,21 @@ const EndpointDemo = ({
       const responseData = await handleApiResponse(res)
       setResponse(responseData)
     } catch (error_) {
-      if (error_ instanceof Error) {
+      if (error_ instanceof ApiError) {
+        setError(error_.message)
+        if (error_.code) setErrorCode(error_.code)
+      } else if (error_ instanceof Error) {
         if (error_.name === 'AbortError') {
           setError('Request timed out after 30 seconds')
+        } else if (
+          error_.name === 'TypeError' &&
+          /fetch|network|load failed/i.test(error_.message)
+        ) {
+          // Network-level failure reaching the server (often DB/server down)
+          setError(
+            'Could not reach the server. Check your network connection and try again.'
+          )
+          setErrorCode('NETWORK_ERROR')
         } else {
           setError(error_.message)
         }
@@ -258,16 +274,57 @@ const EndpointDemo = ({
             </div>
           )}
 
-          {error && (
-            <div className="space-y-2">
-              <h5 className="text-sm font-medium text-red-600 dark:text-red-400">
-                Error:
-              </h5>
-              <pre className="rounded bg-red-50 p-3 text-xs text-wrap text-red-800 dark:bg-red-900/20 dark:text-red-200">
-                {error}
-              </pre>
-            </div>
-          )}
+          {error &&
+            (errorCode === 'DB_UNAVAILABLE' || errorCode === 'NETWORK_ERROR' ? (
+              <div
+                role="alert"
+                className="flex flex-col gap-3 rounded-md border border-amber-200 bg-amber-50 p-4 sm:flex-row sm:items-start dark:border-amber-800 dark:bg-amber-900/20"
+              >
+                <DatabaseZap
+                  className="h-5 w-5 shrink-0 text-amber-600 dark:text-amber-400"
+                  aria-hidden="true"
+                />
+                <div className="space-y-2">
+                  <h5 className="text-sm font-semibold text-amber-800 dark:text-amber-200">
+                    Database unavailable
+                  </h5>
+                  <p className="text-sm text-amber-800/90 dark:text-amber-200/90">
+                    {error}
+                  </p>
+                  <ul className="list-disc space-y-1 pl-5 text-xs text-amber-800/80 dark:text-amber-200/80">
+                    <li>
+                      Confirm{' '}
+                      <code className="rounded bg-amber-100 px-1 dark:bg-amber-900">
+                        MONGODB_URI
+                      </code>{' '}
+                      is set in Project Settings → Vars.
+                    </li>
+                    <li>
+                      Check MongoDB Atlas Network Access allows this connection.
+                    </li>
+                    <li>Verify the cluster is running, then retry.</li>
+                  </ul>
+                  <Button
+                    onClick={handleDemo}
+                    disabled={isLoading || isDebouncing}
+                    variant="outline"
+                    size="sm"
+                    className="mt-1"
+                  >
+                    Retry
+                  </Button>
+                </div>
+              </div>
+            ) : (
+              <div className="space-y-2">
+                <h5 className="text-sm font-medium text-red-600 dark:text-red-400">
+                  Error:
+                </h5>
+                <pre className="rounded bg-red-50 p-3 text-xs text-wrap text-red-800 dark:bg-red-900/20 dark:text-red-200">
+                  {error}
+                </pre>
+              </div>
+            ))}
         </div>
       </CardContent>
     </Card>

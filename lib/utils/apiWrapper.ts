@@ -1,8 +1,10 @@
 import {
   addCorsHeaders,
   handleCors,
+  handleDatabaseError,
   handleDisabledEndpoint,
   handleError,
+  isDatabaseError,
   isDestructiveEndpointEnabled,
 } from '@/lib/middleware'
 import connectDB from '@/lib/mongodb'
@@ -76,6 +78,8 @@ export const withApiWrapper = (
           // Add CORS headers to the response
           return addCorsHeaders(response)
         } catch (error) {
+          // Surface database connectivity/config problems distinctly
+          if (isDatabaseError(error)) return handleDatabaseError(error)
           // Handle errors consistently
           const errorMessage = `Failed to ${options.method?.toLowerCase() || 'process'} request`
           return handleError(error, errorMessage)
@@ -95,6 +99,8 @@ export const withApiWrapper = (
       // Add CORS headers to the response
       return addCorsHeaders(response)
     } catch (error) {
+      // Surface database connectivity/config problems distinctly
+      if (isDatabaseError(error)) return handleDatabaseError(error)
       // Handle errors consistently
       const errorMessage = `Failed to ${options.method?.toLowerCase() || 'process'} request`
       return handleError(error, errorMessage)

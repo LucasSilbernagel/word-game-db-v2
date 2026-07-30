@@ -17,6 +17,49 @@ export const handleError = (
   )
 }
 
+/**
+ * Detect whether an error is caused by database connectivity/configuration
+ * rather than by the request itself.
+ */
+export const isDatabaseError = (error: unknown): boolean => {
+  if (!error || typeof error !== 'object') return false
+  const name = (error as { name?: string }).name ?? ''
+  const message = (error as { message?: string }).message ?? ''
+  return (
+    name === 'DatabaseConfigError' ||
+    name.includes('MongooseServerSelection') ||
+    name.includes('MongoServerSelection') ||
+    name.includes('MongoNetwork') ||
+    name === 'MongooseError' ||
+    /mongo|econnrefused|getaddrinfo|querysrv|topology|server selection|MONGODB_URI/i.test(
+      message
+    )
+  )
+}
+
+/**
+ * Return a clear, structured 503 for database connectivity/config problems so
+ * the client can render a helpful "database unavailable" state.
+ */
+export const handleDatabaseError = (error: unknown) => {
+  console.error('Database Error:', error)
+  const isConfigError =
+    (error as { name?: string })?.name === 'DatabaseConfigError'
+  return NextResponse.json(
+    {
+      error: 'Database unavailable',
+      code: 'DB_UNAVAILABLE',
+      message: isConfigError
+        ? 'The database connection string (MONGODB_URI) is not configured. Add it in Project Settings → Vars, then try again.'
+        : 'Could not connect to the database. Verify your MONGODB_URI value, that MongoDB Atlas Network Access allows this connection, and that the cluster is running.',
+    },
+    {
+      status: 503,
+      headers: corsHeaders(),
+    }
+  )
+}
+
 // CORS preflight handler
 export const handleCors = (request: NextRequest) => {
   if (request.method === 'OPTIONS') {
