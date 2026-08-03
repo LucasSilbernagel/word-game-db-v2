@@ -20,6 +20,10 @@ vi.mock('@/lib/middleware', () => ({
       { status: 500 }
     )
   ),
+  isDatabaseError: vi.fn(() => false),
+  handleDatabaseError: vi.fn(() =>
+    NextResponse.json({ error: 'Database unavailable' }, { status: 503 })
+  ),
   isDestructiveEndpointEnabled: vi.fn(() => true),
 }))
 
