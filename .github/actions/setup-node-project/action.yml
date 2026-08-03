@@ -4,7 +4,7 @@ inputs:
   node-version:
     description: 'Node.js version to use'
     required: false
-    default: '20'
+    default: '22'
   install-deps:
     description: 'Whether to install dependencies'
     required: false
@@ -20,7 +20,7 @@ runs:
     - name: Setup pnpm
       uses: pnpm/action-setup@v4
       with:
-        version: latest
+        version: 11.13.1
 
     - name: Setup Node.js
       id: setup-node

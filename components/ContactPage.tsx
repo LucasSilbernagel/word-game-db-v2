@@ -228,10 +228,10 @@ const ContactPage = () => {
   }
 
   return (
-    <div className="mx-auto px-4 py-8 container">
+    <div className="container mx-auto px-4 py-8">
       <div className="mx-auto max-w-4xl">
         <header className="mb-12 text-center">
-          <h1 className="mb-4 font-bold text-4xl tracking-tight">Contact</h1>
+          <h1 className="mb-4 text-4xl font-bold tracking-tight">Contact</h1>
           <p className="text-muted-foreground text-xl">Get in touch with me</p>
         </header>
 
@@ -239,14 +239,14 @@ const ContactPage = () => {
           <h2 id="contact-intro" className="sr-only">
             Contact Information
           </h2>
-          <p className="text-lg text-center">
+          <p className="text-center text-lg">
             Are you having technical issues with Word Game DB? Do you have
             questions about implementation? Suggestions for new categories or
             words? Other ideas for improvement? Feel free to email me directly
             at{' '}
             <a
               href="mailto:hello@lucassilbernagel.com"
-              className="font-semibold text-primary hover:underline focus-visible:underline"
+              className="text-primary font-semibold hover:underline focus-visible:underline"
             >
               hello@lucassilbernagel.com
             </a>{' '}
@@ -261,7 +261,7 @@ const ContactPage = () => {
 
           {isSubmitted && (
             <div
-              className="bg-green-50 dark:bg-green-900 mb-6 p-4 rounded-md text-green-800 dark:text-green-200"
+              className="mb-6 rounded-md bg-green-50 p-4 text-green-800 dark:bg-green-900 dark:text-green-200"
               role="alert"
             >
               <p className="font-medium">Message sent successfully!</p>
@@ -279,7 +279,7 @@ const ContactPage = () => {
             >
               {errors.form && (
                 <div
-                  className="bg-red-50 dark:bg-red-900 p-4 rounded-md text-red-800 dark:text-red-200"
+                  className="rounded-md bg-red-50 p-4 text-red-800 dark:bg-red-900 dark:text-red-200"
                   role="alert"
                 >
                   <p className="font-medium">{errors.form}</p>
@@ -291,7 +291,7 @@ const ContactPage = () => {
                 <div>
                   <Label
                     htmlFor="name"
-                    className="block mb-1 font-medium text-gray-700 dark:text-gray-300 text-sm"
+                    className="mb-1 block text-sm font-medium text-gray-700 dark:text-gray-300"
                   >
                     Your name
                   </Label>
@@ -311,7 +311,7 @@ const ContactPage = () => {
                   {errors.name && (
                     <p
                       id="name-error"
-                      className="mt-1 text-red-600 dark:text-red-400 text-sm"
+                      className="mt-1 text-sm text-red-600 dark:text-red-400"
                     >
                       {errors.name}
                     </p>
@@ -326,7 +326,7 @@ const ContactPage = () => {
                 <div>
                   <Label
                     htmlFor="email"
-                    className="block mb-1 font-medium text-gray-700 dark:text-gray-300 text-sm"
+                    className="mb-1 block text-sm font-medium text-gray-700 dark:text-gray-300"
                   >
                     Your email
                   </Label>
@@ -350,7 +350,7 @@ const ContactPage = () => {
                   {errors.emailAddress && (
                     <p
                       id="email-error"
-                      className="mt-1 text-red-600 dark:text-red-400 text-sm"
+                      className="mt-1 text-sm text-red-600 dark:text-red-400"
                     >
                       {errors.emailAddress}
                     </p>
@@ -365,7 +365,7 @@ const ContactPage = () => {
                 <div>
                   <Label
                     htmlFor="message"
-                    className="block mb-1 font-medium text-gray-700 dark:text-gray-300 text-sm"
+                    className="mb-1 block text-sm font-medium text-gray-700 dark:text-gray-300"
                   >
                     Your message
                   </Label>
@@ -389,7 +389,7 @@ const ContactPage = () => {
                   {errors.message && (
                     <p
                       id="message-error"
-                      className="mt-1 text-red-600 dark:text-red-400 text-sm"
+                      className="mt-1 text-sm text-red-600 dark:text-red-400"
                     >
                       {errors.message}
                     </p>
@@ -404,7 +404,7 @@ const ContactPage = () => {
 
               <Button
                 type="submit"
-                className="px-6 py-3 w-full font-medium text-base"
+                className="w-full px-6 py-3 text-base font-medium"
                 disabled={isLoading}
                 aria-describedby="submit-help"
               >
