@@ -34,7 +34,9 @@ export const handleApiResponse = async (
 
   if (!response.ok) {
     throw new ApiError(
-      data.message || data.error || `HTTP ${response.status}: ${response.statusText}`,
+      data.message ||
+        data.error ||
+        `HTTP ${response.status}: ${response.statusText}`,
       { code: data.code, status: response.status }
     )
   }
