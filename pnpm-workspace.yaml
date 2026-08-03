@@ -1,0 +1,9 @@
+# Explicitly allow build (postinstall) scripts only for these trusted
+# dependencies. pnpm 10+ blocks dependency build scripts by default as a
+# supply-chain safeguard, which otherwise fails `pnpm install` in CI with
+# ERR_PNPM_IGNORED_BUILDS.
+allowBuilds:
+  '@tailwindcss/oxide': true
+  esbuild: true
+  msw: true
+  sharp: true
